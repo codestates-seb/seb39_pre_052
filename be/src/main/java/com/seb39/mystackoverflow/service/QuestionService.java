@@ -37,6 +37,15 @@ public class QuestionService {
         return questionRepository.save(findQuestion);
     }
 
+    //3. 질문 삭제
+    public void delete(long id) {
+        Optional<Question> optionalQuestion = questionRepository.findById(id);
+
+        Question question = optionalQuestion.orElseThrow(() -> new IllegalArgumentException("존재하지 않는 질문입니다."));//추후 Exception 수정?
+
+        questionRepository.delete(question);
+    }
+
     //해당 질문이 존재하는지 확인하는 메서드
     @Transactional(readOnly = true)
     public Question findQuestion(Question question) {
@@ -46,4 +55,5 @@ public class QuestionService {
 
         return findQuestion;
     }
+
 }

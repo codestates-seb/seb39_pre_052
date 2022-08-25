@@ -51,4 +51,12 @@ public class QuestionController {
 
         return new ResponseEntity(updateQuestion, HttpStatus.OK);
     }
+
+    //3. 질문 삭제
+    //Member Entity와 연관관계 매핑 후, 질문을 작성한 작성자만 글을 삭제할 수 있도록 로직 구현 예정
+    @DeleteMapping("/{id}")
+    public ResponseEntity deleteQuestion(@PathVariable("id") @Positive long id) {
+        questionService.delete(id);
+        return new ResponseEntity(HttpStatus.NO_CONTENT);
+    }
 }

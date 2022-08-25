@@ -1,6 +1,7 @@
-package com.seb39.mystackoverflow.repository;
+package com.seb39.mystackoverflow.question.repository;
 
 import com.seb39.mystackoverflow.entity.Question;
+import com.seb39.mystackoverflow.repository.QuestionRepository;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
