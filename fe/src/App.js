@@ -1,12 +1,13 @@
-import logo from './logo.svg';
-import './App.css';
-import { Questions } from './components/Questions';
+import React from "react";
+import Questions from './components/Questions';
+import GlobalStyle from "./GlobalStyle";
 
-function App() {
+const App = () => {
   return (
-    <div className="App">
-      <Questions/>
-    </div>
+    <>
+      <GlobalStyle />
+      <Questions />
+    </>
   );
 }
 
