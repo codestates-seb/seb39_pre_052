@@ -17,15 +17,17 @@ class QuestionRepositoryTest {
     //1. 질문 등록 테스트
     @Test
     public void 질문등록_test() {
+        //given
         Question question = new Question();
         question.setContent("Hello Project!");
         question.setTitle("Hello Title");
-
+        //when
         Question savedQuestion = questionRepository.save(question);
 
-        System.out.println("===============question===============");
-        System.out.println(savedQuestion);
-        System.out.println(savedQuestion.getCreatedAt());
+        //then
+//        System.out.println("===============question===============");
+//        System.out.println(savedQuestion);
+//        System.out.println(savedQuestion.getCreatedAt());
 
         Assertions.assertEquals(savedQuestion.getContent(), question.getContent());
         Assertions.assertEquals(savedQuestion.getTitle(), question.getTitle());

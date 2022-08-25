@@ -9,6 +9,8 @@ import org.mapstruct.ReportingPolicy;
 public interface QuestionMapper {
     Question questionPostToQuestion(QuestionDto.Post requestBody);
 
+    Question questionPatchToQuestion(QuestionDto.Patch requestBody);
+
     Question questionToQuestionResponse(Question question);
 
 }

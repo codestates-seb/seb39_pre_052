@@ -11,6 +11,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
+import javax.validation.constraints.Positive;
 
 @RestController
 @RequestMapping("/api/questions")
@@ -25,6 +26,7 @@ public class QuestionController {
     }
 
     //1. 질문 등록
+    //Member Entity와 연관관계 매핑 후, 작성자에 대한 정보를 입력하는 로직 구현 예정
     @PostMapping
     public ResponseEntity postQuestion(@Valid @RequestBody QuestionDto.Post requestBody) {
         Question question = questionMapper.questionPostToQuestion(requestBody);
@@ -34,5 +36,19 @@ public class QuestionController {
         Question response = questionMapper.questionToQuestionResponse(createdQuestion);
 
         return new ResponseEntity(response, HttpStatus.CREATED);
+    }
+
+    //2. 질문 수정
+    //Member Entity와 연관관계 매핑 후, 질문을 작성한 작성자만 글을 수정할 수 있도록 로직 구현 예정
+    @PatchMapping("/{id}")
+    public ResponseEntity patchQuestion(
+            @PathVariable("id") @Positive long id,
+            @Valid @RequestBody QuestionDto.Patch requestBody) {
+        requestBody.setId(id);
+
+        Question updateQuestion = questionService.updateQuestion(questionMapper.questionPatchToQuestion(requestBody));
+
+
+        return new ResponseEntity(updateQuestion, HttpStatus.OK);
     }
 }

@@ -7,7 +7,7 @@ import org.springframework.stereotype.Component;
 
 @Generated(
     value = "org.mapstruct.ap.MappingProcessor",
-    date = "2022-08-25T16:08:40+0900",
+    date = "2022-08-25T18:53:30+0900",
     comments = "version: 1.5.1.Final, compiler: javac, environment: Java 11.0.13 (Oracle Corporation)"
 )
 @Component
@@ -21,6 +21,21 @@ public class QuestionMapperImpl implements QuestionMapper {
 
         Question question = new Question();
 
+        question.setTitle( requestBody.getTitle() );
+        question.setContent( requestBody.getContent() );
+
+        return question;
+    }
+
+    @Override
+    public Question questionPatchToQuestion(QuestionDto.Patch requestBody) {
+        if ( requestBody == null ) {
+            return null;
+        }
+
+        Question question = new Question();
+
+        question.setId( requestBody.getId() );
         question.setTitle( requestBody.getTitle() );
         question.setContent( requestBody.getContent() );
 

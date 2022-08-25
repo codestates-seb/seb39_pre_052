@@ -4,7 +4,11 @@ import com.seb39.mystackoverflow.entity.Question;
 import com.seb39.mystackoverflow.repository.QuestionRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Isolation;
+import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
+
+import java.util.Optional;
 
 @Service
 @Transactional
@@ -13,8 +17,33 @@ public class QuestionService {
 
     private final QuestionRepository questionRepository;
 
+    //1. 질문 등록
     public Question createQuestion(Question question) {
         Question savedQuestion = questionRepository.save(question);
         return savedQuestion;
+    }
+
+    //2. 질문 수정
+    @Transactional(propagation = Propagation.REQUIRED, isolation = Isolation.SERIALIZABLE)
+    public Question updateQuestion(Question question) {
+        Question findQuestion = findQuestion(question);
+
+        Optional.ofNullable(question.getTitle())
+                .ifPresent(findQuestion::setTitle);
+
+        Optional.ofNullable(question.getContent())
+                .ifPresent(findQuestion::setContent);
+
+        return questionRepository.save(findQuestion);
+    }
+
+    //해당 질문이 존재하는지 확인하는 메서드
+    @Transactional(readOnly = true)
+    public Question findQuestion(Question question) {
+        Optional<Question> optionalQuestion = questionRepository.findById(question.getId());
+
+        Question findQuestion = optionalQuestion.orElseThrow(() -> new IllegalArgumentException("해당 질문을 찾을 수 없습니다."));
+
+        return findQuestion;
     }
 }
