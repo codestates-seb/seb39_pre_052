@@ -23,8 +23,9 @@ import org.springframework.security.web.SecurityFilterChain;
 public class SecurityConfig {
 
     private final MemberService memberService;
+    private final JwtUtils jwtUtils;
 
-    @Value("${app.auth.jwt.token}")
+    @Value("${app.auth.jwt.secret}")
     private String secret;
 
     @Value("${app.auth.jwt.expiration-time-millis}")
@@ -52,8 +53,8 @@ public class SecurityConfig {
         public void configure(HttpSecurity builder) throws Exception{
             AuthenticationManager authenticationManager = builder.getSharedObject(AuthenticationManager.class);
             builder
-                    .addFilter(new JwtAuthenticationFilter(authenticationManager,secret,expirationTimeMillis))
-                    .addFilter(new JwtAuthorizationFilter(authenticationManager,memberService,secret));
+                    .addFilter(new JwtAuthenticationFilter(authenticationManager,jwtUtils))
+                    .addFilter(new JwtAuthorizationFilter(authenticationManager,memberService, jwtUtils));
         }
     }
 }

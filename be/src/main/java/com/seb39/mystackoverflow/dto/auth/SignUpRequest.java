@@ -4,12 +4,14 @@ package com.seb39.mystackoverflow.dto.auth;
 import com.seb39.mystackoverflow.entity.Member;
 import lombok.Builder;
 import lombok.Getter;
+import lombok.Setter;
 
 import javax.validation.constraints.Email;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.Pattern;
 
 @Getter
+@Setter
 public class SignUpRequest {
 
     @NotBlank(message = "username은 필수 항목입니다.")

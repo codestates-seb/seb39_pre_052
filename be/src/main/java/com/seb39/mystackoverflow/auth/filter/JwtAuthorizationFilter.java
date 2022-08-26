@@ -2,6 +2,7 @@ package com.seb39.mystackoverflow.auth.filter;
 
 import com.auth0.jwt.JWT;
 import com.auth0.jwt.algorithms.Algorithm;
+import com.seb39.mystackoverflow.auth.JwtUtils;
 import com.seb39.mystackoverflow.auth.PrincipalDetails;
 import com.seb39.mystackoverflow.entity.Member;
 import com.seb39.mystackoverflow.service.MemberService;
@@ -24,17 +25,14 @@ import java.io.IOException;
 public class JwtAuthorizationFilter extends BasicAuthenticationFilter {
 
     private final MemberService memberService;
-    private final String secret;
+    private final JwtUtils jwtUtils;
 
-    public JwtAuthorizationFilter(AuthenticationManager authenticationManager, MemberService memberService, String secret) {
+    public JwtAuthorizationFilter(AuthenticationManager authenticationManager, MemberService memberService, JwtUtils jwtUtils) {
         super(authenticationManager);
         this.memberService = memberService;
-        this.secret = secret;
+        this.jwtUtils = jwtUtils;
     }
 
-    /**
-     * Token 검증
-     */
     @Override
     protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain chain) throws IOException, ServletException {
 
@@ -47,7 +45,7 @@ public class JwtAuthorizationFilter extends BasicAuthenticationFilter {
         }
 
         String jwtToken = getJwtToken(header);
-        String username = decodeJwtTokenAndGetUsername(jwtToken);
+        String username = jwtUtils.decodeJwtTokenAndGetUsername(jwtToken);
 
         if(StringUtils.hasText(username) && memberService.exist(username)){
             Member member = memberService.findByUsername(username);
@@ -69,11 +67,5 @@ public class JwtAuthorizationFilter extends BasicAuthenticationFilter {
         return header.replace("Bearer ","");
     }
 
-    private String decodeJwtTokenAndGetUsername(String jwtToken){
-        return JWT.require(Algorithm.HMAC512(secret))
-                .build()
-                .verify(jwtToken)
-                .getClaim("username")
-                .asString();
-    }
+
 }

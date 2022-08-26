@@ -3,6 +3,7 @@ package com.seb39.mystackoverflow.auth.filter;
 import com.auth0.jwt.JWT;
 import com.auth0.jwt.algorithms.Algorithm;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.seb39.mystackoverflow.auth.JwtUtils;
 import com.seb39.mystackoverflow.auth.PrincipalDetails;
 import com.seb39.mystackoverflow.dto.auth.LoginRequest;
 import lombok.RequiredArgsConstructor;
@@ -27,8 +28,7 @@ import java.util.Date;
 public class JwtAuthenticationFilter extends UsernamePasswordAuthenticationFilter {
 
     private final AuthenticationManager authenticationManager;
-    private final String secret;
-    private final long expirationTimeMillis;
+    private final JwtUtils jwtUtils;
 
     private final ObjectMapper objectMapper = new ObjectMapper();
 
@@ -58,22 +58,9 @@ public class JwtAuthenticationFilter extends UsernamePasswordAuthenticationFilte
         log.info("AuthenticationFilter - successfulAuthentication");
 
         PrincipalDetails principal = (PrincipalDetails) authResult.getPrincipal();
-        String jwtToken = createJwtToken(principal);
+        String jwtToken = jwtUtils.createJwtToken(principal.getUsername());
         response.addHeader(HttpHeaders.AUTHORIZATION, getAuthorizationHeader(jwtToken));
     }
-
-    private String createJwtToken(PrincipalDetails principal) {
-        return JWT.create()
-                .withSubject("login jwt token")
-                .withExpiresAt(getExpiredDate())
-                .withClaim("username", principal.getUsername())
-                .sign(Algorithm.HMAC512(secret));
-    }
-
-    private Date getExpiredDate() {
-        return new Date(System.currentTimeMillis() + expirationTimeMillis);
-    }
-
     private String getAuthorizationHeader(String token) {
         return "Bearer " + token;
     }
