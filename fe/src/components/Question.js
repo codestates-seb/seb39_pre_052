@@ -15,7 +15,7 @@ const Side = styled.div`
     flex-direction: column;
     width: 150px;
     align-items: flex-end;
-    margin-right: 10px;
+    margin-right: 20px;
 `
 const Main = styled.div`
     display: flex;

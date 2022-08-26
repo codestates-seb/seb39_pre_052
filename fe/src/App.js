@@ -1,5 +1,5 @@
 import React from "react";
-import Questions from './components/Questions';
+import Questions from './Pages/Questions';
 import GlobalStyle from "./GlobalStyle";
 
 const App = () => {
