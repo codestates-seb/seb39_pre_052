@@ -5,6 +5,7 @@ import com.auth0.jwt.algorithms.Algorithm;
 import com.seb39.mystackoverflow.auth.PrincipalDetails;
 import com.seb39.mystackoverflow.entity.Member;
 import com.seb39.mystackoverflow.service.MemberService;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpHeaders;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
@@ -19,6 +20,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 
+@Slf4j
 public class JwtAuthorizationFilter extends BasicAuthenticationFilter {
 
     private final MemberService memberService;
@@ -36,6 +38,8 @@ public class JwtAuthorizationFilter extends BasicAuthenticationFilter {
     @Override
     protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain chain) throws IOException, ServletException {
 
+        log.info("AuthorizationFilter - doFilterInternal");
+
         String header = request.getHeader(HttpHeaders.AUTHORIZATION);
         if (!isJwtTokenHeader(header)) {
             chain.doFilter(request,response);
@@ -43,10 +47,10 @@ public class JwtAuthorizationFilter extends BasicAuthenticationFilter {
         }
 
         String jwtToken = getJwtToken(header);
-        Long memberId = decodeJwtTokenAndGetMemberId(jwtToken);
+        String username = decodeJwtTokenAndGetUsername(jwtToken);
 
-        if(memberId != null){
-            Member member = memberService.findById(memberId);
+        if(StringUtils.hasText(username) && memberService.exist(username)){
+            Member member = memberService.findByUsername(username);
             PrincipalDetails principal = new PrincipalDetails(member);
             Authentication authentication = new UsernamePasswordAuthenticationToken(principal,null,principal.getAuthorities());
             SecurityContextHolder.getContext().setAuthentication(authentication);
@@ -56,6 +60,7 @@ public class JwtAuthorizationFilter extends BasicAuthenticationFilter {
         super.doFilterInternal(request, response, chain);
     }
 
+
     private boolean isJwtTokenHeader(String header) {
         return StringUtils.hasText(header) && header.startsWith("Bearer");
     }
@@ -64,11 +69,11 @@ public class JwtAuthorizationFilter extends BasicAuthenticationFilter {
         return header.replace("Bearer ","");
     }
 
-    private Long decodeJwtTokenAndGetMemberId(String jwtToken){
+    private String decodeJwtTokenAndGetUsername(String jwtToken){
         return JWT.require(Algorithm.HMAC512(secret))
                 .build()
                 .verify(jwtToken)
-                .getClaim("id")
-                .asLong();
+                .getClaim("username")
+                .asString();
     }
 }

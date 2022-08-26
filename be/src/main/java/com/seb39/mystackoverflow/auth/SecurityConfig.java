@@ -51,7 +51,8 @@ public class SecurityConfig {
         @Override
         public void configure(HttpSecurity builder) throws Exception{
             AuthenticationManager authenticationManager = builder.getSharedObject(AuthenticationManager.class);
-            builder.addFilter(new JwtAuthenticationFilter(authenticationManager,secret,expirationTimeMillis))
+            builder
+                    .addFilter(new JwtAuthenticationFilter(authenticationManager,secret,expirationTimeMillis))
                     .addFilter(new JwtAuthorizationFilter(authenticationManager,memberService,secret));
         }
     }
