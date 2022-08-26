@@ -13,7 +13,7 @@ const SNB = () => {
     const menus = [
         { name: "Home", path: "" },
         {
-            name: "PUBLIC", path: "", children: [
+            name: "PUBLIC", path: "", submenus: [
                 { name: "Questions", path: "" },
                 { name: "Users", path: "" }
             ]
@@ -23,12 +23,27 @@ const SNB = () => {
     return (
         <Nav>
             {menus.map((menu, idx) => {
-                 
+                if (menu.submenus !== undefined) {
+                    menu.submenus.map((sub, idx) => {
+                        return (
+                            <>
+                                <div>{sub.name}</div>
+                                <div>WORKED!</div>
+                            </>
+                        )
+                    })
+                }
                 return (
                     <>
-                        <div>{menu.name}</div>
+                        <div>didn't work</div>
+                        <div>{menus[1].submenus[0].name}no</div>
                     </>
                 )
+                // return (
+                //     <>
+                //         <div>{menu.name}</div>
+                //     </>
+                // )
             })}
         </Nav>
     )
