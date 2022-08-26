@@ -35,7 +35,21 @@ const Button = styled.button`
 const Pagination = ( { total, limit, page, setPage, setLimit} ) => {
 
     const numPages = Math.ceil(total / limit);
-    const options = [2, 4, 18];
+    const options = [5, 10, 15];
+
+    // Stays on the post point even page limit is changed from one number to another
+    const setNewLimitStayOnPage = (opt) => {
+        setLimit(opt);
+
+        if (page === 1) {
+            setPage(1)
+        }
+        else {
+            let temp = (page-1) * limit + 1;
+            let newPage = Math.ceil(temp / opt);
+            setPage(newPage);
+        }
+    }
 
     return (
         <>
@@ -69,7 +83,7 @@ const Pagination = ( { total, limit, page, setPage, setLimit} ) => {
                     {options.map((opt, idx) => {
                         return <Button
                             key={idx}
-                            onClick={() => {setLimit(opt); setPage(1)}}
+                            onClick={() => setNewLimitStayOnPage(opt)}
                             aria-current={opt === limit ? "option" : null}
                         >{opt}
                         </Button>

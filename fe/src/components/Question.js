@@ -13,7 +13,7 @@ const Block = styled.div`
 const Side = styled.div`
     display: flex;
     flex-direction: column;
-    width: 400px;
+    width: 150px;
     align-items: flex-end;
     margin-right: 10px;
 `
@@ -70,21 +70,21 @@ const Question = ( {post} ) => {
         return Math.floor(seconds) + " seconds";
     };
 
-    let num = Date.parse(post.time);
+    let num = Date.parse(post.createdAt);
 
     return (
         <Block>
             <Side>
-                <div>{post.voteNum} votes</div>
-                <div>{post.answerNum} answers</div>
-                <div>{post.viewNum} views</div>
+                <div>{post.vote} votes</div>
+                <div>{post.answered} answers</div>
+                <div>{post.view} views</div>
             </Side>
             <Main>
                 <div>{post.title}</div>
                 <div>{post.content}</div>
                 <div>
-                    <img src={post.userUrl} alt="profile"></img>
-                    <div>{post.userId}</div>
+                    <img src="https://www.gravatar.com/avatar/fd30a6da006a64e9f2d622341f374e99?s=256&d=identicon&r=PG" alt="profile"></img>
+                    <div>{post.name}</div>
                     <div>asked {timeSince(num)} ago</div>
                 </div>
             </Main>
