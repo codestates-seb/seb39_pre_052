@@ -35,5 +35,5 @@
       "last 1 safari version"
     ]
   },
-  "proxy": "http://52.78.75.247:8080"
+  "proxy": "http://ec2-52-78-75-247.ap-northeast-2.compute.amazonaws.com:8080"
 }
