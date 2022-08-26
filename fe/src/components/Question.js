@@ -5,8 +5,10 @@ const Block = styled.div`
     flex-direction: row;
     padding-top: 10px;
     padding-bottom: 10px;
-    :not(:last-child) {
-        border-bottom: 1px solid darkgray;
+    border-bottom: 1px solid darkgray;
+    
+    :first-child {
+        border-top: 1px solid darkgray;
     }
 `
 
@@ -16,10 +18,15 @@ const Side = styled.div`
     width: 150px;
     align-items: flex-end;
     margin-right: 20px;
+    > * {
+        margin-bottom: 8px;
+    }
 `
+
 const Main = styled.div`
     display: flex;
     flex-direction: column;
+    width: 600px;
 
     > * {
         overflow: hidden;
@@ -36,6 +43,7 @@ const Main = styled.div`
         > img {
             width: 15px;
         }
+        align-self: flex-end;
     }
 `
 
