@@ -1,6 +1,6 @@
 import { useState, useEffect } from 'react';
-import Question from '../components/Question';
-import Pagination from '../components/Pagination';
+import Question from '../Components/Question';
+import Pagination from '../Components/Pagination';
 import styled from "styled-components";
 
 const Container = styled.div`
