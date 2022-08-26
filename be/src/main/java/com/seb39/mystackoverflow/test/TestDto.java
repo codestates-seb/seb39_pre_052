@@ -20,15 +20,19 @@ public class TestDto {
 
     private String name; //member name
 
+    private int answered;
+
     private LocalDateTime createdAt;
 
+
     @Builder
-    public TestDto(String title, String content, int vote, int view, String name, LocalDateTime createdAt) {
+    public TestDto(String title, String content, int vote, int view, String name, int answered, LocalDateTime createdAt) {
         this.title = title;
         this.content = content;
         this.vote = vote;
         this.view = view;
         this.name = name;
+        this.answered = answered;
         this.createdAt = createdAt;
     }
 }
