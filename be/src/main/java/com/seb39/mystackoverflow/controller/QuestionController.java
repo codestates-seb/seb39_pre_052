@@ -1,5 +1,6 @@
 package com.seb39.mystackoverflow.controller;
 
+import com.seb39.mystackoverflow.dto.MultiResponseDto;
 import com.seb39.mystackoverflow.dto.QuestionDto;
 import com.seb39.mystackoverflow.entity.Question;
 import com.seb39.mystackoverflow.mapper.QuestionMapper;
@@ -70,6 +71,6 @@ public class QuestionController {
         Page<Question> questionPage = questionService.findQuestions(page - 1, size);
         List<Question> questions = questionPage.getContent();
 
-        return new ResponseEntity(questions, HttpStatus.OK);
+        return new ResponseEntity(new MultiResponseDto(questions, questionPage), HttpStatus.OK);
     }
 }
