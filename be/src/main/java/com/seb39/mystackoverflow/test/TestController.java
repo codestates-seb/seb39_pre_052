@@ -26,6 +26,7 @@ public class TestController {
                     .createdAt(LocalDateTime.now())
                     .view(i)
                     .vote(i)
+                    .answered(i)
                     .build());
         }
         return memberList;
