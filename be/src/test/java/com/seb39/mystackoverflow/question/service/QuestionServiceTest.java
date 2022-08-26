@@ -22,39 +22,62 @@ class QuestionServiceTest {
     @Autowired
     private QuestionRepository questionRepository;
 
-    @Test
-    public void 질문수정_테스트() {
-        //given
+    @BeforeEach
+    public void 데이터_준비() {
         Question question = new Question();
         question.setContent("Hello Project!");
         question.setTitle("Hello Title");
 
-        Question savedQuestion = questionService.createQuestion(question);
+        questionService.createQuestion(question);
+    }
 
+    @Test
+    public void 질문수정_테스트() {
+        //given
+//        Question question = new Question();
+//        question.setContent("Hello Project!");
+//        question.setTitle("Hello Title");
+//
+//        Question savedQuestion = questionService.createQuestion(question);
+        Question question = questionRepository.findById(2L).get();
         //when
         String updateTitle = "update title test";
 
         question.setTitle(updateTitle);
         Question updatedQuestion = questionService.updateQuestion(question);
         //then
-        assertEquals(updatedQuestion.getId(), savedQuestion.getId());
+        assertEquals(updatedQuestion.getId(), question.getId());
         assertEquals(updatedQuestion.getTitle(), updateTitle);
-        assertEquals(updatedQuestion.getContent(), savedQuestion.getContent());
+        assertEquals(updatedQuestion.getContent(), question.getContent());
     }
 
     @Test
     public void 질문삭제_테스트() {
         //given
-        Question question = new Question();
-        question.setContent("Hello Project!");
-        question.setTitle("Hello Title");
-
-        Question savedQuestion = questionService.createQuestion(question);
+//        Question question = new Question();
+//        question.setContent("Hello Project!");
+//        question.setTitle("Hello Title");
+//
+//        Question savedQuestion = questionService.createQuestion(question);
+        Question question = questionRepository.findById(2L).get();
         //when
-        questionService.delete(savedQuestion.getId());
+        questionService.delete(question.getId());
         List<Question> questionList = questionRepository.findAll();
         //then
         assertEquals(questionList.size(), 0);
 
+    }
+
+    @Test
+    public void 질문전체조회_테스트() {
+        //given
+        Question question = new Question();
+        question.setContent("Hello Project2!");
+        question.setTitle("Hello Title2");
+        questionService.createQuestion(question);
+        //when
+        List<Question> questions = questionService.findQuestions(0, 2).getContent();
+        //then
+        assertEquals(questions.size(), 2);
     }
 }

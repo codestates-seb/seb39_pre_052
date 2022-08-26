@@ -6,12 +6,14 @@ import com.seb39.mystackoverflow.mapper.QuestionMapper;
 import com.seb39.mystackoverflow.service.QuestionService;
 import lombok.NoArgsConstructor;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Page;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
 import javax.validation.constraints.Positive;
+import java.util.List;
 
 @RestController
 @RequestMapping("/api/questions")
@@ -58,5 +60,16 @@ public class QuestionController {
     public ResponseEntity deleteQuestion(@PathVariable("id") @Positive long id) {
         questionService.delete(id);
         return new ResponseEntity(HttpStatus.NO_CONTENT);
+    }
+
+    //4. 질문 전체 조회
+    //Member Entity와 연관관계 매핑 후, 질문을 전체 조회할 때 Member와 관련된 정보도 포함할 수 있도록 수정할 예정
+    @GetMapping
+    public ResponseEntity getQuestions(@Positive @RequestParam int page,
+                                       @Positive @RequestParam int size) {
+        Page<Question> questionPage = questionService.findQuestions(page - 1, size);
+        List<Question> questions = questionPage.getContent();
+
+        return new ResponseEntity(questions, HttpStatus.OK);
     }
 }
