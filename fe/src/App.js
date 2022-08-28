@@ -1,4 +1,4 @@
-import Questions from './Pages/Questions';
+import Questions from './pages/Questions';
 import GlobalStyle from "./GlobalStyle";
 import styled from "styled-components";
 
