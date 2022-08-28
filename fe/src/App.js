@@ -1,6 +1,7 @@
-import GNB from "./Components/GNB";
-import SNB from "./Components/SNB";
+import GNB from "./components/GNB";
+import SNB from "./components/SNB";
 import styled from "styled-components";
+import Footer from "./components/Footer"
 
 const Main = styled.div`
   display: flex;
@@ -13,6 +14,7 @@ function App() {
       <Main>
         <SNB />
       </Main>
+      <Footer />
     </>
   );
 }
