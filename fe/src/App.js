@@ -3,7 +3,7 @@ import styled from "styled-components";
 import GNB from "./components/GNB";
 import SNB from "./components/SNB";
 import Footer from "./components/Footer"
-import Questions from './Pages/Questions';
+import Questions from './pages/Questions';
 
 const Main = styled.div`
   display: flex;

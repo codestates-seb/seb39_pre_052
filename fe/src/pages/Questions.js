@@ -1,7 +1,7 @@
 import { useState, useEffect } from 'react';
-import Question from '../Components/Question';
-import Pagination from '../Components/Pagination';
 import styled from "styled-components";
+import Question from '../components/Question';
+import Pagination from '../components/Pagination';
 
 const Container = styled.div`
     flex-basis: 800px; 
