@@ -1,17 +1,28 @@
 import styled from "styled-components";
 
 const Nav = styled.nav`
-    padding-right: 20px;
+    padding: 20px;
     border-right: 1px solid darkgray;
     flex-basis: 150px;
     flex-shrink: 1;
+    height: 90vh;
 `
 
+const Menu = styled.div`
+    > * {
+        margin-bottom: 5px;
+    }
+
+    /* Sub Menu */
+    > div:not(:first-child) {
+        margin-left: 30px;
+    }
+`
 
 const SNB = () => {
 
     const menus = [
-        { name: "Home", path: "" },
+        { name: "Home", path: "", submenus: [] },
         {
             name: "PUBLIC", path: "", submenus: [
                 { name: "Questions", path: "" },
@@ -20,30 +31,21 @@ const SNB = () => {
         }
     ]
 
+    //path will be added later with { NavLink }'s "to" attribute
     return (
         <Nav>
             {menus.map((menu, idx) => {
-                if (menu.submenus !== undefined) {
-                    menu.submenus.map((sub, idx) => {
-                        return (
-                            <>
-                                <div>{sub.name}</div>
-                                <div>WORKED!</div>
-                            </>
-                        )
-                    })
-                }
                 return (
-                    <>
-                        <div>didn't work</div>
-                        <div>{menus[1].submenus[0].name}no</div>
-                    </>
+                    <Menu key={idx}>
+                        <div >{menu.name}</div>
+
+                        {menu.submenus.map((sub, index) => {
+                            return (
+                                <div key={index}>{sub.name}</div>
+                            )
+                        })}
+                    </Menu>
                 )
-                // return (
-                //     <>
-                //         <div>{menu.name}</div>
-                //     </>
-                // )
             })}
         </Nav>
     )
