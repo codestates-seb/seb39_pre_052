@@ -56,7 +56,7 @@ public class QuestionController {
             @Valid @RequestBody QuestionDto.Patch requestBody,
             @AuthenticationPrincipal PrincipalDetails principalDetails) {
         requestBody.setId(id);
-        //로그인된 회원 ID 값
+        //로그인된 회원 ID
         Long memberId = principalDetails.getMemberId();
 
         Question updateQuestion = questionService.updateQuestion(questionMapper.questionPatchToQuestion(requestBody), memberId);
@@ -69,7 +69,8 @@ public class QuestionController {
 
     //3. 질문 삭제
     @DeleteMapping("/{id}")
-    public ResponseEntity deleteQuestion(@PathVariable("id") @Positive long id) {
+    public ResponseEntity deleteQuestion(@PathVariable("id") @Positive long id,
+                                         @AuthenticationPrincipal PrincipalDetails principalDetails) {
         questionService.delete(id);
         return new ResponseEntity(HttpStatus.NO_CONTENT);
     }

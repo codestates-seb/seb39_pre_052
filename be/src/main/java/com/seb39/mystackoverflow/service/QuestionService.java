@@ -37,14 +37,7 @@ public class QuestionService {
     //2. 질문 수정
     @Transactional
     public Question updateQuestion(Question question, Long memberId) {
-        Question findQuestion = findQuestion(question);
-        //작성자 ID
-        Long writerId = findQuestion.getMember().getId();
-
-        //수정할 때 로그인한 회원, 글 작성자 비교해서 같으면 수정할 수 있도록 로직 구현
-        if(writerId != memberId) {
-            throw new RuntimeException("작성자가 아니면 수정할 수 없습니다!");
-        }
+        Question findQuestion = verificationWriter(question, memberId);
 
         Optional.ofNullable(question.getTitle())
                 .ifPresent(findQuestion::setTitle);
@@ -55,12 +48,15 @@ public class QuestionService {
         return questionRepository.save(findQuestion);
     }
 
+
     //3. 질문 삭제
     //삭제할 때 로그인한 회원, 글 작성자 비교해서 같으면 수정할 수 있도록 로직 구현
+    @Transactional
     public void delete(long id) {
         Optional<Question> optionalQuestion = questionRepository.findById(id);
 
         Question question = optionalQuestion.orElseThrow(() -> new IllegalArgumentException("존재하지 않는 질문입니다."));//추후 Exception 수정?
+
 
 
         questionRepository.delete(question);
@@ -72,13 +68,24 @@ public class QuestionService {
     }
 
     //해당 질문이 존재하는지 확인하는 메서드
-    public Question findQuestion(Question question) {
-        Optional<Question> optionalQuestion = questionRepository.findById(question.getId());
+    public Question findQuestion(Long questionId) {
+        Optional<Question> optionalQuestion = questionRepository.findById(questionId);
 
         Question findQuestion = optionalQuestion.orElseThrow(() -> new IllegalArgumentException("해당 질문을 찾을 수 없습니다."));
 
         return findQuestion;
     }
+    //수정, 삭제하는 회원이 글 작성자와 같은지 확인하는 메서드
+    public Question verificationWriter(Question question, Long memberId) {
+        Question findQuestion = findQuestion(question.getId());
+        //작성자 ID
+        Long writerId = findQuestion.getMember().getId();
 
+        //수정할 때 로그인한 회원, 글 작성자 비교해서 같으면 수정할 수 있도록 로직 구현
+        if(writerId != memberId) {
+            throw new RuntimeException("작성자가 아니면 수정할 수 없습니다!");
+        }
+        return findQuestion;
+    }
 
 }
