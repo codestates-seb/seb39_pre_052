@@ -33,7 +33,7 @@ dependencies {
 	developmentOnly 'org.springframework.boot:spring-boot-devtools'
 	runtimeOnly 'com.h2database:h2'
 	annotationProcessor 'org.projectlombok:lombok'
-	annotationProcessor 'org.mapstruct:mapstruct-processor:1.5.1.Final' //MapStruct를 사용하기 위해 추가
+	annotationProcessor 'org.mapstruct:mapstruct-processor:1.5.2.Final' //MapStruct를 사용하기 위해 추가
 	testImplementation 'org.springframework.boot:spring-boot-starter-test'
 	testImplementation 'org.springframework.security:spring-security-test'
 }

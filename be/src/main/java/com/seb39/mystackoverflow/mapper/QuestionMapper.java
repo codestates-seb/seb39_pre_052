@@ -11,6 +11,6 @@ public interface QuestionMapper {
 
     Question questionPatchToQuestion(QuestionDto.Patch requestBody);
 
-    Question questionToQuestionResponse(Question question);
+    QuestionDto.response questionToQuestionResponse(Question question);
 
 }

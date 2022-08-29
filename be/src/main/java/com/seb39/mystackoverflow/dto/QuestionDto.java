@@ -1,6 +1,7 @@
 package com.seb39.mystackoverflow.dto;
 
 import com.seb39.mystackoverflow.entity.BaseEntity;
+import com.seb39.mystackoverflow.entity.Member;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.Setter;
@@ -56,6 +57,11 @@ public class QuestionDto {
         private int vote;
         private LocalDateTime createdAt;
         private LocalDateTime lastModifiedAt;
+        private Member member;
+
+        public Long getMember() {
+            return member.getId();
+        }
     }
 
 }
