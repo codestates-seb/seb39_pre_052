@@ -21,14 +21,26 @@ const SignUp = () => {
   //Sign up 버튼 누르면 POST 요청하기
   const handleSubmit = (event) => {
     event.preventDefault();
-    let newUser = { name: name, email: email, password: password };
-    console.log(newUser);
+    let newUser = {
+      name: name,
+      email: email,
+      password: password,
+    };
+    // console.log(newUser);
     if (email.length === 0) {
       setEmptyEmailMsg("Email cannot be empty.");
     }
     if (password.length === 0) {
       setEmptyPasswordMsg("Password cannot be empty.");
     }
+    fetch("/signup", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify(newUser),
+    })
+      .then((res) => res.json())
+      .then((res) => console.log(res)) //{failureReason: '', success: true}
+      .catch(() => console.log("error"));
   };
 
   //유효성 체크 (정규 표현식 사용)
