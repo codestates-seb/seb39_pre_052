@@ -2,8 +2,10 @@ package com.seb39.mystackoverflow.dto.auth;
 
 
 import lombok.Getter;
+import lombok.Setter;
 
 @Getter
+@Setter
 public class AuthResponse {
     private boolean isSuccess;
     private String failureReason;

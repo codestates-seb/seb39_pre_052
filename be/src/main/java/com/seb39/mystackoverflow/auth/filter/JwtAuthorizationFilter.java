@@ -2,6 +2,8 @@ package com.seb39.mystackoverflow.auth.filter;
 
 import com.auth0.jwt.JWT;
 import com.auth0.jwt.algorithms.Algorithm;
+import com.auth0.jwt.exceptions.JWTDecodeException;
+import com.auth0.jwt.exceptions.JWTVerificationException;
 import com.seb39.mystackoverflow.auth.JwtUtils;
 import com.seb39.mystackoverflow.auth.PrincipalDetails;
 import com.seb39.mystackoverflow.entity.Member;
@@ -44,8 +46,14 @@ public class JwtAuthorizationFilter extends BasicAuthenticationFilter {
             return;
         }
 
-        String jwtToken = getJwtToken(header);
-        String username = jwtUtils.decodeJwtTokenAndGetUsername(jwtToken);
+        String username = null;
+        try{
+            String jwtToken = getJwtToken(header);
+            username = jwtUtils.decodeJwtTokenAndGetUsername(jwtToken);
+        }catch(JWTVerificationException e){
+            log.error("Invalid Jwt Token",e);
+            request.setAttribute("exception","Invalid JWT Token");
+        }
 
         if(StringUtils.hasText(username) && memberService.exist(username)){
             Member member = memberService.findByUsername(username);

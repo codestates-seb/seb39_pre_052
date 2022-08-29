@@ -1,8 +1,10 @@
 package com.seb39.mystackoverflow.auth;
 
 
+import com.seb39.mystackoverflow.auth.handler.ExceptionHandlingEntryPoint;
 import com.seb39.mystackoverflow.auth.filter.JwtAuthenticationFilter;
 import com.seb39.mystackoverflow.auth.filter.JwtAuthorizationFilter;
+import com.seb39.mystackoverflow.auth.handler.JwtAuthenticationFailureHandler;
 import com.seb39.mystackoverflow.service.MemberService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Value;
@@ -23,7 +25,9 @@ import org.springframework.security.web.SecurityFilterChain;
 public class SecurityConfig {
 
     private final MemberService memberService;
+    private final JwtAuthenticationFailureHandler jwtAuthenticationFailureHandler;
     private final JwtUtils jwtUtils;
+
 
     @Value("${app.auth.jwt.secret}")
     private String secret;
@@ -42,7 +46,11 @@ public class SecurityConfig {
                 .httpBasic().disable()
                 .apply(new CustomJwtConfigurer())
                 .and()
-                .authorizeRequests().anyRequest().permitAll();
+                .authorizeRequests().anyRequest().permitAll()
+                .and()
+                .exceptionHandling()
+                .authenticationEntryPoint(new ExceptionHandlingEntryPoint());
+
 
         return http.build();
     }
@@ -52,8 +60,10 @@ public class SecurityConfig {
         @Override
         public void configure(HttpSecurity builder) throws Exception{
             AuthenticationManager authenticationManager = builder.getSharedObject(AuthenticationManager.class);
+            JwtAuthenticationFilter jwtAuthenticationFilter = new JwtAuthenticationFilter(authenticationManager, jwtUtils);
+            jwtAuthenticationFilter.setAuthenticationFailureHandler(jwtAuthenticationFailureHandler);
             builder
-                    .addFilter(new JwtAuthenticationFilter(authenticationManager,jwtUtils))
+                    .addFilter(jwtAuthenticationFilter)
                     .addFilter(new JwtAuthorizationFilter(authenticationManager,memberService, jwtUtils));
         }
     }

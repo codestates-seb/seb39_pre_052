@@ -86,4 +86,34 @@ class AuthenticationTest {
         String username = jwtUtils.decodeJwtTokenAndGetUsername(token);
         Assertions.assertThat(username).isEqualTo("USER01");
     }
+
+    @Test
+    @DisplayName("유효하지 않은 사용자 id로 로그인 시 401로 응답한다")
+    public void invalidUsernameLoginTest() throws Exception {
+        LoginRequest req = new LoginRequest();
+        req.setUsername("USER9999");
+        req.setPassword("1234");
+        String requestJson = om.writeValueAsString(req);
+        MvcResult result = mockMvc.perform(post("/login")
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content(requestJson))
+                .andExpect(status().isUnauthorized())
+                .andDo(print())
+                .andReturn();
+    }
+
+    @Test
+    @DisplayName("유효하지 않은 비밀번호로 로그인 시 401로 응답한다")
+    public void invalidPasswordLoginTest() throws Exception {
+        LoginRequest req = new LoginRequest();
+        req.setUsername("USER01");
+        req.setPassword("invalid_password");
+        String requestJson = om.writeValueAsString(req);
+        MvcResult result = mockMvc.perform(post("/login")
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content(requestJson))
+                .andExpect(status().isUnauthorized())
+                .andDo(print())
+                .andReturn();
+    }
 }
