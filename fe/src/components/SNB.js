@@ -1,5 +1,9 @@
 import styled from "styled-components";
 
+// redux toolkit related
+import { changeShow } from '../features/showSlice';
+import { useSelector } from 'react-redux';
+
 const Nav = styled.nav`
     padding: 20px;
     border-right: 1px solid darkgray;
@@ -21,6 +25,11 @@ const Menu = styled.div`
 
 const SNB = () => {
 
+    // retrieves the state back from redux store(slice)
+    const show = useSelector(state => {
+        return state.toggle.active;
+    })
+
     const menus = [
         { name: "Home", path: "", submenus: [] },
         {
@@ -33,7 +42,7 @@ const SNB = () => {
 
     //path will be added later with { NavLink }'s "to" attribute
     return (
-        <Nav>
+        <Nav hidden={!show}> {/* the nav bar will be shown/hidden when GNB menu icon is clicked */}
             {menus.map((menu, idx) => {
                 return (
                     <Menu key={idx}>
