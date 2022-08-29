@@ -3,6 +3,10 @@ import { faBars, faXmark } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { useState } from "react";
 
+// redux toolkit related
+import { changeShow } from '../features/showSlice';
+import { useSelector, useDispatch } from 'react-redux';
+
 const Nav = styled.nav`
     display: flex;
     border-bottom: 1px solid darkgrey;
@@ -52,19 +56,19 @@ const Button = styled.button`
 
 const GNB = () => {
 
-    const [open, setOpen] = useState(false);
-
-    // menu icon changes when clicked
-    const handleClick = () => {
-        setOpen(!open);
-    }
+    // to set the state of data in redux store(slice)
+    const dispatch = useDispatch();
+    // retrieves the state back from redux store(slice)
+    const show = useSelector(state => {
+      return state.toggle.active;
+    })
 
     return (
         <Nav>
             <div
-                onClick={handleClick}
+                onClick={() => dispatch(changeShow())}
             >
-                {open ? <FontAwesomeIcon icon={faXmark} /> : <FontAwesomeIcon icon={faBars} />}
+                {show ? <FontAwesomeIcon icon={faXmark} /> : <FontAwesomeIcon icon={faBars} />}
             </div>
             <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/0/02/Stack_Overflow_logo.svg/2560px-Stack_Overflow_logo.svg.png" alt="logo"></img>
             <ul>
