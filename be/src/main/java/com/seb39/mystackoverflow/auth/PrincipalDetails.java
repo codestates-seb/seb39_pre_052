@@ -1,12 +1,18 @@
 package com.seb39.mystackoverflow.auth;
 
 import com.seb39.mystackoverflow.entity.Member;
+import lombok.AllArgsConstructor;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.stereotype.Component;
 
 import java.util.ArrayList;
 import java.util.Collection;
 
+//Question에서 member 객체를 가져오기 위해 수정
+@Getter
 public class PrincipalDetails implements UserDetails {
 
     private final Member member;

@@ -1,6 +1,8 @@
 package com.seb39.mystackoverflow.service;
 
+import com.seb39.mystackoverflow.entity.Member;
 import com.seb39.mystackoverflow.entity.Question;
+import com.seb39.mystackoverflow.repository.MemberRepository;
 import com.seb39.mystackoverflow.repository.QuestionRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
@@ -11,6 +13,7 @@ import org.springframework.transaction.annotation.Isolation;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 
+import javax.persistence.EntityManager;
 import java.util.Optional;
 
 @Service
@@ -19,9 +22,14 @@ import java.util.Optional;
 public class QuestionService {
 
     private final QuestionRepository questionRepository;
+    private final MemberRepository memberRepository;
+    private final EntityManager entityManager;
 
     //1. 질문 등록
-    public Question createQuestion(Question question) {
+    public Question createQuestion(Question question, Member member) {
+        Member findMember = memberRepository.findById(member.getId())
+                .orElseThrow(() -> new IllegalArgumentException("Member not found. id = " + member.getId()));
+        question.setQuestionMember(findMember);
         Question savedQuestion = questionRepository.save(question);
         return savedQuestion;
     }
@@ -30,6 +38,7 @@ public class QuestionService {
     @Transactional(propagation = Propagation.REQUIRED, isolation = Isolation.SERIALIZABLE)
     public Question updateQuestion(Question question) {
         Question findQuestion = findQuestion(question);
+
 
         Optional.ofNullable(question.getTitle())
                 .ifPresent(findQuestion::setTitle);
@@ -45,6 +54,7 @@ public class QuestionService {
         Optional<Question> optionalQuestion = questionRepository.findById(id);
 
         Question question = optionalQuestion.orElseThrow(() -> new IllegalArgumentException("존재하지 않는 질문입니다."));//추후 Exception 수정?
+
 
         questionRepository.delete(question);
     }
@@ -63,5 +73,6 @@ public class QuestionService {
 
         return findQuestion;
     }
+
 
 }
