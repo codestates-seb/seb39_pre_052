@@ -71,7 +71,8 @@ public class QuestionController {
     @DeleteMapping("/{id}")
     public ResponseEntity deleteQuestion(@PathVariable("id") @Positive long id,
                                          @AuthenticationPrincipal PrincipalDetails principalDetails) {
-        questionService.delete(id);
+        Long memberId = principalDetails.getMemberId();
+        questionService.delete(id, memberId);
         return new ResponseEntity(HttpStatus.NO_CONTENT);
     }
 
