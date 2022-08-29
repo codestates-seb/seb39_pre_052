@@ -1,3 +1,4 @@
+import { BrowserRouter, Routes, Route } from 'react-router-dom';
 import GlobalStyle from "./GlobalStyle";
 import styled from "styled-components";
 import Questions from './pages/Questions';
@@ -10,9 +11,13 @@ const App = () => {
   return (
     <>
       <GlobalStyle />
-      <Main>
-        <Questions />
-      </Main>
+      <BrowserRouter>
+        <Main>
+          <Routes>
+            <Route path="/" element={<Questions />} />
+          </Routes>
+        </Main>
+      </BrowserRouter>
     </>
   );
 }
