@@ -48,7 +48,7 @@ class QuestionServiceTest {
 
         memberRepository.save(member);
 
-        questionService.createQuestion(question, member);
+        questionService.createQuestion(question, member.getId());
     }
 
 
@@ -85,7 +85,7 @@ class QuestionServiceTest {
 //        question.setTitle("Hello Title");
 //
 //        Question savedQuestion = questionService.createQuestion(question);
-        Question question = questionRepository.findById(2L).get();
+        Question question = questionRepository.findById(1L).get();
         //when
         questionService.delete(question.getId());
         List<Question> questionList = questionRepository.findAll();
@@ -100,7 +100,7 @@ class QuestionServiceTest {
         Question question = new Question();
         question.setContent("Hello Project2!");
         question.setTitle("Hello Title2");
-//        questionService.createQuestion(question, 1L);
+//        questionService.createQuestion(question, 2L);
         //when
         List<Question> questions = questionService.findQuestions(0, 2).getContent();
         //then

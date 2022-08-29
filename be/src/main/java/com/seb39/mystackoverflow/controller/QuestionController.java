@@ -3,7 +3,7 @@ package com.seb39.mystackoverflow.controller;
 import com.seb39.mystackoverflow.auth.PrincipalDetails;
 import com.seb39.mystackoverflow.dto.MultiResponseDto;
 import com.seb39.mystackoverflow.dto.QuestionDto;
-import com.seb39.mystackoverflow.dto.SingleReponseDto;
+import com.seb39.mystackoverflow.dto.SingleResponseDto;
 import com.seb39.mystackoverflow.entity.Member;
 import com.seb39.mystackoverflow.entity.Question;
 import com.seb39.mystackoverflow.mapper.QuestionMapper;
@@ -41,24 +41,26 @@ public class QuestionController {
     public ResponseEntity postQuestion(@Valid @RequestBody QuestionDto.Post requestBody,
                                        @AuthenticationPrincipal PrincipalDetails principalDetails) {
         Question question = questionMapper.questionPostToQuestion(requestBody);
-        question.setCreateTime();
-        Member member = principalDetails.getMember();
-        Question createdQuestion = questionService.createQuestion(question, member);
+        Long memberId = principalDetails.getMemberId();
+        Question createdQuestion = questionService.createQuestion(question, memberId);
 
         QuestionDto.response response = questionMapper.questionToQuestionResponse(createdQuestion);
 
-        return new ResponseEntity<>(new SingleReponseDto<>(response), HttpStatus.CREATED);
+        return new ResponseEntity<>(new SingleResponseDto<>(response), HttpStatus.CREATED);
     }
 
     //2. 질문 수정
     @PatchMapping("/{id}")
     public ResponseEntity patchQuestion(
             @PathVariable("id") @Positive long id,
-            @Valid @RequestBody QuestionDto.Patch requestBody) {
+            @Valid @RequestBody QuestionDto.Patch requestBody,
+            @AuthenticationPrincipal PrincipalDetails principalDetails) {
         requestBody.setId(id);
 
-        Question updateQuestion = questionService.updateQuestion(questionMapper.questionPatchToQuestion(requestBody));
-        updateQuestion.setUpdateTime();
+        Long memberId = principalDetails.getMemberId();
+        System.out.println("memberId = " + memberId);
+
+        Question updateQuestion = questionService.updateQuestion(questionMapper.questionPatchToQuestion(requestBody), memberId);
 
         QuestionDto.response response = questionMapper.questionToQuestionResponse(updateQuestion);
 

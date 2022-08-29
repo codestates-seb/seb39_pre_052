@@ -32,15 +32,6 @@ public class Question extends BaseEntity{
     @ColumnDefault("0")
     private int vote;
 
-    //시간 지정 메서드
-    public void setCreateTime() {
-        this.setCreatedAt(LocalDateTime.now());
-        this.setLastModifiedAt(LocalDateTime.now());
-    }
-
-    public void setUpdateTime() {
-        this.setLastModifiedAt(LocalDateTime.now());
-    }
 
     /**
      * 회원 연관관계

@@ -17,27 +17,30 @@ import javax.persistence.EntityManager;
 import java.util.Optional;
 
 @Service
-@Transactional
+@Transactional(readOnly = true)
 @RequiredArgsConstructor
 public class QuestionService {
 
     private final QuestionRepository questionRepository;
-    private final MemberRepository memberRepository;
-    private final EntityManager entityManager;
+    private final MemberService memberService;
 
     //1. 질문 등록
-    public Question createQuestion(Question question, Member member) {
-        Member findMember = memberRepository.findById(member.getId())
-                .orElseThrow(() -> new IllegalArgumentException("Member not found. id = " + member.getId()));
+    public Question createQuestion(Question question, Long memberId) {
+        Member findMember = memberService.findById(memberId);
         question.setQuestionMember(findMember);
         Question savedQuestion = questionRepository.save(question);
+        System.out.println("savedQuestion.getMember().getId() = " + savedQuestion.getMember().getId());
         return savedQuestion;
     }
 
     //2. 질문 수정
-    @Transactional(propagation = Propagation.REQUIRED, isolation = Isolation.SERIALIZABLE)
-    public Question updateQuestion(Question question) {
+    //수정할 때 로그인한 회원, 글 작성자 비교해서 같으면 수정할 수 있도록 로직 구현
+    @Transactional
+    public Question updateQuestion(Question question, Long memberId) {
         Question findQuestion = findQuestion(question);
+
+        System.out.println(question.getId());
+        System.out.println(question.getMember()); //null
 
 
         Optional.ofNullable(question.getTitle())
@@ -50,6 +53,7 @@ public class QuestionService {
     }
 
     //3. 질문 삭제
+    //삭제할 때 로그인한 회원, 글 작성자 비교해서 같으면 수정할 수 있도록 로직 구현
     public void delete(long id) {
         Optional<Question> optionalQuestion = questionRepository.findById(id);
 
@@ -65,7 +69,6 @@ public class QuestionService {
     }
 
     //해당 질문이 존재하는지 확인하는 메서드
-    @Transactional(readOnly = true)
     public Question findQuestion(Question question) {
         Optional<Question> optionalQuestion = questionRepository.findById(question.getId());
 
