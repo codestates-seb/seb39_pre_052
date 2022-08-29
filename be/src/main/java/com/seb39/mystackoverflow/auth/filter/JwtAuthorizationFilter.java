@@ -1,8 +1,5 @@
 package com.seb39.mystackoverflow.auth.filter;
 
-import com.auth0.jwt.JWT;
-import com.auth0.jwt.algorithms.Algorithm;
-import com.auth0.jwt.exceptions.JWTDecodeException;
 import com.auth0.jwt.exceptions.JWTVerificationException;
 import com.seb39.mystackoverflow.auth.JwtUtils;
 import com.seb39.mystackoverflow.auth.PrincipalDetails;
@@ -46,17 +43,17 @@ public class JwtAuthorizationFilter extends BasicAuthenticationFilter {
             return;
         }
 
-        String username = null;
+        String email = null;
         try{
             String jwtToken = getJwtToken(header);
-            username = jwtUtils.decodeJwtTokenAndGetUsername(jwtToken);
+            email = jwtUtils.decodeJwtTokenAndGetEmail(jwtToken);
         }catch(JWTVerificationException e){
             log.error("Invalid Jwt Token",e);
             request.setAttribute("exception","Invalid JWT Token");
         }
 
-        if(StringUtils.hasText(username) && memberService.exist(username)){
-            Member member = memberService.findByUsername(username);
+        if(StringUtils.hasText(email) && memberService.exist(email)){
+            Member member = memberService.findByEmail(email);
             PrincipalDetails principal = new PrincipalDetails(member);
             Authentication authentication = new UsernamePasswordAuthenticationToken(principal,null,principal.getAuthorities());
             SecurityContextHolder.getContext().setAuthentication(authentication);

@@ -2,7 +2,6 @@ package com.seb39.mystackoverflow.auth;
 
 import com.auth0.jwt.JWT;
 import com.auth0.jwt.algorithms.Algorithm;
-import com.auth0.jwt.exceptions.JWTVerificationException;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 
@@ -17,11 +16,11 @@ public class JwtUtils {
     @Value("${app.auth.jwt.expiration-time-millis}")
     private long expirationTimeMillis;
 
-    public String createJwtToken(String username) {
+    public String createJwtToken(String email) {
         return JWT.create()
                 .withSubject("login jwt token")
                 .withExpiresAt(getExpiredDate())
-                .withClaim("username", username)
+                .withClaim("email", email)
                 .sign(Algorithm.HMAC512(secret));
     }
 
@@ -29,11 +28,11 @@ public class JwtUtils {
         return new Date(System.currentTimeMillis() + expirationTimeMillis);
     }
 
-    public String decodeJwtTokenAndGetUsername(String jwtToken){
+    public String decodeJwtTokenAndGetEmail(String jwtToken){
         return JWT.require(Algorithm.HMAC512(secret))
                 .build()
                 .verify(jwtToken)
-                .getClaim("username")
+                .getClaim("email")
                 .asString();
     }
 }

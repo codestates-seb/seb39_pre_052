@@ -42,18 +42,14 @@ class AuthControllerTest {
     @Test
     void signUpTest() throws Exception {
         //given
-        String username = "1234";
+        String email = "abcd@efgh.com";
         String password = "%$@#YWRTYH#%^YADSF@#R";
         String name = "test-user";
-        String phone = "010-1111-1111";
-        String email = "abcd@efgh.com";
 
         SignUpRequest request = new SignUpRequest();
-        request.setUsername(username);
+        request.setEmail(email);
         request.setPassword(password);
         request.setName(name);
-        request.setPhone(phone);
-        request.setEmail(email);
 
         String requestJson = om.writeValueAsString(request);
 
@@ -69,7 +65,6 @@ class AuthControllerTest {
                 .andExpect(jsonPath("$.success").value(true))
                 .andExpect(jsonPath("$.failureReason").value(""))
                 .andDo(print());
-
     }
 
 }
