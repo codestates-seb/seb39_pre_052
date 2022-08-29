@@ -9,6 +9,7 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 
 
 @SpringBootApplication
+@EnableJpaAuditing
 public class MystackoverflowApplication {
 
 	public static void main(String[] args) {
