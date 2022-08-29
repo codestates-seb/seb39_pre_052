@@ -1,6 +1,6 @@
+import { BrowserRouter, Routes, Route } from 'react-router-dom';
 import GlobalStyle from "./GlobalStyle";
 import styled from "styled-components";
-import { BrowserRouter, Routes, Route } from 'react-router-dom';
 import GNB from "./components/GNB";
 import SNB from "./components/SNB";
 import Footer from "./components/Footer"
@@ -19,7 +19,9 @@ const App = () => {
         <GNB />
         <Main>
           <SNB />
-          <Questions />
+          <Routes>
+            <Route path="/" element={<Questions />} />
+          </Routes>
         </Main>
         <Footer />
       </BrowserRouter>
