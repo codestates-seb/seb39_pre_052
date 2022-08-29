@@ -26,7 +26,7 @@ const Side = styled.div`
 const Main = styled.div`
     display: flex;
     flex-direction: column;
-    width: 70vw;
+    width: 80vw;
 
     > * {
         overflow: hidden;
