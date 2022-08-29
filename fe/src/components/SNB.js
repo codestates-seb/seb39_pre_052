@@ -5,11 +5,12 @@ import { changeShow } from '../features/showSlice';
 import { useSelector } from 'react-redux';
 
 const Nav = styled.nav`
-    padding: 20px;
+    padding: 20px 0 0 30px;
     border-right: 1px solid darkgray;
-    flex-basis: 150px;
+    flex-basis: 200px;
     flex-shrink: 1;
     height: 90vh;
+    
 `
 
 const Menu = styled.div`
