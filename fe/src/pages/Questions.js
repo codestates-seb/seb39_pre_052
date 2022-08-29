@@ -4,7 +4,7 @@ import Question from '../components/Question';
 import Pagination from '../components/Pagination';
 
 const Container = styled.div`
-    flex-basis: 800px; 
+    flex-basis: 100vw; 
     flex-shrink: 6;
 `
 const List = styled.div`
