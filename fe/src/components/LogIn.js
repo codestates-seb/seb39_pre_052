@@ -10,7 +10,7 @@ const LogIn = () => {
   const handleSubmit = (event) => {
     event.preventDefault();
     let user = { email: email, password: password };
-    console.log(user);
+    // console.log(user);
 
     //email, password 빈칸으로 로그인하면 cannot be empty.
     if (email.length === 0) {
@@ -19,8 +19,30 @@ const LogIn = () => {
     if (password.length === 0) {
       setEmptyPasswordMsg("Password cannot be empty.");
     }
+
+    fetch("/login", {
+      method: "POST",
+      body: JSON.stringify(user),
+    })
+      // .then(() => console.log(user))
+      // .then((res) => console.log(res));
+      .then((res) => res.json())
+      .then((res) => {
+        console.log(res);
+        localStorage.setItem("access-token", res.token);
+      });
+    // .catch(() => console.log("error"));
+
+    // fetch("/login", {
+    //   method: "GET",
+    //   headers: {
+    //     "Content-Type": "application/json",
+    //     Authorization: localStorage.getItem("access-token"),
+    //   },
+    // }).then((res) => console.log(res));
   };
-  //데이터에 맞지않는 이메일, pw 입력시 not a valid email address
+  //데이터에 맞지않는 이메일, pw 입력시 The email or password is incorrect.
+  //not a valid email address
 
   return (
     <div className="login_wrapper">
