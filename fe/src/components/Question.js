@@ -15,7 +15,7 @@ const Block = styled.div`
 const Side = styled.div`
     display: flex;
     flex-direction: column;
-    width: 150px;
+    width: 15vw;
     align-items: flex-end;
     margin-right: 20px;
     > * {
@@ -26,7 +26,7 @@ const Side = styled.div`
 const Main = styled.div`
     display: flex;
     flex-direction: column;
-    width: 600px;
+    width: 70vw;
 
     > * {
         overflow: hidden;
