@@ -14,6 +14,7 @@ import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 
 import javax.persistence.EntityManager;
+import java.util.Objects;
 import java.util.Optional;
 
 @Service
@@ -28,20 +29,22 @@ public class QuestionService {
     public Question createQuestion(Question question, Long memberId) {
         Member findMember = memberService.findById(memberId);
         question.setQuestionMember(findMember);
+        System.out.println("question = " + question.getMember().getId());
         Question savedQuestion = questionRepository.save(question);
-        System.out.println("savedQuestion.getMember().getId() = " + savedQuestion.getMember().getId());
         return savedQuestion;
     }
 
     //2. 질문 수정
-    //수정할 때 로그인한 회원, 글 작성자 비교해서 같으면 수정할 수 있도록 로직 구현
     @Transactional
     public Question updateQuestion(Question question, Long memberId) {
         Question findQuestion = findQuestion(question);
+        //작성자 ID
+        Long writerId = findQuestion.getMember().getId();
 
-        System.out.println(question.getId());
-        System.out.println(question.getMember()); //null
-
+        //수정할 때 로그인한 회원, 글 작성자 비교해서 같으면 수정할 수 있도록 로직 구현
+        if(writerId != memberId) {
+            throw new RuntimeException("작성자가 아니면 수정할 수 없습니다!");
+        }
 
         Optional.ofNullable(question.getTitle())
                 .ifPresent(findQuestion::setTitle);

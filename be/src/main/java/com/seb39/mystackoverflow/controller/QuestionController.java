@@ -56,9 +56,8 @@ public class QuestionController {
             @Valid @RequestBody QuestionDto.Patch requestBody,
             @AuthenticationPrincipal PrincipalDetails principalDetails) {
         requestBody.setId(id);
-
+        //로그인된 회원 ID 값
         Long memberId = principalDetails.getMemberId();
-        System.out.println("memberId = " + memberId);
 
         Question updateQuestion = questionService.updateQuestion(questionMapper.questionPatchToQuestion(requestBody), memberId);
 
