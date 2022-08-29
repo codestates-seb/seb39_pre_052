@@ -4,6 +4,7 @@ import './index.css';
 import App from './App';
 import reportWebVitals from './reportWebVitals';
 
+// redux toolkit related
 import { Provider } from "react-redux";
 import store from "./store"
 
