@@ -38,7 +38,7 @@ public class QuestionService {
     @Transactional
     public Question updateQuestion(Question question, Long memberId) {
         Question findQuestion = findQuestion(question.getId());
-        verificationWriter(memberId, findQuestion);
+        verifyWriter(memberId, findQuestion);
 
         Optional.ofNullable(question.getTitle())
                 .ifPresent(findQuestion::setTitle);
@@ -55,7 +55,7 @@ public class QuestionService {
     @Transactional
     public void delete(long id, long memberId) {
         Question findQuestion = findQuestion(id);
-        verificationWriter(memberId, findQuestion);
+        verifyWriter(memberId, findQuestion);
 
 
         questionRepository.delete(findQuestion);
@@ -75,9 +75,9 @@ public class QuestionService {
         return findQuestion;
     }
 
-    public void verificationWriter(Long memberId, Question findQuestion) {
+    public void verifyWriter(Long memberId, Question question) {
         //작성자 ID
-        Long writerId = findQuestion.getMember().getId();
+        Long writerId = question.getMember().getId();
 
         //수정할 때 로그인한 회원, 글 작성자 비교해서 같으면 수정할 수 있도록 로직 구현
         if(writerId != memberId) {
