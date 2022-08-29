@@ -16,11 +16,11 @@ public class JwtUtils {
     @Value("${app.auth.jwt.expiration-time-millis}")
     private long expirationTimeMillis;
 
-    public String createJwtToken(String username) {
+    public String createJwtToken(String email) {
         return JWT.create()
                 .withSubject("login jwt token")
                 .withExpiresAt(getExpiredDate())
-                .withClaim("username", username)
+                .withClaim("email", email)
                 .sign(Algorithm.HMAC512(secret));
     }
 
@@ -28,11 +28,11 @@ public class JwtUtils {
         return new Date(System.currentTimeMillis() + expirationTimeMillis);
     }
 
-    public String decodeJwtTokenAndGetUsername(String jwtToken){
+    public String decodeJwtTokenAndGetEmail(String jwtToken){
         return JWT.require(Algorithm.HMAC512(secret))
                 .build()
                 .verify(jwtToken)
-                .getClaim("username")
+                .getClaim("email")
                 .asString();
     }
 }

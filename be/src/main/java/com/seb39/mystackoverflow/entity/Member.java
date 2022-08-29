@@ -23,16 +23,9 @@ public class Member extends BaseEntity{
     @Column(name = "member_id")
     private Long id;
 
-    private String username;
-
-    private String password;
-
-    private String name;
-
-    private String phone;
-
     private String email;
-
+    private String password;
+    private String name;
     private String roles;
 
     public List<String> getRoleList(){
@@ -52,12 +45,10 @@ public class Member extends BaseEntity{
 
 
     @Builder
-    public Member(String username, String password, String name, String phone, String email, String roles) {
-        this.username = username;
+    public Member(String email, String password, String name, String roles) {
+        this.email = email;
         this.password = password;
         this.name = name;
-        this.phone = phone;
-        this.email = email;
         this.roles = roles;
     }
 }

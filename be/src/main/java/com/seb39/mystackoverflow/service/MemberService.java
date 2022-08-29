@@ -23,20 +23,19 @@ public class MemberService {
                 .orElseThrow(() -> new IllegalArgumentException("Member not found. id = " + id));
     }
 
-    public Member findByUsername(String username){
-        Optional<Member> optionalMember = memberRepository.findByUsername(username);
+    public Member findByEmail(String email){
+        Optional<Member> optionalMember = memberRepository.findByEmail(email);
         return optionalMember
-                .orElseThrow(() -> new IllegalArgumentException("Member not found. username = " + username));
+                .orElseThrow(() -> new IllegalArgumentException("Member not found. email = " + email));
     }
 
-    public boolean exist(String username){
-        return memberRepository.existsByUsername(username);
+    public boolean exist(String email){
+        return memberRepository.existsByEmail(email);
     }
 
     @Transactional
     public Long signUp(Member member) {
-        verifyAlreadyExist(member);
-
+        verify(member);
         String rawPassword = member.getPassword();
         String encodedPassword = passwordEncoder.encode(rawPassword);
         member.setPassword(encodedPassword);
@@ -45,12 +44,8 @@ public class MemberService {
         return member.getId();
     }
 
-    private void verifyAlreadyExist(Member member){
-        if(memberRepository.existsByUsername(member.getUsername()))
-            throw new IllegalArgumentException("username " + member.getUsername() + " already exist.");
+    private void verify(Member member){
         if(memberRepository.existsByEmail(member.getEmail()))
             throw new IllegalArgumentException("email " + member.getEmail() + " already exist.");
-        if(memberRepository.existsByPhone(member.getPhone()))
-            throw new IllegalArgumentException("phone " + member.getPhone() + " already exist.");
     }
 }

@@ -24,12 +24,10 @@ class MemberServiceTest {
     @BeforeEach
     void beforeEach() {
         Member member = Member.builder()
-                .username("abcd1234")
+                .email("abcd@gmail.com")
                 .password("12345678")
-                .email("abcd@efgh.com")
                 .name("SJ")
                 .roles("ROLE_USER")
-                .phone("010-1234-5678")
                 .build();
 
         memberService.signUp(member);
@@ -38,51 +36,20 @@ class MemberServiceTest {
     @Test
     @DisplayName("회원가입 진행시 비밀번호를 암호화하여 저장한다.")
     void signUpTest() {
-        Member findMember = memberService.findByUsername("abcd1234");
-        assertThat(findMember.getUsername()).isEqualTo("abcd1234");
+        String email = "abcd@gmail.com";
+        Member findMember = memberService.findByEmail(email);
+        assertThat(findMember.getEmail()).isEqualTo(email);
         assertThat(findMember.getPassword()).isNotEqualTo("12345678");
     }
 
     @Test
-    @DisplayName("username 값은 유일해야 한다.")
+    @DisplayName("email 값은 유일해야 한다.")
     void existUsername() {
         Member newMember = Member.builder()
-                .username("abcd1234")
+                .email("abcd@gmail.com")
                 .password("12345678")
-                .email("newMember@efgh.com")
                 .name("SJ")
                 .roles("ROLE_USER")
-                .phone("010-1111-2222")
-                .build();
-        assertThatThrownBy(() -> memberService.signUp(newMember))
-                .isInstanceOf(IllegalArgumentException.class);
-    }
-
-    @Test
-    @DisplayName("email 값은 유일해야 한다.")
-    void existEmail() {
-        Member newMember = Member.builder()
-                .username("newMember")
-                .password("12345678")
-                .email("abcd@efgh.com")
-                .name("SJ")
-                .roles("ROLE_USER")
-                .phone("010-1111-2222")
-                .build();
-        assertThatThrownBy(() -> memberService.signUp(newMember))
-                .isInstanceOf(IllegalArgumentException.class);
-    }
-
-    @Test
-    @DisplayName("phone 값은 유일해야 한다.")
-    void existPhone() {
-        Member newMember = Member.builder()
-                .username("newMember")
-                .password("12345678")
-                .email("newMember@efgh.com")
-                .name("SJ")
-                .roles("ROLE_USER")
-                .phone("010-1234-5678")
                 .build();
         assertThatThrownBy(() -> memberService.signUp(newMember))
                 .isInstanceOf(IllegalArgumentException.class);
