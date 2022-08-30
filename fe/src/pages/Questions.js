@@ -6,6 +6,7 @@ import Pagination from '../components/Pagination';
 const Container = styled.div`
     flex-basis: 100vw; 
     flex-shrink: 6;
+    height: 90vh;
 `
 
 const Header = styled.div`
@@ -41,8 +42,8 @@ const Button = styled.button`
 `
 
 const List = styled.div`
-    max-height: 80vh;
     overflow-y: scroll;
+    max-height: 75vh;
 `
 
 const Questions = () => {
