@@ -1,4 +1,5 @@
 import { useState, useEffect } from 'react';
+import { Link } from 'react-router-dom'
 import styled from "styled-components";
 import Question from '../components/Question';
 import Pagination from '../components/Pagination';
@@ -69,7 +70,9 @@ const Questions = () => {
                     <div>{posts.length} questions</div>
                 </div>
                 <div>
-                    <Button>Ask Question</Button>
+                    <Link to="/questions/ask">
+                        <Button>Ask Question</Button>
+                    </Link>
                 </div>
             </Header>
             {/* The below is for TEST DATA, slicing data from client side*/}
