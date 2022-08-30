@@ -11,31 +11,44 @@ const Nav = styled.nav`
     flex-basis: 200px;
     flex-shrink: 1;
     height: 90vh;
-    
-    > * {
-        text-decoration: none;
-        color: #2b2b2b;
+    > div > * > * {
+        :link {
+            font-weight: bold;
+        }
     }
-    // Home
-    > *:nth-child(1) > div {
-        margin-bottom: 30px;
-        font-size: 20px;
+    > div:nth-of-type(1) {
+        > * {
+            text-decoration: none;
+            color: #2b2b2b;
+        }
+        // Home
+        > *:nth-child(1) > div:first-of-type {
+            margin-bottom: 30px;
+            font-size: 20px;
+        }
     }
-    //PUBLIC
-    > *:nth-child(2) > div {
-        margin-bottom: 10px;
-        font-size: 19px;
-        cursor: default;
-    }
-    //Questions
-    > *:nth-child(3) > div {
-        padding-left: 40px;
-        margin-bottom: 10px;
-    }
-    //Users
-    > *:nth-child(4) > div {
-        padding-left: 40px;
-        margin-bottom: 10px;
+    > div:nth-of-type(2) {
+        > * {
+            text-decoration: none;
+            color: #2b2b2b;
+        }
+        // PUBLIC
+        > *:nth-child(1) > div:first-of-type {
+            margin-bottom: 10px;
+            font-size: 19px;
+            cursor: default;
+            font-weight: normal;
+        }
+        //Questions
+        > *:nth-child(2) > div {
+            padding-left: 40px;
+            margin-bottom: 10px;
+        }
+        //Users
+        > *:nth-child(3) > div {
+            padding-left: 40px;
+            margin-bottom: 10px;
+        }
     }
 `
 
@@ -49,9 +62,9 @@ const SNB = () => {
     const menus = [
         { name: "Home", path: "/", submenus: [] },
         {
-            name: "PUBLIC", path: "", submenus: [
-                { name: "Questions", path: "" },
-                { name: "Users", path: "" }
+            name: "PUBLIC", path: "/not", submenus: [
+                { name: "Questions", path: "/set" },
+                { name: "Users", path: "/yet" }
             ]
         }
     ]
@@ -61,18 +74,18 @@ const SNB = () => {
         <Nav hidden={!show}> {/* the nav bar will be shown/hidden when GNB menu icon is clicked */}
             {menus.map((menu, idx) => {
                 return (
-                    <>
-                        <NavLink exact to={menu.path} key={idx} activeStyle={{fontweight: "bold"}}>
+                    <div key={idx}>
+                        <NavLink to={menu.path} style={({ isActive }) => ({ fontWeight: isActive ? 'bold' : null })}>
                             <div >{menu.name}</div>
                         </NavLink>
                         {menu.submenus.map((sub, index) => {
                             return (
-                                <NavLink to={sub.path} key={index} activeStyle={{fontweight: "bold"}} >
+                                <NavLink to={sub.path} key={index} style={({ isActive }) => ({ fontWeight: isActive ? 'bold' : null })}>
                                     <div>{sub.name}</div>
                                 </NavLink>
                             )
                         })}
-                    </>
+                    </ div>
                     
                 )
             })}
