@@ -123,10 +123,10 @@ class AnswerServiceTest {
         // when
         Answer findAnswer = answerService.findAnswer(answerId);
         findAnswer.setContent("감사합니다");
-        answerService.deleteAnswer(answer,member.getId());
+        answerService.deleteAnswer(answerId,member.getId());
 
         // then
-        assertThatThrownBy(()->answerService.findAnswer(findAnswer.getId()))
+        assertThatThrownBy(()->answerService.findAnswer(answerId))
                 .isInstanceOf(IllegalArgumentException.class);
     }
 
@@ -142,8 +142,7 @@ class AnswerServiceTest {
         Long answerId = answerService.createAnswer(answer, question.getId(), member.getId());
 
         // expected
-        Answer findAnswer = answerService.findAnswer(answerId);
-        assertThatThrownBy(()->answerService.deleteAnswer(findAnswer,otherMember.getId()))
+        assertThatThrownBy(()->answerService.deleteAnswer(answerId,otherMember.getId()))
                 .isInstanceOf(IllegalArgumentException.class);
     }
 }
