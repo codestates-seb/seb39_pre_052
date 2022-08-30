@@ -27,8 +27,19 @@ public class Comment extends BaseEntity {
     @JoinColumn(name = "question_id")
     private Question question;
 
+    /**
+     * 회원 연관관계
+     */
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "member_id")
+    private Member member;
+
     //==연관관계 메서드==
     public void setQuestionComment(Question question) {
         this.question = question;
+    }
+
+    public void setCommentMember(Member member) {
+        this.member = member;
     }
 }
