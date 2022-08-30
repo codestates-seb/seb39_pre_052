@@ -56,5 +56,12 @@ public class CommentController {
 
 
     //3. 댓글 삭제
-
+    @DeleteMapping("/{id}")
+    public ResponseEntity deleteComment(
+            @PathVariable("id") @Positive long id,
+            @AuthenticationPrincipal PrincipalDetails principalDetails) {
+        Long memberId = principalDetails.getMemberId();
+        commentService.deleteComment(id, memberId);
+        return new ResponseEntity(HttpStatus.NO_CONTENT);
+    }
 }
