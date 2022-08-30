@@ -11,6 +11,7 @@ import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.StringUtils;
 
 import javax.swing.text.html.Option;
+import java.util.List;
 import java.util.Optional;
 
 @Service
@@ -39,20 +40,20 @@ public class AnswerService {
 
     @Transactional
     public void updateAnswer(Answer answer, Long memberId) {
-        verifyWriter(memberId,answer);
+        verifyWriter(memberId,answer.getId());
         Answer findAnswer = findAnswer(answer.getId());
         Optional.ofNullable(answer.getContent())
                 .ifPresent(findAnswer::setContent);
     }
 
     @Transactional
-    public void deleteAnswer(Answer answer, Long memberId){
-        verifyWriter(memberId,answer);
-        answerRepository.deleteById(answer.getId());
+    public void deleteAnswer(Long answerId, Long memberId){
+        verifyWriter(memberId,answerId);
+        answerRepository.deleteById(answerId);
     }
 
-
-    private void verifyWriter(Long memberId, Answer answer) {
+    private void verifyWriter(Long memberId, Long answerId) {
+        Answer answer = findAnswer(answerId);
         Long writerId = answer.getMember().getId();
         if (!writerId.equals(memberId)) {
             String message = String.format("Member '%s' is not writer of answer '%s'", memberId, answer.getId());
