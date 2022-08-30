@@ -36,4 +36,21 @@ public class CommentDto {
             return question.getId();
         }
     }
+
+    @Getter
+    @AllArgsConstructor
+    public static class Patch {
+        public Patch() {
+        }
+
+        private long id;
+
+        @NotBlank(message = "수정할 댓글 내용은 공백이 아니어야 합니다.")
+        private String content;
+
+        public void setId(long id) {
+            this.id = id;
+        }
+
+    }
 }

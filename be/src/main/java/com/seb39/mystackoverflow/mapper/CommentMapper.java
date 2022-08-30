@@ -9,5 +9,7 @@ import org.mapstruct.ReportingPolicy;
 public interface CommentMapper {
     Comment commentPostToComment(CommentDto.Post requestBody);
 
+    Comment commentPatchToComment(CommentDto.Patch requestBody);
+
     CommentDto.Response commentToCommentResponse(Comment comment);
 }

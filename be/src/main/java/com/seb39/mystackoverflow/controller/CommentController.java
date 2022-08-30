@@ -39,6 +39,22 @@ public class CommentController {
     }
 
     //2. 댓글 수정
+    @PatchMapping("/{id}")
+    public ResponseEntity patchComment(
+            @PathVariable("id") @Positive long id,
+            @Valid @RequestBody CommentDto.Patch requestBody,
+            @AuthenticationPrincipal PrincipalDetails principalDetails) {
+        requestBody.setId(id);
+        Long memberId = principalDetails.getMemberId();
+
+        Comment updateComment = commentService.updateComment(commentMapper.commentPatchToComment(requestBody), memberId);
+
+        CommentDto.Response response = commentMapper.commentToCommentResponse(updateComment);
+
+        return new ResponseEntity(new SingleResponseDto<>(response), HttpStatus.OK);
+    }
+
 
     //3. 댓글 삭제
+
 }
