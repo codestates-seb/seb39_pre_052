@@ -2,19 +2,14 @@ package com.seb39.mystackoverflow.service;
 
 import com.seb39.mystackoverflow.entity.Member;
 import com.seb39.mystackoverflow.entity.Question;
-import com.seb39.mystackoverflow.repository.MemberRepository;
 import com.seb39.mystackoverflow.repository.QuestionRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Isolation;
-import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 
-import javax.persistence.EntityManager;
-import java.util.Objects;
 import java.util.Optional;
 
 @Service
@@ -79,8 +74,7 @@ public class QuestionService {
         //작성자 ID
         Long writerId = question.getMember().getId();
 
-        //수정할 때 로그인한 회원, 글 작성자 비교해서 같으면 수정할 수 있도록 로직 구현
-        if(writerId != memberId) {
+        if (writerId != memberId) {
             throw new RuntimeException("작성자가 아니면 수정 또는 삭제할 수 없습니다!");
         }
     }

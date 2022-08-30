@@ -4,7 +4,6 @@ import com.seb39.mystackoverflow.auth.PrincipalDetails;
 import com.seb39.mystackoverflow.dto.MultiResponseDto;
 import com.seb39.mystackoverflow.dto.QuestionDto;
 import com.seb39.mystackoverflow.dto.SingleResponseDto;
-import com.seb39.mystackoverflow.entity.Member;
 import com.seb39.mystackoverflow.entity.Question;
 import com.seb39.mystackoverflow.mapper.QuestionMapper;
 import com.seb39.mystackoverflow.service.QuestionService;
@@ -26,13 +25,10 @@ public class QuestionController {
 
     private final QuestionService questionService;
     private final QuestionMapper questionMapper;
-    //로그인한 회원 정보를 가져오기 위해 PrincipalDetails DI
-//    private final PrincipalDetails principalDetails;
 
     public QuestionController(QuestionService questionService, QuestionMapper questionMapper) {
         this.questionService = questionService;
         this.questionMapper = questionMapper;
-//        this.principalDetails = principalDetails;
     }
 
     //1. 질문 등록
