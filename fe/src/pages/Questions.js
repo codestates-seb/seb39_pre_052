@@ -17,18 +17,15 @@ const Header = styled.div`
     > div:first-of-type > div:first-of-type {
         font-size: 24px;
         font-weight: bold;
-        margin: 10px 0 10px 10px;
+        margin: 10px 0 10px 30px;
         
     }
     // n questions
     > div:first-of-type > div:nth-of-type(2)  {
-        margin: 0 0 10px 10px;
+        margin: 0 0 10px 30px;
     }
-    //Ask Question Button
-
-
 `
-
+//Ask Question Button
 const Button = styled.button`
     background-color: #0A95FF;
     border: none;
