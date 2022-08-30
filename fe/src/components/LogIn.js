@@ -6,6 +6,8 @@ const LogIn = () => {
   const [password, setPassword] = useState("");
   const [emptyEmailMsg, setEmptyEmailMsg] = useState("");
   const [emptyPasswordMsg, setEmptyPasswordMsg] = useState("");
+  const [incorrectMessage, setIncorrectMessage] = useState("");
+
   //Sign up 버튼 누르면 POST 요청하기
   const handleSubmit = (event) => {
     event.preventDefault();
@@ -24,12 +26,20 @@ const LogIn = () => {
       method: "POST",
       body: JSON.stringify(user),
     })
-      // .then(() => console.log(user))
-      // .then((res) => console.log(res));
-      .then((res) => res.json())
+      // .then((res) => console.log(res))
+      // .then((res) => res.json()) //SyntaxError: Unexpected end of JSON input
+      // .then((res) => console.log(res.status)) //200
       .then((res) => {
-        console.log(res);
-        localStorage.setItem("access-token", res.token);
+        if (res.status === 200) {
+          console.log(res.headers.get("authorization")); //Bearer eyJ0eXAi...
+          const token = res.headers.get("authorization");
+          localStorage.setItem("access-token", token); //로컬 스토리지에 저장
+        }
+        // else if (!res.ok)
+        else if (res.status === 401) {
+          console.log(res);
+          setIncorrectMessage("The email or password is incorrect.");
+        }
       });
     // .catch(() => console.log("error"));
 
@@ -59,7 +69,11 @@ const LogIn = () => {
               name="email"
               onChange={(e) => setEmail(e.target.value)}
             ></input>
-            {<p className="message error">{emptyEmailMsg}</p>}
+            {email.length === 0 ? (
+              <p className="message error">{emptyEmailMsg}</p>
+            ) : (
+              <p className="message error">{incorrectMessage}</p>
+            )}
           </div>
           <div>
             <label>Password</label>
