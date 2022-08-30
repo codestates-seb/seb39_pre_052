@@ -4,13 +4,13 @@ import GlobalStyle from "./GlobalStyle";
 import GNB from "./components/GNB";
 import SNB from "./components/SNB";
 import Footer from "./components/Footer"
-
+import Questions from './pages/Questions';
 
 const Main = styled.div`
   display: flex;
 `
 
-function App() {
+const App = () => {
   return (
     <>
       <GlobalStyle />
@@ -18,6 +18,9 @@ function App() {
         <GNB />
         <Main>
           <SNB />
+          <Routes>
+            <Route path="/" element={<Questions />} />
+          </Routes>
         </Main>
         <Footer />
       </BrowserRouter>
