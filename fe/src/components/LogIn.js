@@ -1,5 +1,6 @@
 import SocialLogIn from "./SocialLogIn";
 import { useState } from "react";
+import { useNavigate } from "react-router-dom";
 
 const LogIn = () => {
   const [email, setEmail] = useState("");
@@ -7,6 +8,9 @@ const LogIn = () => {
   const [emptyEmailMsg, setEmptyEmailMsg] = useState("");
   const [emptyPasswordMsg, setEmptyPasswordMsg] = useState("");
   const [incorrectMessage, setIncorrectMessage] = useState("");
+  const [isLoggedin, setIsLoggedin] = useState(false);
+
+  const navigate = useNavigate();
 
   //Sign up 버튼 누르면 POST 요청하기
   const handleSubmit = (event) => {
@@ -34,7 +38,10 @@ const LogIn = () => {
           console.log(res.headers.get("authorization")); //Bearer eyJ0eXAi...
           const token = res.headers.get("authorization");
           localStorage.setItem("access-token", token); //로컬 스토리지에 저장
+          setIsLoggedin(true);
+          navigate("/");
         }
+        //데이터에 맞지않는 이메일, pw 보낼때
         // else if (!res.ok)
         else if (res.status === 401) {
           console.log(res);
@@ -51,8 +58,6 @@ const LogIn = () => {
     //   },
     // }).then((res) => console.log(res));
   };
-  //데이터에 맞지않는 이메일, pw 입력시 The email or password is incorrect.
-  //not a valid email address
 
   return (
     <div className="login_wrapper">
