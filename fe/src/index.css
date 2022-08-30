@@ -1,5 +1,5 @@
 body {
-  margin: 10%;
+  margin: 0;
   font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "Roboto", "Oxygen",
     "Ubuntu", "Cantarell", "Fira Sans", "Droid Sans", "Helvetica Neue",
     sans-serif;
@@ -47,4 +47,16 @@ button.sign_up_btn {
 }
 button.log_in_btn {
   background-color: #0a95ff;
+}
+
+footer {
+  bottom: 0;
+  background-color: black;
+  color: white;
+  text-align: center;
+  padding: 20px;
+}
+
+ul {
+  list-style-type: none;
 }
