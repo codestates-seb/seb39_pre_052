@@ -6,10 +6,15 @@ import com.seb39.mystackoverflow.entity.Question;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Sort;
+import org.springframework.transaction.annotation.Transactional;
 
 import static org.junit.jupiter.api.Assertions.*;
 
 @SpringBootTest
+@Transactional
 class AnswerRepositoryTest {
 
     @Autowired AnswerRepository answerRepository;
@@ -30,9 +35,17 @@ class AnswerRepositoryTest {
         question.setQuestionMember(member);
         questionRepository.save(question);
 
-        Answer answer = new Answer();
+        for(int i=0;i<100;i++){
+            Answer answer = new Answer();
+            answer.setMember(member);
+            answer.setQuestion(question);
+            answer.setContent("Answer number " + i);
+            answerRepository.save(answer);
+        }
 
-
+        Page<Answer> pageInfo = answerRepository.findAllByMemberId(member.getId(), PageRequest.of(0, 30, Sort.by("lastModifiedAt").descending()));
+        System.out.println(pageInfo.getTotalElements());
+        pageInfo.getContent()
+                        .forEach(answer-> System.out.println(answer.getContent()));
     }
-
 }

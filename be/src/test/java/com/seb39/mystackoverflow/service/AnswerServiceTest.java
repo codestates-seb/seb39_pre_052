@@ -12,7 +12,10 @@ import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.data.domain.Page;
 import org.springframework.transaction.annotation.Transactional;
+
+import java.util.List;
 
 import static org.assertj.core.api.Assertions.*;
 import static org.junit.jupiter.api.Assertions.*;
@@ -144,5 +147,28 @@ class AnswerServiceTest {
         // expected
         assertThatThrownBy(()->answerService.deleteAnswer(answerId,otherMember.getId()))
                 .isInstanceOf(IllegalArgumentException.class);
+    }
+
+    @Test
+    @DisplayName("특정 사용자의 답변들을 조회한다")
+    void findAnswersTest(){
+        // given
+        Member member = memberRepository.findByEmail(myEmail).get();
+        Question question = questionRepository.findAll().get(0);
+
+        for(int i=0;i<40;i++){
+            Answer answer = new Answer();
+            answer.setContent("answer "+i);
+            answerService.createAnswer(answer,question.getId(),member.getId());
+        }
+
+        // when
+        Page<Answer> result = answerService.findAnswers(member.getId(), 0);
+        List<Answer> answers = result.getContent();
+
+        // then
+        assertThat(result.getTotalElements()).isEqualTo(40);
+        assertThat(result.getTotalPages()).isEqualTo(2);
+        assertThat(answers.size()).isEqualTo(30);
     }
 }

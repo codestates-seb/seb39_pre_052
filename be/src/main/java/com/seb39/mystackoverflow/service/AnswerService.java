@@ -6,6 +6,9 @@ import com.seb39.mystackoverflow.entity.Question;
 import com.seb39.mystackoverflow.repository.AnswerRepository;
 import com.seb39.mystackoverflow.repository.MemberRepository;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.StringUtils;
@@ -28,6 +31,12 @@ public class AnswerService {
                 .orElseThrow(() -> new IllegalArgumentException("Answer not exist. id = " + answerId));
     }
 
+    public Page<Answer> findAnswers(Long memberId, int page) {
+        return answerRepository.findAllByMemberId(
+                memberId,
+                PageRequest.of(page, 30, Sort.by("lastModifiedAt").descending()));
+    }
+
     @Transactional
     public Long createAnswer(Answer answer, Long questionId, Long memberId) {
         Question question = questionService.findQuestion(questionId);
@@ -40,15 +49,15 @@ public class AnswerService {
 
     @Transactional
     public void updateAnswer(Answer answer, Long memberId) {
-        verifyWriter(memberId,answer.getId());
+        verifyWriter(memberId, answer.getId());
         Answer findAnswer = findAnswer(answer.getId());
         Optional.ofNullable(answer.getContent())
                 .ifPresent(findAnswer::setContent);
     }
 
     @Transactional
-    public void deleteAnswer(Long answerId, Long memberId){
-        verifyWriter(memberId,answerId);
+    public void deleteAnswer(Long answerId, Long memberId) {
+        verifyWriter(memberId, answerId);
         answerRepository.deleteById(answerId);
     }
 
