@@ -1,6 +1,102 @@
-import SocialSignUp from "./SocialSignUp";
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
+import styled from "styled-components";
+
+const SignUpWrapper = styled.div`
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  width: 100vw;
+  height: 100vh;
+  background-color: #f1f2f3;
+  overflow: scroll;
+
+  > div:first-of-type {
+    flex-basis: 10%;
+    width: 422px;
+    height: 55px;
+    font-size: 21px;
+    text-align: center;
+    margin-top: 10px;
+  }
+  > section.social_buttons {
+    flex-basis: 20%;
+
+    > div {
+      display: flex;
+      flex-direction: column;
+    }
+
+    > div > button {
+      width: 316px;
+      height: 38px;
+      margin: 4px;
+      cursor: pointer;
+    }
+  }
+
+  > section.form_container {
+    flex-basis: 70%;
+    margin: 20px 52px 24px 52px;
+    width: 316px;
+    height: 660px;
+    padding: 24px;
+    border-radius: 10px;
+    background-color: white;
+    box-shadow: rgba(100, 100, 111, 0.2) 0px 7px 29px 0px;
+
+    > form {
+      display: flex;
+      flex-direction: column;
+    }
+
+    > form > div {
+      /* flex-basis: 70%; */
+      width: 268px;
+      height: 100px;
+      margin: 6px 0;
+      display: flex;
+      flex-direction: column;
+
+      > label {
+        flex-basis: 33%;
+        width: 268px;
+        height: 35px;
+        margin: 2px 0;
+      }
+
+      > input {
+        flex-basis: 33%;
+        width: 268px;
+        height: 34px;
+      }
+      > p {
+        flex-basis: 33%;
+        font-size: 12px;
+        width: 268px;
+        height: 60px;
+        padding: 2px;
+      }
+    }
+
+    > form > button.sign_up_btn {
+      /* flex-basis: 30%; */
+      width: 268px;
+      height: 38px;
+      background-color: #0a95ff;
+      border: none;
+      border-radius: 5px;
+      font-size: 16px;
+      color: white;
+      cursor: pointer;
+
+      :hover {
+        background-color: #0074cc;
+      }
+    }
+  }
+`;
 
 const SignUp = () => {
   const [name, setName] = useState("");
@@ -18,9 +114,6 @@ const SignUp = () => {
   //오류메시지 상태저장
   const [emailMessage, setEmailMessage] = useState("");
   const [passwordMessage, setPasswordMessage] = useState("");
-
-  //이미 존재하는 이메일에 띄울 메시지
-  const [incorrectMessage, setIncorrectMessage] = useState("");
 
   const navigate = useNavigate();
 
@@ -48,11 +141,11 @@ const SignUp = () => {
       .then((res) => {
         //이미 존재하는 이메일로 회원가입 실패시
         if (!res.ok) {
-          setIncorrectMessage("The email already exists");
+          // setIncorrectMessage("The email already exists");
+          setPasswordMessage("The email already exists");
         }
         //회원가입 성공시
         else if (res.ok) {
-          setIncorrectMessage("");
           navigate("/login");
         }
         return res.json();
@@ -95,9 +188,18 @@ const SignUp = () => {
   };
 
   return (
-    <div className="signup_wrapper">
+    <SignUpWrapper className="signup_wrapper">
+      <div>
+        Create your Stack Overflow account. It’s free and only takes a minute.
+      </div>
       {/* 소셜 회원 가입 */}
-      <SocialSignUp></SocialSignUp>
+      <section className="social_buttons">
+        <div>
+          <button>Sign up with Google</button>
+          <button>Sign up with Github</button>
+          <button>Sign up with Facebook</button>
+        </div>
+      </section>
 
       {/* 일반 회원 가입 */}
       <section className="form_container">
@@ -143,16 +245,12 @@ const SignUp = () => {
                 {passwordMessage}
               </p>
             )}
-            {incorrectMessage ? (
-              <p className="message error">{incorrectMessage}</p>
-            ) : (
-              <p></p>
-            )}
+            {/* <p className="message error">{incorrectMessage}</p> */}
           </div>
           <button className="sign_up_btn">Sign up</button>
         </form>
       </section>
-    </div>
+    </SignUpWrapper>
   );
 };
 
