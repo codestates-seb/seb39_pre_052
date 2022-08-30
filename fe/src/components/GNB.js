@@ -1,4 +1,5 @@
 import styled from "styled-components";
+import { useState } from "react";
 import { faBars, faXmark } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { Link } from 'react-router-dom'
@@ -49,18 +50,18 @@ const Nav = styled.nav`
             color: #000;
         }
     }
-    // search bar
-    > div:nth-of-type(2) {
-        > input {
-            border: none;
-            width: 50vw;
-            height: 36px;
-            padding: 5px;
-        }
-        border: 1px solid black;
-        width: 50vw;
-        margin-right: 10px;
+`
+
+const Search = styled.div`
+    > input {
+        border: none;
+        width: ${props => props.width || "50vw"};
+        height: 36px;
+        padding: 5px;
     }
+    border: 1px solid black;
+    width: ${props => props.width || "50vw"};
+    margin-right: 10px;
 `
 
 const Button = styled.button`
@@ -79,7 +80,22 @@ const Button = styled.button`
     }
 `
 
+const Profile = styled.div`
+    height: 38px;
+    width: 38px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-right: 10px;
+    > img {
+        width: 2em;
+    }
+
+`
+
 const GNB = () => {
+
+    const [isLoggedIn, setIsLoggedIn] = useState(true);
 
     // to set the state of data in redux store(slice)
     const dispatch = useDispatch();
@@ -95,17 +111,37 @@ const GNB = () => {
             </div>
             <Link to="/"><img src="https://upload.wikimedia.org/wikipedia/commons/thumb/0/02/Stack_Overflow_logo.svg/2560px-Stack_Overflow_logo.svg.png" alt="logo"/></Link>
             <ul>
-                {/* only when Logged out*/}
-                <a href="https://stackoverflow.co/"><li>About</li></a>
-                <li>Products</li>
-                {/* only when Logged out*/}
-                <a href="https://stackoverflow.co/teams/"><li>For Teams</li></a>
+                {isLoggedIn
+                    ? <>
+                        <li>Products</li>
+                    </>
+                    : <>
+                        <a href="https://stackoverflow.co/"><li>About</li></a>
+                        <li>Products</li>
+                        <a href="https://stackoverflow.co/teams/"><li>For Teams</li></a>
+                    </>
+                }
             </ul>
-            <div>
-                <input placeholder="Search..."></input>
-            </div>
-            <Link to="/"><Button color="#d1ebff" border="1px solid #0074CC" text="#0074CC" hover="#9bd1f7">Log in</Button></Link>
-            <Link to="/"><Button color="#0A95FF">Sign up</Button></Link>
+            {isLoggedIn
+                ?
+                <Search width="61vw">
+                    <input placeholder="Search..."></input>
+                </Search>
+                :
+                <Search>
+                    <input placeholder="Search..."></input>
+                </Search>
+            }
+            {isLoggedIn
+                ? <>
+                    <Link to="/"><Profile><img src="https://www.gravatar.com/avatar/edaeaf608980ecad3a299402122bd909?s=256&d=identicon&r=PG" alt="profile" /></Profile></Link>
+                    <Link to="/"><Button color="#d1ebff" border="1px solid #0074CC" text="#0074CC" hover="#9bd1f7" onClick={()=>{setIsLoggedIn(false)}}>Log out</Button></Link>
+                </>
+                : <>
+                    <Link to="/"><Button color="#d1ebff" border="1px solid #0074CC" text="#0074CC" hover="#9bd1f7" onClick={()=>{setIsLoggedIn(true)}}>Log in</Button></Link>
+                    <Link to="/"><Button color="#0A95FF">Sign up</Button></Link>
+                </>
+            }
         </Nav>
     )
 };
