@@ -1,13 +1,62 @@
 body {
   margin: 0;
-  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
-    'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue',
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "Roboto", "Oxygen",
+    "Ubuntu", "Cantarell", "Fira Sans", "Droid Sans", "Helvetica Neue",
     sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
 }
 
 code {
-  font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
+  font-family: source-code-pro, Menlo, Monaco, Consolas, "Courier New",
     monospace;
+}
+
+.signup_wrapper {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+
+.login_wrapper {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+
+.social_buttons {
+  display: flex;
+  flex-direction: column;
+}
+
+.form_container {
+  width: 300px;
+  padding: 8px;
+  border-radius: 10px;
+  box-shadow: rgba(100, 100, 111, 0.2) 0px 7px 29px 0px;
+}
+
+p.message.error {
+  color: red;
+}
+
+button.sign_up_btn {
+  background-color: #0a95ff;
+}
+button.log_in_btn {
+  background-color: #0a95ff;
+}
+
+footer {
+  bottom: 0;
+  background-color: black;
+  color: white;
+  text-align: center;
+  padding: 20px;
+}
+
+ul {
+  list-style-type: none;
 }
