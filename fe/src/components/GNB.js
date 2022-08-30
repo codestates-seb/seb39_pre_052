@@ -138,8 +138,8 @@ const GNB = () => {
                     <Link to="/"><Button color="#d1ebff" border="1px solid #0074CC" text="#0074CC" hover="#9bd1f7" onClick={()=>{setIsLoggedIn(false)}}>Log out</Button></Link>
                 </>
                 : <>
-                    <Link to="/"><Button color="#d1ebff" border="1px solid #0074CC" text="#0074CC" hover="#9bd1f7" onClick={()=>{setIsLoggedIn(true)}}>Log in</Button></Link>
-                    <Link to="/"><Button color="#0A95FF">Sign up</Button></Link>
+                    <Link to="/login"><Button color="#d1ebff" border="1px solid #0074CC" text="#0074CC" hover="#9bd1f7" >Log in</Button></Link>
+                    <Link to="/signup"><Button color="#0A95FF">Sign up</Button></Link>
                 </>
             }
         </Nav>
