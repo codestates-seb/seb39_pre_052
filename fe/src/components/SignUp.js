@@ -1,5 +1,6 @@
 import SocialSignUp from "./SocialSignUp";
 import { useState } from "react";
+import { useNavigate } from "react-router-dom";
 
 const SignUp = () => {
   const [name, setName] = useState("");
@@ -17,6 +18,11 @@ const SignUp = () => {
   //오류메시지 상태저장
   const [emailMessage, setEmailMessage] = useState("");
   const [passwordMessage, setPasswordMessage] = useState("");
+
+  //이미 존재하는 이메일에 띄울 메시지
+  const [incorrectMessage, setIncorrectMessage] = useState("");
+
+  const navigate = useNavigate();
 
   //Sign up 버튼 누르면 POST 요청하기
   const handleSubmit = (event) => {
@@ -38,7 +44,19 @@ const SignUp = () => {
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify(newUser),
     })
-      .then((res) => res.json())
+      // .then((res) => res.json())
+      .then((res) => {
+        //이미 존재하는 이메일로 회원가입 실패시
+        if (!res.ok) {
+          setIncorrectMessage("The email already exists");
+        }
+        //회원가입 성공시
+        else if (res.ok) {
+          setIncorrectMessage("");
+          navigate("/login");
+        }
+        return res.json();
+      })
       .then((res) => console.log(res)) //{failureReason: '', success: true}
       .catch(() => console.log("error"));
   };
@@ -124,6 +142,11 @@ const SignUp = () => {
               <p className={`message ${isPassword ? "success" : "error"}`}>
                 {passwordMessage}
               </p>
+            )}
+            {incorrectMessage ? (
+              <p className="message error">{incorrectMessage}</p>
+            ) : (
+              <p></p>
             )}
           </div>
           <button className="sign_up_btn">Sign up</button>
