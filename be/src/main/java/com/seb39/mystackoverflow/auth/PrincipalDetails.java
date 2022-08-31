@@ -11,8 +11,7 @@ import org.springframework.stereotype.Component;
 import java.util.ArrayList;
 import java.util.Collection;
 
-//Question에서 member 객체를 가져오기 위해 수정
-@Getter
+
 public class PrincipalDetails implements UserDetails {
 
     private final Member member;
