@@ -42,3 +42,5 @@ out/
 
 ### my ####
 application.yml
+application-local.yml
+application-production.yml

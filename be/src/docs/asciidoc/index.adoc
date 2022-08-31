@@ -1,0 +1,46 @@
+= My Stackoverflow API Docs
+:sectnums:
+:toc: left
+:toclevels: 4
+:toc-title: 목차
+:source-highlighter: prettify
+
+***
+== 사용자 관련 API
+=== Login
+***
+
+ 로그인을 위한 API 입니다.
+
+.http-request
+include::{snippets}/login-success/http-request.adoc[]
+
+.request-fields
+include::{snippets}/login-success/request-fields.adoc[]
+
+.http-response (성공)
+include::{snippets}/login-success/http-response.adoc[]
+
+.response-headers (성공)
+include::{snippets}/login-success/response-headers.adoc[]
+
+.http-response (실패)
+include::{snippets}/login-fail/http-response.adoc[]
+
+.response-fields (실패)
+include::{snippets}/login-fail/response-fields.adoc[]
+
+=== 회원가입 API
+***
+
+.http-request
+include::{snippets}/signup-success/http-request.adoc[]
+
+.request-fields
+include::{snippets}/signup-success/request-fields.adoc[]
+
+.http-response
+include::{snippets}/signup-success/http-response.adoc[]
+
+.response-fields
+include::{snippets}/signup-success/response-fields.adoc[]
