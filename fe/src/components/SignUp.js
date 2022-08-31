@@ -8,9 +8,9 @@ const SignUpWrapper = styled.div`
   justify-content: center;
   align-items: center;
   width: 100vw;
-  height: 100vh;
+  max-height: 100vh;
   background-color: #f1f2f3;
-  overflow: scroll;
+  /* overflow-y: scroll; */
 
   > div:first-of-type {
     flex-basis: 10%;
@@ -18,21 +18,48 @@ const SignUpWrapper = styled.div`
     height: 55px;
     font-size: 21px;
     text-align: center;
-    margin-top: 10px;
+    margin-top: 20px;
   }
+
   > section.social_buttons {
     flex-basis: 20%;
 
     > div {
       display: flex;
       flex-direction: column;
+      justify-content: center;
+      width: 316px;
+      height: 138px;
     }
 
     > div > button {
-      width: 316px;
+      /* width: 316px; */
       height: 38px;
       margin: 4px;
+      border: 1px;
+      border-radius: 5px;
       cursor: pointer;
+
+      :first-of-type {
+        background-color: white;
+        :hover {
+          background-color: #f8f9f9;
+        }
+      }
+      :nth-of-type(2) {
+        background-color: #232628;
+        color: white;
+        :hover {
+          background-color: black;
+        }
+      }
+      :nth-of-type(3) {
+        background-color: #3a5796;
+        color: white;
+        :hover {
+          background-color: #304a86;
+        }
+      }
     }
   }
 
@@ -49,39 +76,51 @@ const SignUpWrapper = styled.div`
     > form {
       display: flex;
       flex-direction: column;
+      width: 268px;
+      height: 660px;
     }
 
     > form > div {
-      /* flex-basis: 70%; */
+      /* flex-grow: 70%; */
+      /* flex: 0 1 auto; */
       width: 268px;
-      height: 100px;
+      height: 80px;
       margin: 6px 0;
       display: flex;
       flex-direction: column;
 
+      /* :last-of-type {
+        height: 100px;
+      } */
+
       > label {
-        flex-basis: 33%;
-        width: 268px;
-        height: 35px;
+        flex-basis: 25%;
+        /* width: 268px;
+        height: 35px; */
         margin: 2px 0;
+        font-size: 14px;
       }
 
       > input {
-        flex-basis: 33%;
-        width: 268px;
-        height: 34px;
+        flex-basis: 45%;
+        /* width: 268px;
+        height: 35px; */
       }
       > p {
-        flex-basis: 33%;
+        flex-basis: 30%;
         font-size: 12px;
-        width: 268px;
-        height: 60px;
+        /* width: 268px;
+        height: 60px; */
+        height: fit-content;
         padding: 2px;
       }
     }
 
     > form > button.sign_up_btn {
-      /* flex-basis: 30%; */
+      /* flex-grow: 30%; */
+      /* flex: 0 1 auto; */
+      position: relative;
+      top: 20%;
       width: 268px;
       height: 38px;
       background-color: #0a95ff;
@@ -229,7 +268,6 @@ const SignUp = () => {
                 {emailMessage}
               </p>
             )}
-            {/* 아무것도 안쓰면 Email cannot be empty. 는 어떻게 추가? */}
           </div>
           <div>
             <label>Password</label>
@@ -241,9 +279,8 @@ const SignUp = () => {
             {password.length === 0 ? (
               <p className="message error">{emptyPasswordMsg}</p>
             ) : (
-              <p className={`message ${isPassword ? "success" : "error"}`}>
-                {passwordMessage}
-              </p>
+              // <p className={`message ${isPassword ? "success" : "error"}`}>
+              <p className={`message error`}>{passwordMessage}</p>
             )}
             {/* <p className="message error">{incorrectMessage}</p> */}
           </div>
