@@ -62,9 +62,9 @@ const SNB = () => {
     const menus = [
         { name: "Home", path: "/", submenus: [] },
         {
-            name: "PUBLIC", path: "/not", submenus: [
-                { name: "Questions", path: "/set" },
-                { name: "Users", path: "/yet" }
+            name: "PUBLIC", path: "/", submenus: [
+                { name: "Questions", path: "/questions" },
+                { name: "Users", path: "/users" }
             ]
         }
     ]
