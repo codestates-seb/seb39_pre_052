@@ -4,12 +4,12 @@ import com.seb39.mystackoverflow.auth.PrincipalDetails;
 import com.seb39.mystackoverflow.dto.MultiResponseDto;
 import com.seb39.mystackoverflow.dto.QuestionDto;
 import com.seb39.mystackoverflow.dto.SingleResponseDto;
-import com.seb39.mystackoverflow.entity.Member;
 import com.seb39.mystackoverflow.entity.Question;
 import com.seb39.mystackoverflow.mapper.QuestionMapper;
 import com.seb39.mystackoverflow.service.QuestionService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.domain.Page;
+import org.springframework.data.web.PageableDefault;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
@@ -26,13 +26,10 @@ public class QuestionController {
 
     private final QuestionService questionService;
     private final QuestionMapper questionMapper;
-    //로그인한 회원 정보를 가져오기 위해 PrincipalDetails DI
-//    private final PrincipalDetails principalDetails;
 
     public QuestionController(QuestionService questionService, QuestionMapper questionMapper) {
         this.questionService = questionService;
         this.questionMapper = questionMapper;
-//        this.principalDetails = principalDetails;
     }
 
     //1. 질문 등록
@@ -43,6 +40,7 @@ public class QuestionController {
         Question question = questionMapper.questionPostToQuestion(requestBody);
         Long memberId = principalDetails.getMemberId();
         Question createdQuestion = questionService.createQuestion(question, memberId);
+
 
         QuestionDto.response response = questionMapper.questionToQuestionResponse(createdQuestion);
 

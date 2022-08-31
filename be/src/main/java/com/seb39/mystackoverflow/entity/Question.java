@@ -36,8 +36,9 @@ public class Question extends BaseEntity{
     /**
      * 회원 연관관계
      */
-    @JsonBackReference(value = "member_id")
-    @ManyToOne(fetch = FetchType.LAZY)
+//    @JsonIgnore
+//    @ManyToOne(fetch = FetchType.LAZY)
+    @ManyToOne(fetch = FetchType.EAGER) //fetch 타입을 EAGER로 변환하면 question과 관련된 member 정보를 모두 response 할 수 있음
     @JoinColumn(name = "member_id")
     private Member member;
 

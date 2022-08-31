@@ -24,6 +24,7 @@ public class Member extends BaseEntity{
     private Long id;
 
     private String email;
+    @JsonIgnore
     private String password;
     private String name;
     private String roles;

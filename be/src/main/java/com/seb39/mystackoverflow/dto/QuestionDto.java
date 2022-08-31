@@ -2,12 +2,13 @@ package com.seb39.mystackoverflow.dto;
 
 import com.seb39.mystackoverflow.entity.BaseEntity;
 import com.seb39.mystackoverflow.entity.Member;
-import lombok.AllArgsConstructor;
-import lombok.Getter;
-import lombok.Setter;
+import com.seb39.mystackoverflow.entity.Question;
+import lombok.*;
 
 import javax.validation.constraints.NotBlank;
 import java.time.LocalDateTime;
+import java.util.List;
+import java.util.Optional;
 
 public class QuestionDto {
 
@@ -47,6 +48,7 @@ public class QuestionDto {
         }
     }
 
+
     @Getter
     @AllArgsConstructor
     public static class response{
@@ -59,9 +61,9 @@ public class QuestionDto {
         private LocalDateTime lastModifiedAt;
         private Member member;
 
-        public Long getMember() {
-            return member.getId();
-        }
+        //        public Long getMember() {
+//            return member.getId();
+//        }
     }
 
 }
