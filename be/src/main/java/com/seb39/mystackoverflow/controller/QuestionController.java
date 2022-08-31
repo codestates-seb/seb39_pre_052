@@ -42,7 +42,7 @@ public class QuestionController {
         Question createdQuestion = questionService.createQuestion(question, memberId);
 
 
-        QuestionDto.response response = questionMapper.questionToQuestionResponse(createdQuestion);
+        QuestionDto.Response response = questionMapper.questionToQuestionResponse(createdQuestion);
 
         return new ResponseEntity<>(new SingleResponseDto<>(response), HttpStatus.CREATED);
     }
@@ -59,7 +59,7 @@ public class QuestionController {
 
         Question updateQuestion = questionService.updateQuestion(questionMapper.questionPatchToQuestion(requestBody), memberId);
 
-        QuestionDto.response response = questionMapper.questionToQuestionResponse(updateQuestion);
+        QuestionDto.Response response = questionMapper.questionToQuestionResponse(updateQuestion);
 
 
         return new ResponseEntity(response, HttpStatus.OK);

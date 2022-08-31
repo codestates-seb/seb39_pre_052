@@ -9,7 +9,7 @@ import org.springframework.stereotype.Component;
 
 @Generated(
     value = "org.mapstruct.ap.MappingProcessor",
-    date = "2022-08-30T18:15:53+0900",
+    date = "2022-08-31T15:19:32+0900",
     comments = "version: 1.5.2.Final, compiler: javac, environment: Java 11.0.13 (Oracle Corporation)"
 )
 @Component
@@ -45,7 +45,7 @@ public class QuestionMapperImpl implements QuestionMapper {
     }
 
     @Override
-    public QuestionDto.response questionToQuestionResponse(Question question) {
+    public QuestionDto.Response questionToQuestionResponse(Question question) {
         if ( question == null ) {
             return null;
         }
@@ -68,7 +68,7 @@ public class QuestionMapperImpl implements QuestionMapper {
         lastModifiedAt = question.getLastModifiedAt();
         member = question.getMember();
 
-        QuestionDto.response response = new QuestionDto.response( id, title, content, view, vote, createdAt, lastModifiedAt, member );
+        QuestionDto.Response response = new QuestionDto.Response( id, title, content, view, vote, createdAt, lastModifiedAt, member );
 
         return response;
     }
