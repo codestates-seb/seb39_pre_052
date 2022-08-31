@@ -46,49 +46,47 @@ class MemberControllerTest {
     @MockBean
     AnswerService answerService;
 
-    @Test
-    @DisplayName("특정 사용자의 답변 리스트를 조회한다.")
-    void getAnswersTest() throws Exception {
-        // given
-        Question question1 = new Question();
-        question1.setTitle("Question 01");
-        question1.setId(1L);
-
-        Question question2 = new Question();
-        question2.setTitle("Question 02");
-        question2.setId(2L);
-
-        List<Answer> content = new ArrayList<>();
-        for (int i = 0; i < 4; i++) {
-            Answer answer = new Answer();
-            answer.setContent("answer " + i);
-            if (i % 2 == 0)
-                answer.setQuestion(question1);
-            else
-                answer.setQuestion(question2);
-            content.add(answer);
-        }
-        Page<Answer> result = new PageImpl<>(content);
-
-        BDDMockito.given(answerService.findAnswers(1L, 0))
-                .willReturn(result);
-
-        // expected
-        mockMvc.perform(get("/{memberId}/answers", 1)
-                        .accept(MediaType.APPLICATION_JSON))
-                .andExpect(status().isOk())
-                .andDo(document("answer-list",
-                        pathParameters(
-                                parameterWithName("memberId").description("조회할 답변 리스트를 작성한 사용자의 ID")
-                        ),
-                        responseFields(
-                                List.of(
-                                        fieldWithPath("data").type(JsonFieldType.BOOLEAN).description("조회된 답변 리스트")
-                                )
-                        )
-                ));
-
-    }
-
+//    @Test
+//    @DisplayName("특정 사용자의 답변 리스트를 조회한다.")
+//    void getAnswersTest() throws Exception {
+//        // given
+//        Question question1 = new Question();
+//        question1.setTitle("Question 01");
+//        question1.setId(1L);
+//
+//        Question question2 = new Question();
+//        question2.setTitle("Question 02");
+//        question2.setId(2L);
+//
+//        List<Answer> content = new ArrayList<>();
+//        for (int i = 0; i < 4; i++) {
+//            Answer answer = new Answer();
+//            answer.setContent("answer " + i);
+//            if (i % 2 == 0)
+//                answer.setQuestion(question1);
+//            else
+//                answer.setQuestion(question2);
+//            content.add(answer);
+//        }
+//        Page<Answer> result = new PageImpl<>(content);
+//
+//        BDDMockito.given(answerService.findAnswers(1L, 0))
+//                .willReturn(result);
+//
+//        // expected
+//        mockMvc.perform(get("/{memberId}/answers", 1)
+//                        .accept(MediaType.APPLICATION_JSON))
+//                .andExpect(status().isOk())
+//                .andDo(document("answer-list",
+//                        pathParameters(
+//                                parameterWithName("memberId").description("조회할 답변 리스트를 작성한 사용자의 ID")
+//                        ),
+//                        responseFields(
+//                                List.of(
+//                                        fieldWithPath("data").type(JsonFieldType.BOOLEAN).description("조회된 답변 리스트")
+//                                )
+//                        )
+//                ));
+//    }
 
 }
