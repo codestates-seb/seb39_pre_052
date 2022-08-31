@@ -451,6 +451,11 @@ body.book #toc,body.book #preamble,body.book h1.sect0,body.book .sect1>h2{page-b
 <li><a href="#_회원가입_api">1.2. 회원가입 API</a></li>
 </ul>
 </li>
+<li><a href="#_답변_관련">2. 답변 관련</a>
+<ul class="sectlevel2">
+<li><a href="#_답변_생성">2.1. 답변 생성</a></li>
+</ul>
+</li>
 </ul>
 </div>
 </div>
@@ -513,7 +518,7 @@ Host: api.mystackoverflow.com:8080
 <div class="title">http-response (성공)</div>
 <div class="content">
 <pre class="prettyprint highlight nowrap"><code data-lang="http">HTTP/1.1 200 OK
-Authorization: Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJsb2dpbiBqd3QgdG9rZW4iLCJleHAiOjE2NjE5MTU1OTgsImVtYWlsIjoiYWJjZEBnbWFpbC5jb20ifQ.1uLe5ZdkhZoGrY-goYpSgYICywCCzStaOd7EmXZ3yebwBCrBFKNiqm0uYvGJMr06dSQt2O8G_lhieQ-qp27ezg
+Authorization: Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJsb2dpbiBqd3QgdG9rZW4iLCJleHAiOjE2NjE5MjE2OTMsImVtYWlsIjoiYWJjZEBnbWFpbC5jb20ifQ.5sKZny80i5f_BI7E6ZHTJNnz3CBd9MUzJosvXyIhl211WbdGwjOJ5_vZKPaN5YA3eXQKKq40JAs8IqoaBN7mcQ
 X-Content-Type-Options: nosniff
 X-XSS-Protection: 1; mode=block
 Cache-Control: no-cache, no-store, max-age=0, must-revalidate
@@ -585,6 +590,11 @@ Content-Length: 64
 <div class="sect2">
 <h3 id="_회원가입_api">1.2. 회원가입 API</h3>
 <hr>
+<div class="literalblock">
+<div class="content">
+<pre>회원가입을 위한 API 입니다.</pre>
+</div>
+</div>
 <div class="listingblock">
 <div class="title">http-request</div>
 <div class="content">
@@ -666,6 +676,79 @@ Content-Length: 35
 </tr>
 </tbody>
 </table>
+<hr>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_답변_관련">2. 답변 관련</h2>
+<div class="sectionbody">
+<div class="sect2">
+<h3 id="_답변_생성">2.1. 답변 생성</h3>
+<div class="literalblock">
+<div class="content">
+<pre>답변 생성을 위한 API 입니다.</pre>
+</div>
+</div>
+<div class="listingblock">
+<div class="title">http-request</div>
+<div class="content">
+<pre class="prettyprint highlight nowrap"><code data-lang="http">POST /api/answers?question-id=1 HTTP/1.1
+Content-Type: application/json
+Content-Length: 27
+Host: api.mystackoverflow.com:8080
+
+{"content":"Create Answer"}</code></pre>
+</div>
+</div>
+<table class="tableblock frame-all grid-all stretch">
+<caption class="title">Table 6. request-parameters</caption>
+<colgroup>
+<col style="width: 50%;">
+<col style="width: 50%;">
+</colgroup>
+<thead>
+<tr>
+<th class="tableblock halign-left valign-top">Parameter</th>
+<th class="tableblock halign-left valign-top">Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>question-id</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">작성한 답변의 질문 ID</p></td>
+</tr>
+</tbody>
+</table>
+<table class="tableblock frame-all grid-all stretch">
+<caption class="title">Table 7. request-fields</caption>
+<colgroup>
+<col style="width: 33.3333%;">
+<col style="width: 33.3333%;">
+<col style="width: 33.3334%;">
+</colgroup>
+<thead>
+<tr>
+<th class="tableblock halign-left valign-top">Path</th>
+<th class="tableblock halign-left valign-top">Type</th>
+<th class="tableblock halign-left valign-top">Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>content</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>String</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">답변 내용</p></td>
+</tr>
+</tbody>
+</table>
+<div class="listingblock">
+<div class="title">http-response</div>
+<div class="content">
+<pre class="prettyprint highlight nowrap"><code data-lang="http">HTTP/1.1 201 Created</code></pre>
+</div>
+</div>
+<hr>
 </div>
 </div>
 </div>
@@ -673,7 +756,7 @@ Content-Length: 35
 <div id="footer">
 <div id="footer-text">
 Version 0.0.1-SNAPSHOT<br>
-Last updated 2022-08-31 11:41:26 +0900
+Last updated 2022-08-31 13:21:02 +0900
 </div>
 </div>
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/prettify/r298/prettify.min.css">
