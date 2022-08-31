@@ -1,6 +1,12 @@
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import styled from "styled-components";
+import { useSelector, useDispatch } from "react-redux";
+import {
+  loginFulfilled,
+  loginRejected,
+  logoutFulfilled,
+} from "../features/userSlice";
 
 const LogInWrapper = styled.div`
   display: flex;
@@ -134,9 +140,17 @@ const LogIn = () => {
   const [emptyEmailMsg, setEmptyEmailMsg] = useState("");
   const [emptyPasswordMsg, setEmptyPasswordMsg] = useState("");
   const [incorrectMessage, setIncorrectMessage] = useState("");
-  const [isLoggedin, setIsLoggedin] = useState(false);
+  // const [isLoggedin, setIsLoggedin] = useState(false);
   //로그인 여부 확인해서
   const navigate = useNavigate();
+  const dispatch = useDispatch();
+  const logindata = useSelector((state) => {
+    // 현재 상태 확인용 콘솔
+    console.log(`EMAIL: ${state.user.userEmail}`);
+    console.log(`TOKEN: ${state.user.userToken}`);
+    console.log(`LOGIN?: ${state.user.isLoggedIn}`);
+    console.log(`--------------------------------`);
+  });
 
   //Sign up 버튼 누르면 POST 요청하기
   const handleSubmit = (event) => {
@@ -164,7 +178,8 @@ const LogIn = () => {
           console.log(res.headers.get("authorization")); //Bearer eyJ0eXAi...
           const token = res.headers.get("authorization");
           localStorage.setItem("access-token", token); //로컬 스토리지에 저장
-          setIsLoggedin(true);
+          // setIsLoggedin(true);
+          dispatch(loginFulfilled({ userEmail: email, userToken: token }));
           navigate("/");
         }
         //데이터에 맞지않는 이메일, pw 보낼때
