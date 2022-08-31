@@ -1,3 +1,4 @@
+// SNB 열림/닫힘 상태 저장소
 import { createSlice } from "@reduxjs/toolkit";
 
 const showSlice = createSlice({
