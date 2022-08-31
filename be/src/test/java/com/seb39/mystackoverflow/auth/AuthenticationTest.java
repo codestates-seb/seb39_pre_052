@@ -5,6 +5,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.seb39.mystackoverflow.dto.auth.LoginRequest;
 import com.seb39.mystackoverflow.entity.Member;
 import com.seb39.mystackoverflow.service.MemberService;
+import com.seb39.mystackoverflow.utils.ApiDocumentUtils;
 import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
@@ -31,6 +32,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 
+import static com.seb39.mystackoverflow.utils.ApiDocumentUtils.*;
 import static org.springframework.restdocs.headers.HeaderDocumentation.*;
 import static org.springframework.restdocs.mockmvc.MockMvcRestDocumentation.*;
 import static org.springframework.restdocs.payload.PayloadDocumentation.*;
@@ -81,6 +83,8 @@ class AuthenticationTest {
                         .content(requestJson))
                 .andExpect(header().exists("Authorization"))
                 .andDo(document("login-success",
+                                getRequestPreprocessor(),
+                                getResponsePreprocessor(),
                                 requestFields(
                                         List.of(
                                                 fieldWithPath("email").type(JsonFieldType.STRING).description("사용자 이메일"),
@@ -111,6 +115,8 @@ class AuthenticationTest {
                         .content(requestJson))
                 .andExpect(status().isUnauthorized())
                 .andDo(document("login-fail",
+                        getRequestPreprocessor(),
+                        getResponsePreprocessor(),
                         requestFields(
                                 List.of(
                                         fieldWithPath("email").type(JsonFieldType.STRING).description("사용자 이메일"),

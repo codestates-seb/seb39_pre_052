@@ -25,6 +25,8 @@ import org.springframework.test.web.servlet.result.MockMvcResultMatchers;
 
 import java.util.List;
 
+import static com.seb39.mystackoverflow.utils.ApiDocumentUtils.getRequestPreprocessor;
+import static com.seb39.mystackoverflow.utils.ApiDocumentUtils.getResponsePreprocessor;
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.*;
 import static org.springframework.restdocs.mockmvc.MockMvcRestDocumentation.document;
@@ -80,6 +82,8 @@ class AuthControllerTest {
                 .andExpect(jsonPath("$.success").value(true))
                 .andExpect(jsonPath("$.failureReason").value(""))
                 .andDo(document("signup-success",
+                        getRequestPreprocessor(),
+                        getResponsePreprocessor(),
                         requestFields(
                                 List.of(
                                         fieldWithPath("email").type(JsonFieldType.STRING).description("사용자 이메일"),

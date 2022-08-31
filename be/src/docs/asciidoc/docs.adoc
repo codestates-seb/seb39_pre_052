@@ -49,7 +49,29 @@ include::{snippets}/signup-success/response-fields.adoc[]
 
 ***
 == 답변 관련 API
+
+=== 답변 조회
+***
+ 특정 사용자의 답변 리스트를 조회하기 위한 API 입니다.
+
+.http-request
+include::{snippets}/answer-list/http-request.adoc[]
+
+.path-parameters
+include::{snippets}/answer-list/path-parameters.adoc[]
+
+.request-parameters
+include::{snippets}/answer-list/request-parameters.adoc[]
+
+.http-response
+include::{snippets}/answer-list/http-response.adoc[]
+
+.request-fields
+include::{snippets}/answer-list/response-fields.adoc[]
+
+
 === 답변 생성
+***
  답변 생성을 위한 API 입니다.
 
 .http-request
