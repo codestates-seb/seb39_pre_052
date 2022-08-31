@@ -99,7 +99,12 @@ const GNB = () => {
 
     // to set the state of data in redux store(slice)
     const dispatch = useDispatch();
-    // retrieves the state back from redux store(slice)
+
+    // LOGIN STATE
+   
+
+    // SNB STATE
+    // retrieves the SNB state back from redux store(slice)
     const show = useSelector(state => {
       return state.toggle.active;
     })

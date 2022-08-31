@@ -1,3 +1,5 @@
+// This slice is just an example to explain how slice works
+
 import { createSlice } from "@reduxjs/toolkit";
 
 const counterSlice = createSlice({
