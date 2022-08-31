@@ -3,6 +3,7 @@ package com.seb39.mystackoverflow.dto;
 import com.seb39.mystackoverflow.entity.Member;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
+import lombok.Setter;
 
 import javax.validation.constraints.NotBlank;
 import java.time.LocalDateTime;
@@ -11,6 +12,7 @@ public class QuestionDto {
 
     //Post Dto
     @Getter
+    @Setter
     public static class Post {
 
         //질문 제목 NotBlank
@@ -25,6 +27,7 @@ public class QuestionDto {
 
     //Patch Dto
     @Getter
+    @Setter
     @AllArgsConstructor
     public static class Patch {
         public Patch() {

@@ -63,7 +63,7 @@ public class QuestionController {
         QuestionDto.Response response = questionMapper.questionToQuestionResponse(updateQuestion);
 
 
-        return new ResponseEntity(response, HttpStatus.OK);
+        return new ResponseEntity(new SingleResponseDto<>(response), HttpStatus.OK);
     }
 
     //3. 질문 삭제
@@ -81,12 +81,13 @@ public class QuestionController {
     public ResponseEntity getQuestions(@Positive @RequestParam int page,
                                        @Positive @RequestParam int size) {
         Page<Question> questionPage = questionService.findQuestions(page - 1, size);
-        List<QuestionDto.Response> questions = questionPage.getContent()
+        /*List<QuestionDto.Response> questions = questionPage.getContent()
                 .stream()
                 .map(questionMapper::questionToQuestionResponse)
-                .collect(Collectors.toList());
+                .collect(Collectors.toList());*/
+        List<Question> questions = questionPage.getContent();
 
 
-        return new ResponseEntity(new MultiResponseDto(questions, questionPage), HttpStatus.OK);
+        return new ResponseEntity(new MultiResponseDto(questionMapper.questionsToQuestionResponses(questions), questionPage), HttpStatus.OK);
     }
 }
