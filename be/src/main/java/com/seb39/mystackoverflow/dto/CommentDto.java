@@ -1,8 +1,10 @@
 package com.seb39.mystackoverflow.dto;
 
 import com.seb39.mystackoverflow.entity.Member;
+import com.seb39.mystackoverflow.entity.PostType;
 import com.seb39.mystackoverflow.entity.Question;
 import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Getter;
 
 import javax.validation.constraints.NotBlank;
@@ -13,11 +15,10 @@ public class CommentDto {
     @Getter
     public static class Post {
 
-        private long questionId;
-
         @NotBlank
         private String content;
     }
+
 
     @Getter
     @AllArgsConstructor
@@ -26,14 +27,27 @@ public class CommentDto {
         private String content;
         private LocalDateTime createdAt;
         private LocalDateTime lastModifiedAt;
-        private Member member;
-        private Question question;
+        private Long memberId;
+        private PostInfo postInfo;
 
-        public Long getMember() {
-            return member.getId();
+        @Builder
+        public Response(Long id, String content, LocalDateTime createdAt, LocalDateTime lastModifiedAt, Long memberId, PostType postType, Long postId) {
+            this.id = id;
+            this.content = content;
+            this.createdAt = createdAt;
+            this.lastModifiedAt = lastModifiedAt;
+            this.memberId = memberId;
+            this.postInfo = new PostInfo(postType,postId);
         }
-        public Long getQuestion() {
-            return question.getId();
+
+        @Getter
+        static class PostInfo{
+            private PostType postType;
+            private Long postId;
+            public PostInfo(PostType postType, Long postId) {
+                this.postType = postType;
+                this.postId = postId;
+            }
         }
     }
 

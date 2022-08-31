@@ -1,5 +1,5 @@
 package com.seb39.mystackoverflow.entity;
 
-public enum Dtype {
+public enum PostType {
     QUESTION, ANSWER
 }

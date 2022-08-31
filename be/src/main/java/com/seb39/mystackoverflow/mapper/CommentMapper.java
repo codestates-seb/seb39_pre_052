@@ -11,5 +11,17 @@ public interface CommentMapper {
 
     Comment commentPatchToComment(CommentDto.Patch requestBody);
 
-    CommentDto.Response commentToCommentResponse(Comment comment);
+    default CommentDto.Response commentToCommentResponse(Comment comment){
+
+        return CommentDto.Response.builder()
+                .id(comment.getId())
+                .content(comment.getContent())
+                .createdAt(comment.getCreatedAt())
+                .lastModifiedAt(comment.getLastModifiedAt())
+                .memberId(comment.getMember().getId())
+                .postType(comment.getPostType())
+                .postId(comment.getPostId())
+                .build();
+
+    }
 }

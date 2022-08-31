@@ -16,27 +16,44 @@ public class Comment extends BaseEntity {
     private Long id;
 
     @Enumerated(EnumType.STRING)
-    private Dtype dtype;
+    private PostType postType;
 
     private String content;
 
-    /**
-     * 질문 연관관계
-     */
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "question_id")
     private Question question;
 
-    /**
-     * 회원 연관관계
-     */
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "answer_id")
+    private Answer answer;
+
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "member_id")
     private Member member;
 
+    public Long getPostId(){
+        if(postType==PostType.QUESTION)
+            return question.getId();
+
+        if(postType==PostType.ANSWER)
+            return answer.getId();
+
+        throw new UnsupportedOperationException("Unsupported PostType. postType = " + postType);
+    }
+
     //==연관관계 메서드==
-    public void setQuestionComment(Question question) {
-        this.question = question;
+    public void setCommentPost(PostType postType, Object post) {
+        this.postType = postType;
+        if (postType == PostType.QUESTION && post instanceof Question) {
+            this.question = (Question) post;
+            return;
+        }
+        if(postType == PostType.ANSWER && post instanceof Answer){
+            this.answer = (Answer) post;
+            return;
+        }
+        throw new UnsupportedOperationException("Unsupported PostType. postType = " + postType);
     }
 
     public void setCommentMember(Member member) {
