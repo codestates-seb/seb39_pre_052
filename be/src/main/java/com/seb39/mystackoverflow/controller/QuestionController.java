@@ -9,6 +9,7 @@ import com.seb39.mystackoverflow.mapper.QuestionMapper;
 import com.seb39.mystackoverflow.service.QuestionService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.domain.Page;
+import org.springframework.data.web.PageableDefault;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
@@ -39,6 +40,7 @@ public class QuestionController {
         Question question = questionMapper.questionPostToQuestion(requestBody);
         Long memberId = principalDetails.getMemberId();
         Question createdQuestion = questionService.createQuestion(question, memberId);
+
 
         QuestionDto.response response = questionMapper.questionToQuestionResponse(createdQuestion);
 
