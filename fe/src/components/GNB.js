@@ -99,7 +99,12 @@ const GNB = () => {
 
     // to set the state of data in redux store(slice)
     const dispatch = useDispatch();
-    // retrieves the state back from redux store(slice)
+
+    // LOGIN STATE
+   
+
+    // SNB STATE
+    // retrieves the SNB state back from redux store(slice)
     const show = useSelector(state => {
       return state.toggle.active;
     })
@@ -138,8 +143,8 @@ const GNB = () => {
                     <Link to="/"><Button color="#d1ebff" border="1px solid #0074CC" text="#0074CC" hover="#9bd1f7" onClick={()=>{setIsLoggedIn(false)}}>Log out</Button></Link>
                 </>
                 : <>
-                    <Link to="/"><Button color="#d1ebff" border="1px solid #0074CC" text="#0074CC" hover="#9bd1f7" onClick={()=>{setIsLoggedIn(true)}}>Log in</Button></Link>
-                    <Link to="/"><Button color="#0A95FF">Sign up</Button></Link>
+                    <Link to="/login"><Button color="#d1ebff" border="1px solid #0074CC" text="#0074CC" hover="#9bd1f7" >Log in</Button></Link>
+                    <Link to="/signup"><Button color="#0A95FF">Sign up</Button></Link>
                 </>
             }
         </Nav>

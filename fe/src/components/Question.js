@@ -27,6 +27,7 @@ const Main = styled.div`
     display: flex;
     flex-direction: column;
     width: 80vw;
+    margin-right: 45px;
 
     > * {
         overflow: hidden;
