@@ -17,7 +17,7 @@ const ReduxTest = () => {
     })
     // 변수를 선언하여 state값을 리턴하는 함수를 useSelector와 사용하면 현 isLoggedIn 위치에 있는 값을 가져올 수 있다
     const loginData = useSelector(state => {
-        return state.user.isLoggedIn
+        return state.user.isLoggedIn;
     })
     
     // 데이터 업데이트하는 useDispatch 사용법
