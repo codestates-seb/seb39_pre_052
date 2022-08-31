@@ -1,7 +1,8 @@
-import { useState } from "react";
 import { BrowserRouter, Routes, Route } from 'react-router-dom';
 import styled from "styled-components";
 import GlobalStyle from "./GlobalStyle";
+
+import ReduxTest from "./components/ReduxTest"
 
 import GNB from "./components/GNB";
 import SNB from "./components/SNB";
@@ -17,17 +18,16 @@ const Main = styled.div`
 
 const App = () => {
 
-  const [isLoggedin, setIsLoggedin] = useState(false);
-
   return (
     <>
       <GlobalStyle />
       <BrowserRouter>
-
+        
         <GNB />
         <Main>
           <SNB />
           <Routes>
+            <Route path="redux" element={<ReduxTest/>} />
             <Route path="/" element={<Questions />} />
             <Route path="/signup" element={<SignUp/>} />
             <Route path="/login" element={<LogIn/>} />
