@@ -1,4 +1,3 @@
-import { useState } from "react";
 import styled from "styled-components";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 
@@ -19,7 +18,6 @@ const Main = styled.div`
 `;
 
 const App = () => {
-  const [isLoggedin, setIsLoggedin] = useState(false);
 
   return (
     <>

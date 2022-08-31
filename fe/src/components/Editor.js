@@ -1,5 +1,7 @@
 import { useState } from "react";
 import styled from "styled-components"
+import { Markup } from 'interweave'; // react library to interpret html string to jsx
+
 // import ReactQuill from 'react-quill';
 // import 'react-quill/dist/quill.snow.css';
 import Toolbox from "./Toolbox";
@@ -82,7 +84,7 @@ const Editor = () => {
                 <Toolbox htmlStr={htmlStr} setHtmlStr={setHtmlStr}></Toolbox>
             </Body>
             <Button>Submit</Button>
-            {/* {htmlStr} // google how to interpret text as jsx */}
+            <Markup content={htmlStr} />
         </Container>
     )
 };
