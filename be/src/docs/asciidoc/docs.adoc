@@ -1,0 +1,97 @@
+= My Stackoverflow API Docs
+:sectnums:
+:toc: left
+:toclevels: 4
+:toc-title: 목차
+:source-highlighter: prettify
+
+***
+== 사용자 관련 API
+=== 로그인
+***
+
+ 로그인을 위한 API 입니다.
+
+.http-request
+include::{snippets}/login-success/http-request.adoc[]
+
+.request-fields
+include::{snippets}/login-success/request-fields.adoc[]
+
+.http-response (성공)
+include::{snippets}/login-success/http-response.adoc[]
+
+.response-headers (성공)
+include::{snippets}/login-success/response-headers.adoc[]
+
+.http-response (실패)
+include::{snippets}/login-fail/http-response.adoc[]
+
+.response-fields (실패)
+include::{snippets}/login-fail/response-fields.adoc[]
+
+=== 회원가입 API
+***
+
+ 회원가입을 위한 API 입니다.
+
+.http-request
+include::{snippets}/signup-success/http-request.adoc[]
+
+.request-fields
+include::{snippets}/signup-success/request-fields.adoc[]
+
+.http-response
+include::{snippets}/signup-success/http-response.adoc[]
+
+.response-fields
+include::{snippets}/signup-success/response-fields.adoc[]
+
+***
+== 답변 관련 API
+=== 답변 생성
+ 답변 생성을 위한 API 입니다.
+
+.http-request
+include::{snippets}/answer-create/http-request.adoc[]
+
+.request-parameters
+include::{snippets}/answer-create/request-parameters.adoc[]
+
+.request-fields
+include::{snippets}/answer-create/request-fields.adoc[]
+
+.http-response
+include::{snippets}/answer-create/http-response.adoc[]
+
+=== 답변 수정
+***
+
+ 답변 수정을 위한 API 입니다.
+
+.http-request
+include::{snippets}/answer-update/http-request.adoc[]
+
+.path-parameters
+include::{snippets}/answer-update/path-parameters.adoc[]
+
+.request-fields
+include::{snippets}/answer-update/request-fields.adoc[]
+
+.http-response
+include::{snippets}/answer-update/http-response.adoc[]
+
+=== 답변 수정
+***
+
+ 답변 삭제를 위한 API 입니다.
+
+.http-request
+include::{snippets}/answer-delete/http-request.adoc[]
+
+.path-parameters
+include::{snippets}/answer-delete/path-parameters.adoc[]
+
+.http-response
+include::{snippets}/answer-delete/http-response.adoc[]
+
