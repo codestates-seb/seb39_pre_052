@@ -7,7 +7,147 @@ import {
   loginRejected,
   logoutFulfilled,
 } from "../features/userSlice";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import {
+  faSquareFacebook,
+  faGoogle,
+  faGithub,
+} from "@fortawesome//free-brands-svg-icons";
 
+const LogIn = () => {
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
+  const [emptyEmailMsg, setEmptyEmailMsg] = useState("");
+  const [emptyPasswordMsg, setEmptyPasswordMsg] = useState("");
+  const [incorrectMessage, setIncorrectMessage] = useState("");
+  // const [isLoggedin, setIsLoggedin] = useState(false);
+  //로그인 여부 확인해서
+  const navigate = useNavigate();
+  const dispatch = useDispatch();
+  const logindata = useSelector((state) => {
+    // 현재 상태 확인용 콘솔
+    console.log(`EMAIL: ${state.user.userEmail}`);
+    console.log(`TOKEN: ${state.user.userToken}`);
+    console.log(`LOGIN?: ${state.user.isLoggedIn}`);
+    console.log(`--------------------------------`);
+  });
+
+  //Sign up 버튼 누르면 POST 요청하기
+  const handleSubmit = (event) => {
+    event.preventDefault();
+    let user = { email: email, password: password };
+    // console.log(user);
+
+    //email, password 빈칸으로 로그인하면 cannot be empty.
+    if (email.length === 0) {
+      setEmptyEmailMsg("Email cannot be empty.");
+    }
+    if (password.length === 0) {
+      setEmptyPasswordMsg("Password cannot be empty.");
+    }
+
+    fetch("/login", {
+      method: "POST",
+      body: JSON.stringify(user),
+    })
+      // .then((res) => console.log(res))
+      // .then((res) => res.json()) //SyntaxError: Unexpected end of JSON input
+      // .then((res) => console.log(res.status)) //200
+      .then((res) => {
+        if (res.status === 200) {
+          console.log(res.headers.get("authorization")); //Bearer eyJ0eXAi...
+          const token = res.headers.get("authorization");
+          localStorage.setItem("access-token", token); //로컬 스토리지에 저장
+          // setIsLoggedin(true);
+          dispatch(loginFulfilled({ userEmail: email, userToken: token }));
+          navigate("/");
+        }
+        //데이터에 맞지않는 이메일, pw 보낼때
+        // else if (!res.ok)
+        else if (res.status === 401) {
+          console.log(res);
+          setIncorrectMessage("The email or password is incorrect.");
+        }
+      });
+    // .catch(() => console.log("error"));
+
+    // fetch("/login", {
+    //   method: "GET",
+    //   headers: {
+    //     "Content-Type": "application/json",
+    //     Authorization: localStorage.getItem("access-token"),
+    //   },
+    // }).then((res) => console.log(res));
+  };
+
+  return (
+    <LogInWrapper className="login_wrapper">
+      <div>
+        <img src="https://cdn.sstatic.net/Sites/stackoverflow/Img/apple-touch-icon@2.png?v=73d79a89bded" />
+      </div>
+      {/* 소셜 로그인 */}
+      <section className="social_buttons">
+        <div>
+          <button>
+            <FontAwesomeIcon
+              icon={faGoogle}
+              size="lg"
+              style={{ marginRight: 5 }}
+            />
+            Log in with Google
+          </button>
+          <button>
+            <FontAwesomeIcon
+              icon={faGithub}
+              size="lg"
+              style={{ marginRight: 5 }}
+            />
+            Log in with Github
+          </button>
+          <button>
+            {/* <FontAwesomeIcon icon="fa-brands fa-square-facebook" /> */}
+            <FontAwesomeIcon
+              icon={faSquareFacebook}
+              size="lg"
+              style={{ marginRight: 5 }}
+            />
+            Log in with Facebook
+          </button>
+        </div>
+      </section>
+
+      {/* 일반 로그인 */}
+      <section className="form_container">
+        <form onSubmit={handleSubmit}>
+          <div>
+            <label>Email</label>
+            <input
+              type="text"
+              name="email"
+              onChange={(e) => setEmail(e.target.value)}
+            ></input>
+            {email.length === 0 ? (
+              <p className="message error">{emptyEmailMsg}</p>
+            ) : (
+              <p className="message error">{incorrectMessage}</p>
+            )}
+          </div>
+          <div>
+            <label>Password</label>
+            <input
+              type="password"
+              onChange={(e) => setPassword(e.target.value)}
+            ></input>
+            {<p className="message error">{emptyPasswordMsg}</p>}
+          </div>
+          <button className="log_in_btn">Log in</button>
+        </form>
+      </section>
+    </LogInWrapper>
+  );
+};
+
+//css
 const LogInWrapper = styled.div`
   display: flex;
   flex-direction: column;
@@ -133,116 +273,4 @@ const LogInWrapper = styled.div`
     }
   }
 `;
-
-const LogIn = () => {
-  const [email, setEmail] = useState("");
-  const [password, setPassword] = useState("");
-  const [emptyEmailMsg, setEmptyEmailMsg] = useState("");
-  const [emptyPasswordMsg, setEmptyPasswordMsg] = useState("");
-  const [incorrectMessage, setIncorrectMessage] = useState("");
-  // const [isLoggedin, setIsLoggedin] = useState(false);
-  //로그인 여부 확인해서
-  const navigate = useNavigate();
-  const dispatch = useDispatch();
-  const logindata = useSelector((state) => {
-    // 현재 상태 확인용 콘솔
-    console.log(`EMAIL: ${state.user.userEmail}`);
-    console.log(`TOKEN: ${state.user.userToken}`);
-    console.log(`LOGIN?: ${state.user.isLoggedIn}`);
-    console.log(`--------------------------------`);
-  });
-
-  //Sign up 버튼 누르면 POST 요청하기
-  const handleSubmit = (event) => {
-    event.preventDefault();
-    let user = { email: email, password: password };
-    // console.log(user);
-
-    //email, password 빈칸으로 로그인하면 cannot be empty.
-    if (email.length === 0) {
-      setEmptyEmailMsg("Email cannot be empty.");
-    }
-    if (password.length === 0) {
-      setEmptyPasswordMsg("Password cannot be empty.");
-    }
-
-    fetch("/login", {
-      method: "POST",
-      body: JSON.stringify(user),
-    })
-      // .then((res) => console.log(res))
-      // .then((res) => res.json()) //SyntaxError: Unexpected end of JSON input
-      // .then((res) => console.log(res.status)) //200
-      .then((res) => {
-        if (res.status === 200) {
-          console.log(res.headers.get("authorization")); //Bearer eyJ0eXAi...
-          const token = res.headers.get("authorization");
-          localStorage.setItem("access-token", token); //로컬 스토리지에 저장
-          // setIsLoggedin(true);
-          dispatch(loginFulfilled({ userEmail: email, userToken: token }));
-          navigate("/");
-        }
-        //데이터에 맞지않는 이메일, pw 보낼때
-        // else if (!res.ok)
-        else if (res.status === 401) {
-          console.log(res);
-          setIncorrectMessage("The email or password is incorrect.");
-        }
-      });
-    // .catch(() => console.log("error"));
-
-    // fetch("/login", {
-    //   method: "GET",
-    //   headers: {
-    //     "Content-Type": "application/json",
-    //     Authorization: localStorage.getItem("access-token"),
-    //   },
-    // }).then((res) => console.log(res));
-  };
-
-  return (
-    <LogInWrapper className="login_wrapper">
-      <div>
-        <img src="https://cdn.sstatic.net/Sites/stackoverflow/Img/apple-touch-icon@2.png?v=73d79a89bded" />
-      </div>
-      {/* 소셜 로그인 */}
-      <section className="social_buttons">
-        <div>
-          <button>Log in with Google</button>
-          <button>Log in with Github</button>
-          <button>Log in with Facebook</button>
-        </div>
-      </section>
-
-      {/* 일반 로그인 */}
-      <section className="form_container">
-        <form onSubmit={handleSubmit}>
-          <div>
-            <label>Email</label>
-            <input
-              type="text"
-              name="email"
-              onChange={(e) => setEmail(e.target.value)}
-            ></input>
-            {email.length === 0 ? (
-              <p className="message error">{emptyEmailMsg}</p>
-            ) : (
-              <p className="message error">{incorrectMessage}</p>
-            )}
-          </div>
-          <div>
-            <label>Password</label>
-            <input
-              type="password"
-              onChange={(e) => setPassword(e.target.value)}
-            ></input>
-            {<p className="message error">{emptyPasswordMsg}</p>}
-          </div>
-          <button className="log_in_btn">Log in</button>
-        </form>
-      </section>
-    </LogInWrapper>
-  );
-};
-
 export default LogIn;

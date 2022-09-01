@@ -3,8 +3,8 @@ import { Link } from 'react-router-dom'
 import { useNavigate } from 'react-router-dom';
 import { useSelector } from "react-redux";
 import styled from "styled-components";
-import Question from '../components/Question';
-import Pagination from '../components/Pagination';
+import Question from "../components/Question";
+import Pagination from "../components/Pagination";
 
 const Questions = () => {
     const [qNum, setQNum] = useState("");
@@ -88,47 +88,45 @@ const Questions = () => {
 // Styled Components
 
 const Container = styled.div`
-    flex-basis: 100vw; 
-    flex-shrink: 6;
-    height: 90vh;
-`
+  flex-basis: 100vw;
+  flex-shrink: 6;
+  height: 90vh;
+`;
 
 const Header = styled.div`
-    display: flex;
-    flex-direction: row;
-    justify-content: space-between;
-    align-items: center;
-    //All Questions
-    > div:first-of-type > div:first-of-type {
-        font-size: 24px;
-        font-weight: bold;
-        margin: 10px 0 10px 30px;
-        
-    }
-    // n questions
-    > div:first-of-type > div:nth-of-type(2)  {
-        margin: 0 0 10px 30px;
-    }
-`
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: center;
+  //All Questions
+  > div:first-of-type > div:first-of-type {
+    font-size: 24px;
+    font-weight: bold;
+    margin: 10px 0 10px 30px;
+  }
+  // n questions
+  > div:first-of-type > div:nth-of-type(2) {
+    margin: 0 0 10px 30px;
+  }
+`;
 //Ask Question Button
 const Button = styled.button`
-    background-color: #0A95FF;
-    border: none;
-    padding: 15px;
-    margin-right: 15px;
-    color: white;
-    font-size: 16px;
-    font-weight: bold;
+  background-color: #0a95ff;
+  border: none;
+  padding: 15px;
+  margin-right: 15px;
+  color: white;
+  font-size: 16px;
+  font-weight: bold;
 
-    :hover {
-        background-color: #0074CC;
-    }
-`
+  :hover {
+    background-color: #0074cc;
+  }
+`;
 
 const List = styled.div`
-    overflow-y: scroll;
-    max-height: 75vh;
-`
+  overflow-y: scroll;
+  max-height: 75vh;
+`;
 
 export default Questions;
-

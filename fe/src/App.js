@@ -10,6 +10,7 @@ import SignUp from "./components/SignUp";
 import LogIn from "./components/LogIn";
 import NewQuestion from "./pages/NewQuestion";
 import Footer from "./components/Footer";
+import PostQAC from "./components/PostQAC";
 
 const Main = styled.div`
   display: flex;
@@ -27,20 +28,22 @@ const App = () => {
     <>
       <GlobalStyle />
       <BrowserRouter>
-          <GNB />
-          <Main>
-            <Body>
-              <SNB />
-              <Routes>
-                <Route path="redux" element={<ReduxTest />} />
-                <Route path="/" element={<Questions />} />
-                <Route path="/signup" element={<SignUp />} />
-                <Route path="/login" element={<LogIn />} />
-                <Route path="/questions/ask" element={<NewQuestion />} />
-              </Routes>
-            </Body>
-            <Footer />
-          </Main>
+        <GNB />
+        <Main>
+          <Body>
+            <SNB />
+            <Routes>
+              <Route path="redux" element={<ReduxTest />} />
+              <Route path="/" element={<Questions />} />
+              <Route path="/signup" element={<SignUp />} />
+              <Route path="/login" element={<LogIn />} />
+              <Route path="/questions/ask" element={<NewQuestion />} />
+              <Route path="/questions/1" element={<PostQAC />} />
+              {/* /questions/{questionId} 대신 임시로 하드코딩 */}
+            </Routes>
+          </Body>
+          <Footer />
+        </Main>
       </BrowserRouter>
     </>
   );
