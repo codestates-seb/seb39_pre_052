@@ -13,9 +13,12 @@ const PostQAC = () => {
   );
 };
 const Container = styled.div`
-  height: 100vh;
-  width: 80vw;
+  height: 100%;
+  width: 80%;
   margin: 20px;
+  /* ::-webkit-scrollbar {
+    display: none;
+  } */
 `;
 
 export default PostQAC;

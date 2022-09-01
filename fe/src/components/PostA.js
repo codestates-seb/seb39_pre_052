@@ -3,6 +3,19 @@ import dummy from "../dummy";
 import Pagination from "./Pagination";
 
 const PostA = () => {
+  const datedata = new Date(dummy[0].time);
+  const month = new Intl.DateTimeFormat("en", { month: "short" }).format(
+    datedata
+  );
+  const year = new Intl.DateTimeFormat("en", { year: "numeric" }).format(
+    datedata
+  );
+  const day = new Intl.DateTimeFormat("en", { day: "2-digit" }).format(
+    datedata
+  );
+  const fullDateFormat = `${month} ${day}, ${year} at ${(
+    "0" + datedata.getHours()
+  ).slice(-2)}:${("0" + datedata.getMinutes()).slice(-2)}`;
   return (
     <>
       <AHeader>
@@ -28,7 +41,7 @@ const PostA = () => {
                 <div>img</div>
               </div>
               <div>
-                <span>{dummy[0].time}</span>
+                <span>{fullDateFormat}</span>
                 <div>{dummy[0].userId}</div>
               </div>
             </div>

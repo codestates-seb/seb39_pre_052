@@ -1,7 +1,25 @@
 import styled from "styled-components";
 import dummy from "../dummy";
+import Moment from "react-moment";
 
 const PostQ = () => {
+  /* answered Jul 28, 2011 at 22:22 */
+  const datedata = new Date(dummy[0].time);
+  //   console.log(datedata); //Thu Aug 25 2022 10:02:17 GMT+0900 (한국 표준시)
+
+  const month = new Intl.DateTimeFormat("en", { month: "short" }).format(
+    datedata
+  );
+  const year = new Intl.DateTimeFormat("en", { year: "numeric" }).format(
+    datedata
+  );
+  const day = new Intl.DateTimeFormat("en", { day: "2-digit" }).format(
+    datedata
+  );
+  const fullDateFormat = `${month} ${day}, ${year} at ${(
+    "0" + datedata.getHours()
+  ).slice(-2)}:${("0" + datedata.getMinutes()).slice(-2)}`;
+
   return (
     <>
       <QHeader>
@@ -10,7 +28,9 @@ const PostQ = () => {
           <Button>Ask Question</Button>
         </div>
         <TitleInfo>
-          <div>Asked {dummy[0].time} ago</div>
+          <div>
+            Asked <Moment fromNow>2022-09-01T16:10:46.910852</Moment>
+          </div>
           <div>Modified ago</div>
           <div> Viewed {dummy[0].viewNum} times</div>
         </TitleInfo>
@@ -33,7 +53,7 @@ const PostQ = () => {
                 </div>
               </div>
               <div>
-                <span>{dummy[0].time}</span>
+                <span>{fullDateFormat}</span>
                 <div>{dummy[0].userId}</div>
               </div>
             </div>
