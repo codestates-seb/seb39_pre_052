@@ -4,13 +4,15 @@ import com.seb39.mystackoverflow.dto.QuestionDto;
 import com.seb39.mystackoverflow.entity.Member;
 import com.seb39.mystackoverflow.entity.Question;
 import java.time.LocalDateTime;
+import java.util.ArrayList;
+import java.util.List;
 import javax.annotation.processing.Generated;
 import org.springframework.stereotype.Component;
 
 @Generated(
     value = "org.mapstruct.ap.MappingProcessor",
-    date = "2022-08-31T17:20:54+0900",
-    comments = "version: 1.5.2.Final, compiler: javac, environment: Java 17.0.1 (Oracle Corporation)"
+    date = "2022-08-31T19:16:00+0900",
+    comments = "version: 1.5.2.Final, compiler: javac, environment: Java 11.0.13 (Oracle Corporation)"
 )
 @Component
 public class QuestionMapperImpl implements QuestionMapper {
@@ -71,5 +73,19 @@ public class QuestionMapperImpl implements QuestionMapper {
         QuestionDto.Response response = new QuestionDto.Response( id, title, content, view, vote, createdAt, lastModifiedAt, member );
 
         return response;
+    }
+
+    @Override
+    public List<QuestionDto.Response> questionsToQuestionResponses(List<Question> questions) {
+        if ( questions == null ) {
+            return null;
+        }
+
+        List<QuestionDto.Response> list = new ArrayList<QuestionDto.Response>( questions.size() );
+        for ( Question question : questions ) {
+            list.add( questionToQuestionResponse( question ) );
+        }
+
+        return list;
     }
 }
