@@ -63,7 +63,7 @@ public class QuestionController {
         QuestionDto.Response response = questionMapper.questionToQuestionResponse(updateQuestion);
 
 
-        return new ResponseEntity(response, HttpStatus.OK);
+        return new ResponseEntity(new SingleResponseDto<>(response), HttpStatus.OK);
     }
 
     //3. 질문 삭제
@@ -87,6 +87,6 @@ public class QuestionController {
                 .collect(Collectors.toList());
 
 
-        return new ResponseEntity(new MultiResponseDto(questions, questionPage), HttpStatus.OK);
+        return new ResponseEntity(new MultiResponseDto(questionMapper.questionsToQuestionResponses(questions), questionPage), HttpStatus.OK);
     }
 }

@@ -48,6 +48,71 @@ include::{snippets}/signup-success/http-response.adoc[]
 include::{snippets}/signup-success/response-fields.adoc[]
 
 ***
+== 질문 관련 API
+=== 질문 생성
+ 질문 생성을 위한 API 입니다.
+
+.http-request
+include::{snippets}/post-question/http-request.adoc[]
+
+.request-parameters
+include::{snippets}/post-question/request-fields.adoc[]
+
+.http-response
+include::{snippets}/post-question/http-response.adoc[]
+
+.response-fields
+include::{snippets}/post-question/response-fields.adoc[]
+
+=== 질문 수정
+***
+ 질문 수정을 위한 API 입니다.
+
+.http-request
+include::{snippets}/patch-question/http-request.adoc[]
+
+.path-parameters
+include::{snippets}/patch-question/path-parameters.adoc[]
+
+.request-fields
+include::{snippets}/patch-question/request-fields.adoc[]
+
+.http-response
+include::{snippets}/patch-question/http-response.adoc[]
+
+.response-fields
+include::{snippets}/patch-question/response-fields.adoc[]
+
+=== 질문 목록
+***
+ 질문 목록을 위한 API 입니다.
+
+.http-request
+include::{snippets}/get-questions/http-request.adoc[]
+
+.request-parameters
+include::{snippets}/get-questions/request-parameters.adoc[]
+
+.http-response
+include::{snippets}/get-questions/http-response.adoc[]
+
+.response-fields
+include::{snippets}/get-questions/response-fields.adoc[]
+
+=== 질문 삭제
+***
+ 질문 삭제를 위한 API 입니다.
+
+.http-request
+include::{snippets}/delete-question/http-request.adoc[]
+
+.path-parameters
+include::{snippets}/delete-question/path-parameters.adoc[]
+
+.http-response
+include::{snippets}/delete-question/http-response.adoc[]
+
+***
 == 답변 관련 API
 === 답변 생성
  답변 생성을 위한 API 입니다.

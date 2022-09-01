@@ -42,9 +42,8 @@ public class MemberController {
 
     @GetMapping("/{memberId}/questions")
     private ResponseEntity getQuestions(@PathVariable Long memberId,
-                                        @Positive @RequestParam int page,
-                                        @Positive @RequestParam int size) {
-        Page<Question> questionPage = questionService.findQuestions(memberId, page - 1, size);
+                                        @Positive @RequestParam(required = false, defaultValue = "1") int page) {
+        Page<Question> questionPage = questionService.findQuestions(memberId, page - 1);
         List<QuestionDto.Response> questions = questionPage.getContent()
                 .stream()
                 .map(questionMapper::questionToQuestionResponse)
