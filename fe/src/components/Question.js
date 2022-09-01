@@ -1,4 +1,5 @@
 import styled from 'styled-components';
+import { Markup } from 'interweave'; // react library to interpret html string to jsx
 
 const Question = ( {post} ) => {
     // shows the time since a certain time point
@@ -41,7 +42,7 @@ const Question = ( {post} ) => {
             </Side>
             <Main>
                 <div>{post.title}</div>
-                <div>{post.content}</div>
+                <Markup content={post.content} />
                 <div>
                     <img src="https://www.gravatar.com/avatar/fd30a6da006a64e9f2d622341f374e99?s=256&d=identicon&r=PG" alt="profile"></img>
                     <div>{post.name}</div>

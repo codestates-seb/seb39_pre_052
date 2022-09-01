@@ -1,7 +1,7 @@
 import styled from "styled-components"
 import { useState, useRef } from "react";
 import { useNavigate } from 'react-router-dom';
-import { Markup } from 'interweave'; // react library to interpret html string to jsx
+import { useSelector } from "react-redux";
 
 import Toolbox from "./Toolbox";
 
@@ -18,11 +18,12 @@ const Editor = () => {
     const titleRef = useRef();
     const contentRef = useRef();
 
-    const token = "Beare eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJsb2dpbiBqd3QgdG9rZW4iLCJleHAiOjE2NjE5Mzg0MTIsImVtYWlsIjoic3VqaW5AZ21haWwuY29tIn0.IJSdhLrrTLCHErux_jnPbIfthF3D9rjsaIGBgpgPuFA9FyQ0GcqwwcCx90PNaAlWkFsg8KmmTcCE3G9APXLwhA";
+    const token = useSelector((state) => {
+        return state.user.userToken
+    });
 
     const handleTitleInput = (e) => {
         setTitle(e.target.value);
-        console.log(`here: ${title}`)
         
         // The red essage disappears when input is entered
         if (title.length < 0) {
@@ -119,7 +120,6 @@ const Editor = () => {
                 <Msg>{emptyContentMsg}</Msg>
             </Body>
             <Button onClick={handleSubmit}>Submit</Button>
-            <Markup content={htmlStr} />
         </Container>
     )
 };
