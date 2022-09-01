@@ -11,8 +11,6 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Sort;
 import org.springframework.transaction.annotation.Transactional;
 
-import static org.junit.jupiter.api.Assertions.*;
-
 @SpringBootTest
 @Transactional
 class AnswerRepositoryTest {
@@ -32,13 +30,13 @@ class AnswerRepositoryTest {
         Question question = new Question();
         question.setTitle("title");
         question.setContent("content");
-        question.setQuestionMember(member);
+        question.changeMember(member);
         questionRepository.save(question);
 
         for(int i=0;i<100;i++){
             Answer answer = new Answer();
             answer.setMember(member);
-            answer.setQuestion(question);
+            answer.changeQuestion(question);
             answer.setContent("Answer number " + i);
             answerRepository.save(answer);
         }

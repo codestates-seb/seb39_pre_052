@@ -4,6 +4,8 @@ import lombok.Getter;
 import lombok.Setter;
 
 import javax.persistence.*;
+import java.util.ArrayList;
+import java.util.List;
 
 @Entity
 @Getter
@@ -29,14 +31,11 @@ public class Answer extends BaseEntity{
     @JoinColumn(name = "member_id")
     private Member member;
 
-    public void setQuestion(Question question){
+    @OneToMany(mappedBy = "answer")
+    private List<Comment> comments = new ArrayList<>();
+
+    public void changeQuestion(Question question){
         this.question = question;
-        // 양방향 매핑시 question.addAnswer 추가 필요
+        question.getAnswers().add(this);
     }
-
-    public void setMember(Member member){
-        this.member = member;
-        // 양방향 매핑시 member.addAnswer 추가 필요
-    }
-
 }
