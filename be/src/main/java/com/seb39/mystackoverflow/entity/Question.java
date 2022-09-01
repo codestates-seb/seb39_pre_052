@@ -41,9 +41,16 @@ public class Question extends BaseEntity{
     @OneToMany(mappedBy = "question")
     private List<Comment> comments = new ArrayList<>();
 
-    public void changeMember(Member member) {
-        this.member = member;
-        member.getQuestions().add(this);
+    @Override
+    public String toString() {
+        return "Question{" +
+                "id=" + id +
+                ", title='" + title + '\'' +
+                ", content='" + content + '\'' +
+                ", view=" + view +
+                ", vote=" + vote +
+                ", member=" + member +
+                '}';
     }
 }
 

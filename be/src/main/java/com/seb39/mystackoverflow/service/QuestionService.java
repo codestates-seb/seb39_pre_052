@@ -29,7 +29,7 @@ public class QuestionService {
 
     public Question createQuestion(Question question, Long memberId) {
         Member findMember = memberService.findById(memberId);
-        question.changeMember(findMember);
+        question.setMember(findMember);
         System.out.println("question = " + question.getMember().getId());
         Question savedQuestion = questionRepository.save(question);
         return savedQuestion;

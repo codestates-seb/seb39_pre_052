@@ -30,7 +30,7 @@ class AnswerRepositoryTest {
         Question question = new Question();
         question.setTitle("title");
         question.setContent("content");
-        question.changeMember(member);
+        question.setMember(member);
         questionRepository.save(question);
 
         for(int i=0;i<100;i++){

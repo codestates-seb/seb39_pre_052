@@ -1,7 +1,6 @@
 package com.seb39.mystackoverflow.entity;
 
-import lombok.Getter;
-import lombok.Setter;
+import lombok.*;
 
 import javax.persistence.*;
 import java.util.ArrayList;
@@ -10,6 +9,7 @@ import java.util.List;
 @Entity
 @Getter
 @Setter
+@NoArgsConstructor
 public class Answer extends BaseEntity{
 
     @Id
@@ -34,8 +34,25 @@ public class Answer extends BaseEntity{
     @OneToMany(mappedBy = "answer")
     private List<Comment> comments = new ArrayList<>();
 
+    @Builder
+    public Answer(String content, Question question, Member member) {
+        this.content = content;
+        this.question = question;
+        this.member = member;
+    }
+
     public void changeQuestion(Question question){
         this.question = question;
         question.getAnswers().add(this);
+    }
+
+    @Override
+    public String toString() {
+        return "Answer{" +
+                "id=" + id +
+                ", content='" + content + '\'' +
+                ", vote=" + vote +
+                ", accepted=" + accepted +
+                '}';
     }
 }

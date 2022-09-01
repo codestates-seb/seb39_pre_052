@@ -49,7 +49,7 @@ class AnswerServiceTest {
         Question question = new Question();
         question.setTitle("TEST QUESTION");
         question.setContent("TEST QUESTION's content");
-        question.changeMember(other);
+        question.setMember(other);
         questionRepository.save(question);
     }
 

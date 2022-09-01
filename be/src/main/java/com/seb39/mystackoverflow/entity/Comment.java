@@ -56,4 +56,13 @@ public class Comment extends BaseEntity {
         }
         throw new UnsupportedOperationException("Unsupported PostType. postType = " + postType);
     }
+
+    @Override
+    public String toString() {
+        return "Comment{" +
+                "id=" + id +
+                ", postType=" + postType +
+                ", content='" + content + '\'' +
+                '}';
+    }
 }

@@ -50,7 +50,7 @@ class CommentServiceTest {
         question.setView(0);
         question.setVote(0);
         question.setContent("contentA");
-        question.changeMember(member);
+        question.setMember(member);
         questionService.createQuestion(question, question.getMember().getId());
 
         Comment comment = new Comment();
@@ -80,7 +80,7 @@ class CommentServiceTest {
         question.setView(0);
         question.setVote(0);
         question.setContent("contentA");
-        question.changeMember(member);
+        question.setMember(member);
         questionService.createQuestion(question, question.getMember().getId());
 
         Answer answer = new Answer();
@@ -119,7 +119,7 @@ class CommentServiceTest {
         question.setView(0);
         question.setVote(0);
         question.setContent("contentA");
-        question.changeMember(member);
+        question.setMember(member);
         questionService.createQuestion(question, question.getMember().getId());
 
         Comment comment = new Comment();
@@ -148,7 +148,7 @@ class CommentServiceTest {
         question.setView(0);
         question.setVote(0);
         question.setContent("contentA");
-        question.changeMember(member);
+        question.setMember(member);
         questionService.createQuestion(question, question.getMember().getId());
 
         Comment comment = new Comment();
