@@ -11,6 +11,9 @@ const Nav = styled.nav`
     flex-basis: 200px;
     flex-shrink: 1;
     height: 90vh;
+    > * {
+
+    }
     > div > * > * {
         :link {
             font-weight: bold;
@@ -25,6 +28,8 @@ const Nav = styled.nav`
         > *:nth-child(1) > div:first-of-type {
             margin-bottom: 30px;
             font-size: 20px;
+            position: fixed;
+            top: 120px
         }
     }
     > div:nth-of-type(2) {
@@ -38,16 +43,22 @@ const Nav = styled.nav`
             font-size: 19px;
             cursor: default;
             font-weight: normal;
+            position: fixed;
+            top: 180px
         }
         //Questions
         > *:nth-child(2) > div {
             padding-left: 40px;
             margin-bottom: 10px;
+            position: fixed;
+            top: 220px
         }
         //Users
         > *:nth-child(3) > div {
             padding-left: 40px;
             margin-bottom: 10px;
+            position: fixed;
+            top: 250px
         }
     }
 `

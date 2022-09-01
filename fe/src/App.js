@@ -15,7 +15,7 @@ import PostQAC from "./components/PostQAC";
 const Main = styled.div`
   display: flex;
   flex-direction: column;
-  margin-top: 100px;
+  margin-top: 70px;
 `;
 
 const Body = styled.div`

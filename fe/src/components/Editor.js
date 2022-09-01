@@ -37,7 +37,6 @@ const Editor = () => {
     }
 
     const handleSubmit = () => {
-
         // 유효성 검사
         if (title.length === 0) {
             // 제목, 컨텐츠 둘다 비었을 때

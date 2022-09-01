@@ -7,6 +7,7 @@ import React from 'react';
 const CustomReactQuill = styled(ReactQuill)`
     height: 300px;
     border-bottom: 1px solid #D1D1D1;
+    overflow: hidden;
 `
 
 const Toolbox = ({ htmlStr, setHtmlStr, contentRef, setIsContentEmpty, setEmptyContentMsg }) => {
@@ -71,6 +72,7 @@ const Toolbox = ({ htmlStr, setHtmlStr, contentRef, setIsContentEmpty, setEmptyC
                     onChange={handleText}
                     theme="snow"
                     ref={contentRef}
+                    // style={{overflow: "hidden"}}
                 />
             </div>
       </div>

@@ -14,7 +14,6 @@ import { StickyNav } from 'react-js-stickynav'
 import 'react-js-stickynav/dist/index.css'
 
 const GNB = () => {
-
     // to set the state of data in redux store(slice)
     const dispatch = useDispatch();
 
@@ -30,35 +29,33 @@ const GNB = () => {
 
     // SNB STATE (retrieves the SNB state back from redux slice)
     const show = useSelector(state => {
-      return state.toggle.active;
+        return state.toggle.active;
     })
 
     // sticky GNB
-
-  const style = () => {
-    return (
-      <style jsx>{`
-        .nav {
-          transition: all 0.1s linear;
-          position: fixed;
-          z-index: 2000;
-          padding: 20px;
-          background-color: white;
-          width: 100vw;
-        }
-        .scrollNav {
-          transition: all 0.5s ease-in;
-          z-index: 2000;
-          background: #ffffff;
-          width: 100%;
-          border-bottom: 1px solid #dddddd;
-        }
-        .styl {
-          padding-top: 80px;
-        }
-      `}</style>
-    )
-  }
+    const style = () => {
+        return (
+            <style jsx="true">{`
+            .nav {
+            transition: all 0.1s linear;
+            position: fixed;
+            z-index: 2000;
+            background-color: white;
+            width: 100vw;
+            }
+            .scrollNav {
+            transition: all 0.5s ease-in;
+            z-index: 2000;
+            background: #ffffff;
+            width: 100%;
+            border-bottom: 1px solid #dddddd;
+            }
+            .styl {
+            padding-top: 80px;
+            }
+        `}</style>
+        )
+    }
 
 
     return (
