@@ -1,4 +1,58 @@
 import styled from 'styled-components';
+import { Markup } from 'interweave'; // react library to interpret html string to jsx
+
+const Question = ( {post} ) => {
+    // shows the time since a certain time point
+    function timeSince (date) {
+    
+        let seconds = Math.floor((new Date() - date) / 1000);
+    
+        let interval = seconds / 31536000;
+    
+        if (interval > 1) {
+            return Math.floor(interval) + " years";
+        }
+        interval = seconds / 2592000;
+        if (interval > 1) {
+            return Math.floor(interval) + " months";
+        }
+        interval = seconds / 86400;
+        if (interval > 1) {
+            return Math.floor(interval) + " days";
+        }
+        interval = seconds / 3600;
+        if (interval > 1) {
+            return Math.floor(interval) + " hours";
+        }
+        interval = seconds / 60;
+        if (interval > 1) {
+            return Math.floor(interval) + " minutes";
+        }
+        return Math.floor(seconds) + " seconds";
+    };
+
+    let num = Date.parse(post.createdAt);
+
+    return (
+        <Block>
+            <Side>
+                <div>{post.vote} votes</div>
+                <div>{post.answered} answers</div>
+                <div>{post.view} views</div>
+            </Side>
+            <Main>
+                <div>{post.title}</div>
+                <Markup content={post.content} />
+                <div>
+                    <img src="https://www.gravatar.com/avatar/fd30a6da006a64e9f2d622341f374e99?s=256&d=identicon&r=PG" alt="profile"></img>
+                    <div>{post.name}</div>
+                    <div>asked {timeSince(num)} ago</div>
+                </div>
+            </Main>
+        </Block>
+    )
+};
+
 
 const Block = styled.div`
     display: flex;
@@ -48,57 +102,5 @@ const Main = styled.div`
     }
 `
 
-
-const Question = ( {post} ) => {
-    // shows the time since a certain time point
-    function timeSince (date) {
-    
-        let seconds = Math.floor((new Date() - date) / 1000);
-    
-        let interval = seconds / 31536000;
-    
-        if (interval > 1) {
-            return Math.floor(interval) + " years";
-        }
-        interval = seconds / 2592000;
-        if (interval > 1) {
-            return Math.floor(interval) + " months";
-        }
-        interval = seconds / 86400;
-        if (interval > 1) {
-            return Math.floor(interval) + " days";
-        }
-        interval = seconds / 3600;
-        if (interval > 1) {
-            return Math.floor(interval) + " hours";
-        }
-        interval = seconds / 60;
-        if (interval > 1) {
-            return Math.floor(interval) + " minutes";
-        }
-        return Math.floor(seconds) + " seconds";
-    };
-
-    let num = Date.parse(post.createdAt);
-
-    return (
-        <Block>
-            <Side>
-                <div>{post.vote} votes</div>
-                <div>{post.answered} answers</div>
-                <div>{post.view} views</div>
-            </Side>
-            <Main>
-                <div>{post.title}</div>
-                <div>{post.content}</div>
-                <div>
-                    <img src="https://www.gravatar.com/avatar/fd30a6da006a64e9f2d622341f374e99?s=256&d=identicon&r=PG" alt="profile"></img>
-                    <div>{post.name}</div>
-                    <div>asked {timeSince(num)} ago</div>
-                </div>
-            </Main>
-        </Block>
-    )
-};
 
 export default Question;
