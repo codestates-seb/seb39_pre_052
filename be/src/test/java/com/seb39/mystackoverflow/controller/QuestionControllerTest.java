@@ -33,6 +33,8 @@ import org.springframework.test.web.servlet.ResultActions;
 import java.time.LocalDateTime;
 import java.util.List;
 
+import static com.seb39.mystackoverflow.util.ApiDocumentUtils.getRequestPreProcessor;
+import static com.seb39.mystackoverflow.util.ApiDocumentUtils.getResponsePreProcessor;
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.BDDMockito.*;
@@ -106,11 +108,13 @@ class QuestionControllerTest {
         //then
         actions.andExpect(status().isCreated())
                 .andDo(document("post-question",
+                        getRequestPreProcessor(),
+                        getResponsePreProcessor(),
                         requestFields(
-                            List.of(
-                                fieldWithPath("title").type(JsonFieldType.STRING).description("질문 제목"),
-                                fieldWithPath("content").type(JsonFieldType.STRING).description("질문 내용")
-                            )
+                                List.of(
+                                        fieldWithPath("title").type(JsonFieldType.STRING).description("질문 제목"),
+                                        fieldWithPath("content").type(JsonFieldType.STRING).description("질문 내용")
+                                )
                         ),
                         responseFields(
                                 List.of(
@@ -165,6 +169,8 @@ class QuestionControllerTest {
         //then
         actions.andExpect(status().isOk())
                 .andDo(document("patch-question",
+                        getRequestPreProcessor(),
+                        getResponsePreProcessor(),
                         pathParameters(
                                 parameterWithName("id").description("질문 식별자")
                         ),
@@ -212,6 +218,8 @@ class QuestionControllerTest {
         //then
         actions.andExpect(status().isOk())
                 .andDo(document("get-questions",
+                        getRequestPreProcessor(),
+                        getResponsePreProcessor(),
                         requestParameters(
                                 List.of(
                                         parameterWithName("page").description("Page 번호"),
