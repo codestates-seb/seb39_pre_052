@@ -1,15 +1,13 @@
 package com.seb39.mystackoverflow.mapper;
 
 import com.seb39.mystackoverflow.dto.QuestionDto;
-import com.seb39.mystackoverflow.entity.Member;
 import com.seb39.mystackoverflow.entity.Question;
-import java.time.LocalDateTime;
 import javax.annotation.processing.Generated;
 import org.springframework.stereotype.Component;
 
 @Generated(
     value = "org.mapstruct.ap.MappingProcessor",
-    date = "2022-09-01T13:23:32+0900",
+    date = "2022-09-01T16:18:49+0900",
     comments = "version: 1.5.2.Final, compiler: javac, environment: Java 11.0.13 (Oracle Corporation)"
 )
 @Component
@@ -50,26 +48,17 @@ public class QuestionMapperImpl implements QuestionMapper {
             return null;
         }
 
-        Long id = null;
-        String title = null;
-        String content = null;
-        int view = 0;
-        int vote = 0;
-        LocalDateTime createdAt = null;
-        LocalDateTime lastModifiedAt = null;
-        Member member = null;
+        QuestionDto.Response.ResponseBuilder response = QuestionDto.Response.builder();
 
-        id = question.getId();
-        title = question.getTitle();
-        content = question.getContent();
-        view = question.getView();
-        vote = question.getVote();
-        createdAt = question.getCreatedAt();
-        lastModifiedAt = question.getLastModifiedAt();
-        member = question.getMember();
+        response.id( question.getId() );
+        response.title( question.getTitle() );
+        response.content( question.getContent() );
+        response.view( question.getView() );
+        response.vote( question.getVote() );
+        response.createdAt( question.getCreatedAt() );
+        response.lastModifiedAt( question.getLastModifiedAt() );
+        response.member( question.getMember() );
 
-        QuestionDto.Response response = new QuestionDto.Response( id, title, content, view, vote, createdAt, lastModifiedAt, member );
-
-        return response;
+        return response.build();
     }
 }

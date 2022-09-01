@@ -70,6 +70,7 @@ class QuestionControllerTest {
     void 데이터_준비() {
         Member member = Member.builder()
                 .email("test@email.com")
+                .name("nameA")
                 .roles("ROLE_USER")
                 .build();
         memberRepository.save(member);
@@ -84,6 +85,8 @@ class QuestionControllerTest {
     public void 질문등록_테스트() throws Exception {
         //given
         QuestionDto.Post requestBody = new QuestionDto.Post();
+        Member member = memberRepository.findByEmail("test@email.com").get();
+        QuestionDto.Response.MemberSimple memberSimple = new QuestionDto.Response.MemberSimple(member.getId(), member.getName());
         requestBody.setContent("Test content");
         requestBody.setTitle("Test title");
 
@@ -94,7 +97,7 @@ class QuestionControllerTest {
                 0,
                 LocalDateTime.now(),
                 LocalDateTime.now(),
-                memberRepository.findByEmail("test@email.com").get());
+                memberSimple);
 
         given(questionMapper.questionPostToQuestion(any())).willReturn(new Question());
         given(questionService.createQuestion(any(), any())).willReturn(new Question());
@@ -126,7 +129,9 @@ class QuestionControllerTest {
                                         fieldWithPath("data.vote").type(JsonFieldType.NUMBER).description("질문 추천수"),
                                         fieldWithPath("data.createdAt").type(JsonFieldType.STRING).description("질문 생성 일시"),
                                         fieldWithPath("data.lastModifiedAt").type(JsonFieldType.STRING).description("질문 수정 일시"),
-                                        fieldWithPath("data.member").type(JsonFieldType.NUMBER).description("작성자 식별자")
+                                        fieldWithPath("data.member").type(JsonFieldType.OBJECT).description("작성자 데이터"),
+                                        fieldWithPath("data.member.memberId").type(JsonFieldType.NUMBER).description("작성자 식별자"),
+                                        fieldWithPath("data.member.memberName").type(JsonFieldType.STRING).description("작성자 이름")
                                 )
                         )
                 ));
@@ -135,6 +140,9 @@ class QuestionControllerTest {
     @Test
     public void 질문수정_테스트() throws Exception{
         //given
+        Member member = memberRepository.findByEmail("test@email.com").get();
+        QuestionDto.Response.MemberSimple memberSimple = new QuestionDto.Response.MemberSimple(member.getId(), member.getName());
+
         QuestionDto.Post requestBody = new QuestionDto.Post();
         requestBody.setContent("Test content");
         requestBody.setTitle("Test title");
@@ -153,7 +161,7 @@ class QuestionControllerTest {
                 0,
                 LocalDateTime.now(),
                 LocalDateTime.now(),
-                memberRepository.findByEmail("test@email.com").get()
+                memberSimple
                 );
         given(questionMapper.questionPatchToQuestion(Mockito.any(QuestionDto.Patch.class))).willReturn(new Question());
         given(questionService.updateQuestion(Mockito.any(Question.class), any())).willReturn(new Question());
@@ -190,7 +198,9 @@ class QuestionControllerTest {
                                         fieldWithPath("data.vote").type(JsonFieldType.NUMBER).description("질문 추천수"),
                                         fieldWithPath("data.createdAt").type(JsonFieldType.STRING).description("질문 생성 일시"),
                                         fieldWithPath("data.lastModifiedAt").type(JsonFieldType.STRING).description("질문 수정 일시"),
-                                        fieldWithPath("data.member").type(JsonFieldType.NUMBER).description("작성자 식별자")
+                                        fieldWithPath("data.member").type(JsonFieldType.OBJECT).description("작성자 데이터"),
+                                        fieldWithPath("data.member.memberId").type(JsonFieldType.NUMBER).description("작성자 식별자"),
+                                        fieldWithPath("data.member.memberName").type(JsonFieldType.STRING).description("작성자 이름")
                                 )
                         )
                 ));
@@ -200,6 +210,7 @@ class QuestionControllerTest {
     public void 질문목록조회_테스트() throws Exception {
         //given
         Member member = memberRepository.findByEmail("test@email.com").get();
+        QuestionDto.Response.MemberSimple memberSimple = new QuestionDto.Response.MemberSimple(member.getId(), member.getName());
 
         Question question1 = getQuestion(member);
         Question question2 = getQuestion2(member);
@@ -207,8 +218,8 @@ class QuestionControllerTest {
         Page<Question> questions = new PageImpl<>(List.of(question1, question2),
                 PageRequest.of(0, 10, Sort.by("id").descending()), 2);
 
-        List<QuestionDto.Response> responses = List.of(new QuestionDto.Response(1L, "title", "content", 0, 0, LocalDateTime.now(), LocalDateTime.now(), member),
-                new QuestionDto.Response(2L, "title", "content", 0, 0, LocalDateTime.now(), LocalDateTime.now(), member));
+        List<QuestionDto.Response> responses = List.of(new QuestionDto.Response(1L, "title", "content", 0, 0, LocalDateTime.now(), LocalDateTime.now(), memberSimple),
+                new QuestionDto.Response(2L, "title", "content", 0, 0, LocalDateTime.now(), LocalDateTime.now(), memberSimple));
 
 
         given(questionService.findQuestions(Mockito.anyInt(), Mockito.anyInt())).willReturn(questions);
@@ -237,7 +248,9 @@ class QuestionControllerTest {
                                 fieldWithPath("data.[].vote").type(JsonFieldType.NUMBER).description("질문 추천수"),
                                 fieldWithPath("data.[].createdAt").type(JsonFieldType.STRING).description("질문 생성일"),
                                 fieldWithPath("data.[].lastModifiedAt").type(JsonFieldType.STRING).description("질문 수정일"),
-                                fieldWithPath("data.[].member").type(JsonFieldType.NUMBER).description("작성자 식별자"),
+                                fieldWithPath("data.[].member").type(JsonFieldType.OBJECT).description("작성자 데이터"),
+                                fieldWithPath("data.[].member.memberId").type(JsonFieldType.NUMBER).description("작성자 식별자"),
+                                fieldWithPath("data.[].member.memberName").type(JsonFieldType.STRING).description("작성자 이름"),
                                 fieldWithPath("pageInfo.page").type(JsonFieldType.NUMBER).description("현재 페이지"),
                                 fieldWithPath("pageInfo.size").type(JsonFieldType.NUMBER).description("현재 사이즈"),
                                 fieldWithPath("pageInfo.totalElements").type(JsonFieldType.NUMBER).description("질문 전체 수"),

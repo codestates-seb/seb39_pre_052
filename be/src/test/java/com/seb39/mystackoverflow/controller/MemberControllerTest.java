@@ -81,11 +81,14 @@ class MemberControllerTest {
         Long memberId = 1L;
         Member member = new Member();
         member.setId(memberId);
+        member.setName("nameA");
         LocalDateTime createdAt = LocalDateTime.now();
+        QuestionDto.Response.MemberSimple memberSimple = new QuestionDto.Response.MemberSimple(member.getId(), member.getName());
+
         List<QuestionDto.Response> data = List.of(
-                new QuestionDto.Response(1L, "title01", "content01", 1111, 11, createdAt, createdAt, member),
-                new QuestionDto.Response(2L, "title02", "content02", 768, 22, createdAt, createdAt, member),
-                new QuestionDto.Response(3L, "title03", "content03", 353, -7, createdAt, createdAt, member)
+                new QuestionDto.Response(1L, "title01", "content01", 1111, 11, createdAt, createdAt, memberSimple),
+                new QuestionDto.Response(2L, "title02", "content02", 768, 22, createdAt, createdAt, memberSimple),
+                new QuestionDto.Response(3L, "title03", "content03", 353, -7, createdAt, createdAt, memberSimple)
         );
         given(questionMapper.questionsToQuestionResponses(any()))
                 .willReturn(data);
@@ -99,7 +102,6 @@ class MemberControllerTest {
                 .andExpect(jsonPath("data[0].content").value("content01"))
                 .andExpect(jsonPath("data[0].view").value(1111))
                 .andExpect(jsonPath("data[0].vote").value(11))
-                .andExpect(jsonPath("data[0].member").value(memberId))
                 .andExpect(jsonPath("pageInfo.page").value(1))
                 .andExpect(jsonPath("pageInfo.size").value(3))
                 .andExpect(jsonPath("pageInfo.totalElements").value(3))
@@ -122,7 +124,9 @@ class MemberControllerTest {
                                 fieldWithPath("data[].vote").type(JsonFieldType.NUMBER).description("질문 추천 수"),
                                 fieldWithPath("data[].createdAt").type(JsonFieldType.STRING).description("질문 생성 시간"),
                                 fieldWithPath("data[].lastModifiedAt").type(JsonFieldType.STRING).description("질문 마지막 수정 시간"),
-                                fieldWithPath("data[].member").type(JsonFieldType.NUMBER).description("질문 작성자 ID"),
+                                fieldWithPath("data[].member").type(JsonFieldType.OBJECT).description("질문 작성자 정보"),
+                                fieldWithPath("data.[].member.memberId").type(JsonFieldType.NUMBER).description("질문 작성자 식별자"),
+                                fieldWithPath("data.[].member.memberName").type(JsonFieldType.STRING).description("질문 작성자 이름"),
                                 fieldWithPath("pageInfo.page").type(JsonFieldType.NUMBER).description("현재 페이지"),
                                 fieldWithPath("pageInfo.size").type(JsonFieldType.NUMBER).description("현재 사이즈"),
                                 fieldWithPath("pageInfo.totalElements").type(JsonFieldType.NUMBER).description("질문 전체 수"),
