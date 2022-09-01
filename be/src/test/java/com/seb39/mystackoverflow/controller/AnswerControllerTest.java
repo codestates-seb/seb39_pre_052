@@ -57,9 +57,6 @@ class AnswerControllerTest {
     @MockBean
     private AnswerMapper answerMapper;
 
-    @MockBean
-    private PrincipalDetails principal;
-
     private ObjectMapper objectMapper = new ObjectMapper();
 
     @Autowired

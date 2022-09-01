@@ -9,7 +9,24 @@ import org.mapstruct.ReportingPolicy;
 public interface CommentMapper {
     Comment commentPostToComment(CommentDto.Post requestBody);
 
-    Comment commentPatchToComment(CommentDto.Patch requestBody);
+    default Comment commentPatchToComment(Long id, CommentDto.Patch requestBody){
+        Comment comment = new Comment();
+        comment.setId(id);
+        comment.setContent(requestBody.getContent());
+        return comment;
+    }
 
-    CommentDto.Response commentToCommentResponse(Comment comment);
+    default CommentDto.Response commentToCommentResponse(Comment comment){
+
+        return CommentDto.Response.builder()
+                .id(comment.getId())
+                .content(comment.getContent())
+                .createdAt(comment.getCreatedAt())
+                .lastModifiedAt(comment.getLastModifiedAt())
+                .memberId(comment.getMember().getId())
+                .postType(comment.getPostType())
+                .postId(comment.getPostId())
+                .build();
+
+    }
 }
