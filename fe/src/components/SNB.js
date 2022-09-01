@@ -11,6 +11,7 @@ const Nav = styled.nav`
     flex-basis: 200px;
     flex-shrink: 1;
     height: 90vh;
+
     > * {
 
     }
@@ -18,24 +19,28 @@ const Nav = styled.nav`
         :link {
             font-weight: bold;
         }
+        /* color: #6b6b6b; */
     }
     > div:nth-of-type(1) {
         > * {
             text-decoration: none;
-            color: #2b2b2b;
+            /* color: #2b2b2b; */
         }
         // Home
         > *:nth-child(1) > div:first-of-type {
             margin-bottom: 30px;
             font-size: 20px;
             position: fixed;
-            top: 120px
+            top: 120px;
+            :hover {
+                color: #191919;
+            }
         }
     }
     > div:nth-of-type(2) {
         > * {
             text-decoration: none;
-            color: #2b2b2b;
+            /* color: #2b2b2b; */
         }
         // PUBLIC
         > *:nth-child(1) > div:first-of-type {
@@ -44,21 +49,28 @@ const Nav = styled.nav`
             cursor: default;
             font-weight: normal;
             position: fixed;
-            top: 180px
+            top: 180px;
+            color: #5d5e60;
         }
         //Questions
         > *:nth-child(2) > div {
             padding-left: 40px;
             margin-bottom: 10px;
             position: fixed;
-            top: 220px
+            top: 220px;
+            :hover {
+                color: #191919;
+            }
         }
         //Users
         > *:nth-child(3) > div {
             padding-left: 40px;
             margin-bottom: 10px;
             position: fixed;
-            top: 250px
+            top: 250px;
+            :hover {
+                color: #191919;
+            }
         }
     }
 `
@@ -86,12 +98,20 @@ const SNB = () => {
             {menus.map((menu, idx) => {
                 return (
                     <div key={idx}>
-                        <NavLink to={menu.path} style={({ isActive }) => ({ fontWeight: isActive ? 'bold' : null })}>
+                        <NavLink 
+                            to={menu.path} 
+                            style={({ isActive }) => ({ 
+                                fontWeight: isActive ? 'bold' : null,
+                                color: isActive? '#191919' : '#5d5e60',
+                                })}>
                             <div >{menu.name}</div>
                         </NavLink>
                         {menu.submenus.map((sub, index) => {
                             return (
-                                <NavLink to={sub.path} key={index} style={({ isActive }) => ({ fontWeight: isActive ? 'bold' : null })}>
+                                <NavLink to={sub.path} key={index} style={({ isActive }) => ({
+                                    fontWeight: isActive ? 'bold' : null,
+                                    color: isActive ? '#191919' : '#5d5e60',
+                                })}>
                                     <div>{sub.name}</div>
                                 </NavLink>
                             )

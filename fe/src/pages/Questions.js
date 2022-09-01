@@ -1,25 +1,34 @@
 import { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom'
 import { useNavigate } from 'react-router-dom';
-import { useSelector } from "react-redux";
+import { useSelector, useDispatch } from "react-redux";
 import styled from "styled-components";
 import Question from "../components/Question";
 import Pagination from "../components/Pagination";
 
+import { setPosts } from "../features/qListSlice";
+
 const Questions = () => {
     const [qNum, setQNum] = useState("");
 
-    const [posts, setPosts] = useState([]);
-    const [total, setTotal] = useState(0);
     const [limit, setLimit] = useState(5);
     const [page, setPage] = useState(1);
     const [isDeleted, setIsDeleted] = useState(false);
     const offset = (page - 1) * limit;
 
     const navigate = useNavigate();
+    const dispatch = useDispatch();
 
     const token = useSelector((state) => {
-        return state.user.userToken
+        return state.user.userToken;
+    });
+
+    const posts = useSelector((state) => {
+        return state.qlist.posts;
+    });
+
+    const total = useSelector((state) => {
+        return state.qlist.total;
     });
 
     // // TEST DATA
@@ -33,7 +42,9 @@ const Questions = () => {
     useEffect(() => {
         fetch(`/api/questions?size=${limit}&page=${page}`)
             .then((res) => res.json())
-            .then((data) => {setPosts(data.data); setTotal(data.pageInfo.totalElements);})
+            .then((data) => {
+                dispatch(setPosts({posts: data.data, total: data.pageInfo.totalElements})); 
+            })
             .catch((err) => console.log(`!CANNOT FETCH QUESTION DATA! ${err}!`))
     }, [page, limit, isDeleted]);
 
@@ -113,6 +124,7 @@ const Header = styled.div`
 const Button = styled.button`
   background-color: #0a95ff;
   border: none;
+  border-radius: 5px;
   padding: 15px;
   margin-right: 15px;
   color: white;

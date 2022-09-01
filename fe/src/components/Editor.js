@@ -176,6 +176,7 @@ const Msg = styled.div`
 const Button = styled.button`
     background-color: #0A95FF;
     border: none;
+    border-radius: 8px;
     padding: 15px;
     color: white;
     font-size: 16px;
