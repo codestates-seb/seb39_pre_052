@@ -2,6 +2,7 @@ package com.seb39.mystackoverflow.dto;
 
 import com.seb39.mystackoverflow.entity.Member;
 import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -59,10 +60,29 @@ public class QuestionDto {
         private int vote;
         private LocalDateTime createdAt;
         private LocalDateTime lastModifiedAt;
-        private Member member;
+        //        private Member member;
+        private MemberSimple member;
 
-        public Long getMember() {
-            return member.getId();
+        @Builder
+        public Response(Long id, String title, String content, int view, int vote, LocalDateTime createdAt, LocalDateTime lastModifiedAt, Member member, Long memberId, String memberName) {
+            this.id = id;
+            this.title = title;
+            this.content = content;
+            this.view = view;
+            this.vote = vote;
+            this.createdAt = createdAt;
+            this.lastModifiedAt = lastModifiedAt;
+            this.member = new MemberSimple(member.getId(), member.getName());
+        }
+
+        @Getter
+        public static class MemberSimple {
+            private Long memberId;
+            private String memberName;
+            public MemberSimple(Long memberId, String memberName) {
+                this.memberId = memberId;
+                this.memberName = memberName;
+            }
         }
     }
 
