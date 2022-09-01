@@ -49,10 +49,9 @@ public class CommentController {
             @PathVariable("id") @Positive long id,
             @Valid @RequestBody CommentDto.Patch requestBody,
             @AuthenticationPrincipal PrincipalDetails principalDetails) {
-        requestBody.setId(id);
         Long memberId = principalDetails.getMemberId();
 
-        Comment updateComment = commentService.updateComment(commentMapper.commentPatchToComment(requestBody), memberId);
+        Comment updateComment = commentService.updateComment(commentMapper.commentPatchToComment(id,requestBody), memberId);
 
         CommentDto.Response response = commentMapper.commentToCommentResponse(updateComment);
 

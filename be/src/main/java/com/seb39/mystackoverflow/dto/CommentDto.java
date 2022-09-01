@@ -6,6 +6,7 @@ import com.seb39.mystackoverflow.entity.Question;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
+import lombok.Setter;
 
 import javax.validation.constraints.NotBlank;
 import java.time.LocalDateTime;
@@ -13,6 +14,7 @@ import java.time.LocalDateTime;
 public class CommentDto {
 
     @Getter
+    @Setter
     public static class Post {
 
         @NotBlank
@@ -57,14 +59,14 @@ public class CommentDto {
         public Patch() {
         }
 
-        private long id;
+        // private long id;
 
         @NotBlank(message = "수정할 댓글 내용은 공백이 아니어야 합니다.")
         private String content;
 
-        public void setId(long id) {
-            this.id = id;
-        }
+//        public void setId(long id) {
+//            this.id = id;
+//        }
 
     }
 }
