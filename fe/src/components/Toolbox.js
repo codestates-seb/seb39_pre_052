@@ -7,6 +7,7 @@ import React from 'react';
 const CustomReactQuill = styled(ReactQuill)`
     height: 300px;
     border-bottom: 1px solid #D1D1D1;
+    overflow: hidden;
 `
 
 const Toolbox = ({ htmlStr, setHtmlStr, contentRef, setIsContentEmpty, setEmptyContentMsg }) => {
@@ -18,8 +19,8 @@ const Toolbox = ({ htmlStr, setHtmlStr, contentRef, setIsContentEmpty, setEmptyC
                 // [{ 'header': [1, 2, 3, 4, 5, 6, false] }], // header 설정
                 ['bold', 'italic', 'underline', 'strike', 'blockquote', 'code-block', 'formula'], // 굵기, 기울기, 밑줄 등 부가 tool 설정
                 [{ 'list': 'ordered' }, { 'list': 'bullet' }, { 'indent': '-1' }, { 'indent': '+1' }], // 리스트, 인덴트 설정
-                // ['link', 'image', 'video'], // 링크, 이미지, 비디오 업로드 설정
-                [{ 'align': [] }, { 'color': [] }, { 'background': [] }], // 정렬, 글씨 색깔, 글씨 배경색 설정
+                ['link', 'image', 'video'], // 링크, 이미지, 비디오 업로드 설정
+                // [{ 'align': [] }, { 'color': [] }, { 'background': [] }], // 정렬, 글씨 색깔, 글씨 배경색 설정
                 ['clean'], // toolbar 설정 초기화 설정
             ],
             // handlers: {
@@ -71,6 +72,7 @@ const Toolbox = ({ htmlStr, setHtmlStr, contentRef, setIsContentEmpty, setEmptyC
                     onChange={handleText}
                     theme="snow"
                     ref={contentRef}
+                    // style={{overflow: "hidden"}}
                 />
             </div>
       </div>

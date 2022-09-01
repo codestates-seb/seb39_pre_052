@@ -9,10 +9,11 @@ import { useSelector, useDispatch } from 'react-redux';
 import { changeShow } from '../features/showSlice';
 import { loginFulfilled, loginRejected, logoutFulfilled } from "../features/userSlice";
 
+// sticky GNB
+import { StickyNav } from 'react-js-stickynav'
+import 'react-js-stickynav/dist/index.css'
+
 const GNB = () => {
-
-    // const [isLoggedIn, setIsLoggedIn] = useState(true);
-
     // to set the state of data in redux store(slice)
     const dispatch = useDispatch();
 
@@ -28,63 +29,97 @@ const GNB = () => {
 
     // SNB STATE (retrieves the SNB state back from redux slice)
     const show = useSelector(state => {
-      return state.toggle.active;
+        return state.toggle.active;
     })
 
+    // sticky GNB
+    const style = () => {
+        return (
+            <style jsx="true">{`
+            .nav {
+            transition: all 0.1s linear;
+            position: fixed;
+            z-index: 2000;
+            background-color: white;
+            width: 100vw;
+            }
+            .scrollNav {
+            transition: all 0.5s ease-in;
+            z-index: 2000;
+            background: #ffffff;
+            width: 100%;
+            border-bottom: 1px solid #dddddd;
+            }
+            .styl {
+            padding-top: 80px;
+            }
+        `}</style>
+        )
+    }
+
+
     return (
-        <Nav>
-            <div onClick={() => dispatch(changeShow())}>
-                {show ? <FontAwesomeIcon icon={faXmark} /> : <FontAwesomeIcon icon={faBars} />}
-            </div>
-            <Link to="/"><img src="https://upload.wikimedia.org/wikipedia/commons/thumb/0/02/Stack_Overflow_logo.svg/2560px-Stack_Overflow_logo.svg.png" alt="logo"/></Link>
-            <ul>
-                {isLoggedIn
-                    ? <>
-                        <li>Products</li>
-                    </>
-                    : <>
-                        <a href="https://stackoverflow.co/"><li>About</li></a>
-                        <li>Products</li>
-                        <a href="https://stackoverflow.co/teams/"><li>For Teams</li></a>
-                    </>
-                }
-            </ul>
-            {isLoggedIn
-                ?
-                <Search width="61vw">
-                    <input placeholder="Search..."></input>
-                </Search>
-                :
-                <Search>
-                    <input placeholder="Search..."></input>
-                </Search>
-            }
-            {isLoggedIn
-                ? <>
-                    <Link to="/"><Profile><img src="https://www.gravatar.com/avatar/edaeaf608980ecad3a299402122bd909?s=256&d=identicon&r=PG" alt="profile" /></Profile></Link>
-                    <Link to="/"><Button color="#d1ebff" border="1px solid #0074CC" text="#0074CC" hover="#9bd1f7" onClick={handleLogout}>Log out</Button></Link>
-                </>
-                : <>
-                    <Link to="/login"><Button color="#d1ebff" border="1px solid #0074CC" text="#0074CC" hover="#9bd1f7" >Log in</Button></Link>
-                    <Link to="/signup"><Button color="#0A95FF">Sign up</Button></Link>
-                </>
-            }
-        </Nav>
+        <>
+            {style()}
+            <StickyNav>
+                <Nav>
+                    <div onClick={() => dispatch(changeShow())}>
+                        {show ? <FontAwesomeIcon icon={faXmark} /> : <FontAwesomeIcon icon={faBars} />}
+                    </div>
+                    <Link to="/"><img src="https://upload.wikimedia.org/wikipedia/commons/thumb/0/02/Stack_Overflow_logo.svg/2560px-Stack_Overflow_logo.svg.png" alt="logo" /></Link>
+                    <ul>
+                        {isLoggedIn
+                            ? <>
+                                <li>Products</li>
+                            </>
+                            : <>
+                                <a href="https://stackoverflow.co/"><li>About</li></a>
+                                <li>Products</li>
+                                <a href="https://stackoverflow.co/teams/"><li>For Teams</li></a>
+                            </>
+                        }
+                    </ul>
+                    {isLoggedIn
+                        ?
+                        <Search width="61vw">
+                            <input placeholder="Search..."></input>
+                        </Search>
+                        :
+                        <Search>
+                            <input placeholder="Search..."></input>
+                        </Search>
+                    }
+                    {isLoggedIn
+                        ? <>
+                            <Link to="/"><Profile><img src="https://www.gravatar.com/avatar/edaeaf608980ecad3a299402122bd909?s=256&d=identicon&r=PG" alt="profile" /></Profile></Link>
+                            <Link to="/"><Button color="#d1ebff" border="1px solid #0074CC" text="#0074CC" hover="#9bd1f7" onClick={handleLogout}>Log out</Button></Link>
+                        </>
+                        : <>
+                            <Link to="/login"><Button color="#d1ebff" border="1px solid #0074CC" text="#0074CC" hover="#9bd1f7" >Log in</Button></Link>
+                            <Link to="/signup"><Button color="#0A95FF">Sign up</Button></Link>
+                        </>
+                    }
+                </Nav>
+            </StickyNav>
+        </>
     )
 };
 
 // css
 
 const Nav = styled.nav`
+    overflow: hidden;
     display: flex;
     border-bottom: 1px solid darkgrey;
     padding: 10px 10px 10px 20px;
     align-items: center;
     justify-content: center;
+    background-color: white;
 
     > * {
         display: flex;
         align-items: center;
+        
     }
     // menu button
     > div:first-of-type {
@@ -132,6 +167,7 @@ const Search = styled.div`
 `
 
 const Button = styled.button`
+    overflow: hidden;
     margin-right: 10px;
     padding: 5px 10px 5px 10px;
     height: 38px;

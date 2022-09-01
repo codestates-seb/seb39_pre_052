@@ -1,8 +1,10 @@
 import { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom'
+import { useNavigate } from 'react-router-dom';
+import { useSelector } from "react-redux";
 import styled from "styled-components";
-import Question from '../components/Question';
-import Pagination from '../components/Pagination';
+import Question from "../components/Question";
+import Pagination from "../components/Pagination";
 
 const Questions = () => {
     const [qNum, setQNum] = useState("");
@@ -11,7 +13,14 @@ const Questions = () => {
     const [total, setTotal] = useState(0);
     const [limit, setLimit] = useState(5);
     const [page, setPage] = useState(1);
+    const [isDeleted, setIsDeleted] = useState(false);
     const offset = (page - 1) * limit;
+
+    const navigate = useNavigate();
+
+    const token = useSelector((state) => {
+        return state.user.userToken
+    });
 
     // // TEST DATA
     // useEffect(() => {
@@ -26,16 +35,16 @@ const Questions = () => {
             .then((res) => res.json())
             .then((data) => {setPosts(data.data); setTotal(data.pageInfo.totalElements);})
             .catch((err) => console.log(`!CANNOT FETCH QUESTION DATA! ${err}!`))
-    }, [page, limit]);
+    }, [page, limit, isDeleted]);
 
     const deleteHandler = () => {
         fetch(`/api/questions/${posts[qNum-1].id}`, {
             method: "DELETE",
             headers: {
-                "Authorization": "Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJsb2dpbiBqd3QgdG9rZW4iLCJleHAiOjE2NjE5OTc2NjUsImVtYWlsIjoic3VqaW5AZ21haWwuY29tIn0.G6EeCQsL3rx5SCZZzK4DCLIA1dcsNwb-XyN1lLgJkGMdDEWr7m3UiMXCEmfDYhcXr_yP9IWPid0FlvGZ3ieUkg",
+                "Authorization": token,
             },
         })
-        .then(res => {console.log(res); window.location.reload();})
+        .then(res => {console.log(res); /*window.location.reload();*/ setIsDeleted(!isDeleted)})
     }
 
     return (
@@ -79,47 +88,45 @@ const Questions = () => {
 // Styled Components
 
 const Container = styled.div`
-    flex-basis: 100vw; 
-    flex-shrink: 6;
-    height: 90vh;
-`
+  flex-basis: 100vw;
+  flex-shrink: 6;
+  height: 90vh;
+`;
 
 const Header = styled.div`
-    display: flex;
-    flex-direction: row;
-    justify-content: space-between;
-    align-items: center;
-    //All Questions
-    > div:first-of-type > div:first-of-type {
-        font-size: 24px;
-        font-weight: bold;
-        margin: 10px 0 10px 30px;
-        
-    }
-    // n questions
-    > div:first-of-type > div:nth-of-type(2)  {
-        margin: 0 0 10px 30px;
-    }
-`
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: center;
+  //All Questions
+  > div:first-of-type > div:first-of-type {
+    font-size: 24px;
+    font-weight: bold;
+    margin: 10px 0 10px 30px;
+  }
+  // n questions
+  > div:first-of-type > div:nth-of-type(2) {
+    margin: 0 0 10px 30px;
+  }
+`;
 //Ask Question Button
 const Button = styled.button`
-    background-color: #0A95FF;
-    border: none;
-    padding: 15px;
-    margin-right: 15px;
-    color: white;
-    font-size: 16px;
-    font-weight: bold;
+  background-color: #0a95ff;
+  border: none;
+  padding: 15px;
+  margin-right: 15px;
+  color: white;
+  font-size: 16px;
+  font-weight: bold;
 
-    :hover {
-        background-color: #0074CC;
-    }
-`
+  :hover {
+    background-color: #0074cc;
+  }
+`;
 
 const List = styled.div`
-    overflow-y: scroll;
-    max-height: 75vh;
-`
+  overflow-y: scroll;
+  max-height: 75vh;
+`;
 
 export default Questions;
-

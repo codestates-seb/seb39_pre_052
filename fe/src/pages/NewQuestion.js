@@ -13,6 +13,7 @@ const Header = styled.div`
     padding: 50px 0 0 50px;
     font-size: 28px;
     font-weight: bold;
+    overflow: hidden;
 `
 const NewQuestion = () => {
     return (
