@@ -12,47 +12,14 @@ code {
     monospace;
 }
 
-.signup_wrapper {
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  align-items: center;
-}
-
-.login_wrapper {
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  align-items: center;
-}
-
-.social_buttons {
-  display: flex;
-  flex-direction: column;
-}
-
-.form_container {
-  width: 300px;
-  padding: 8px;
-  border-radius: 10px;
-  box-shadow: rgba(100, 100, 111, 0.2) 0px 7px 29px 0px;
-}
-
 p.message.error {
-  color: red;
-}
-
-button.sign_up_btn {
-  background-color: #0a95ff;
-}
-button.log_in_btn {
-  background-color: #0a95ff;
+  color: #e1585c;
 }
 
 footer {
   bottom: 0;
-  background-color: black;
-  color: white;
+  background-color: rgb(35, 38, 40);
+  color: rgb(167, 172, 177);
   text-align: center;
   padding: 20px;
 }

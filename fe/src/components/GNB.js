@@ -9,7 +9,6 @@ import { useSelector, useDispatch } from 'react-redux';
 import { changeShow } from '../features/showSlice';
 import { loginFulfilled, loginRejected, logoutFulfilled } from "../features/userSlice";
 
-
 const GNB = () => {
 
     // const [isLoggedIn, setIsLoggedIn] = useState(true);
@@ -25,7 +24,6 @@ const GNB = () => {
     // LOGOUT HANDLER
     const handleLogout = () => {
         dispatch(logoutFulfilled());
-
     }
 
     // SNB STATE (retrieves the SNB state back from redux slice)
