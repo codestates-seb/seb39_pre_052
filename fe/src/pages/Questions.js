@@ -5,7 +5,10 @@ import Question from '../components/Question';
 import Pagination from '../components/Pagination';
 
 const Questions = () => {
+    const [qNum, setQNum] = useState("");
+
     const [posts, setPosts] = useState([]);
+    const [total, setTotal] = useState(0);
     const [limit, setLimit] = useState(5);
     const [page, setPage] = useState(1);
     const offset = (page - 1) * limit;
@@ -21,18 +24,30 @@ const Questions = () => {
     useEffect(() => {
         fetch(`/api/questions?size=${limit}&page=${page}`)
             .then((res) => res.json())
-            .then((data) => setPosts(data.data))
+            .then((data) => {setPosts(data.data); setTotal(data.pageInfo.totalElements);})
             .catch((err) => console.log(`!CANNOT FETCH QUESTION DATA! ${err}!`))
     }, [page, limit]);
+
+    const deleteHandler = () => {
+        fetch(`/api/questions/${posts[qNum-1].id}`, {
+            method: "DELETE",
+            headers: {
+                "Authorization": "Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJsb2dpbiBqd3QgdG9rZW4iLCJleHAiOjE2NjE5OTc2NjUsImVtYWlsIjoic3VqaW5AZ21haWwuY29tIn0.G6EeCQsL3rx5SCZZzK4DCLIA1dcsNwb-XyN1lLgJkGMdDEWr7m3UiMXCEmfDYhcXr_yP9IWPid0FlvGZ3ieUkg",
+            },
+        })
+        .then(res => {console.log(res); window.location.reload();})
+    }
 
     return (
         <Container>
             <Header>
                 <div>
                     <div>All Questions</div>
-                    <div>{posts.length} questions</div>
+                    <div>{total} questions</div>
                 </div>
                 <div>
+                    <input onChange={e => setQNum(e.target.value)} placeholder="Which question would you like to delete?" style={{width: "250px"}}></input>
+                    <Button onClick={deleteHandler}>DELETE</Button>
                     <Link to="/questions/ask">
                         <Button>Ask Question</Button>
                     </Link>
