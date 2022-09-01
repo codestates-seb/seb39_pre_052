@@ -62,8 +62,8 @@ public class QuestionService {
     }
 
     //5. 회원 질문 조회
-    public Page<Question> findQuestions(Long memberId, int page, int size) {
-        return questionRepository.findAllByMemberId(memberId, PageRequest.of(page, size, Sort.by("id").descending()));
+    public Page<Question> findQuestions(Long memberId, int page) {
+        return questionRepository.findAllByMemberId(memberId, PageRequest.of(page, 30, Sort.by("id").descending()));
     }
 
     //해당 질문이 존재하는지 확인하는 메서드
