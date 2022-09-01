@@ -81,7 +81,10 @@ public class QuestionController {
     public ResponseEntity getQuestions(@Positive @RequestParam int page,
                                        @Positive @RequestParam int size) {
         Page<Question> questionPage = questionService.findQuestions(page - 1, size);
-        List<Question> questions = questionPage.getContent();
+        List<QuestionDto.Response> questions = questionPage.getContent()
+                .stream()
+                .map(questionMapper::questionToQuestionResponse)
+                .collect(Collectors.toList());
 
 
         return new ResponseEntity(new MultiResponseDto(questionMapper.questionsToQuestionResponses(questions), questionPage), HttpStatus.OK);
