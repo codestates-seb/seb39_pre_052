@@ -4,8 +4,6 @@ import com.seb39.mystackoverflow.dto.QuestionDto;
 import com.seb39.mystackoverflow.entity.Member;
 import com.seb39.mystackoverflow.entity.Question;
 import java.time.LocalDateTime;
-import java.util.ArrayList;
-import java.util.List;
 import javax.annotation.processing.Generated;
 import org.springframework.stereotype.Component;
 
@@ -73,19 +71,5 @@ public class QuestionMapperImpl implements QuestionMapper {
         QuestionDto.Response response = new QuestionDto.Response( id, title, content, view, vote, createdAt, lastModifiedAt, member );
 
         return response;
-    }
-
-    @Override
-    public List<QuestionDto.Response> questionsToQuestionResponses(List<Question> questions) {
-        if ( questions == null ) {
-            return null;
-        }
-
-        List<QuestionDto.Response> list = new ArrayList<QuestionDto.Response>( questions.size() );
-        for ( Question question : questions ) {
-            list.add( questionToQuestionResponse( question ) );
-        }
-
-        return list;
     }
 }

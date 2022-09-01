@@ -30,7 +30,7 @@ include::{snippets}/login-fail/http-response.adoc[]
 .response-fields (실패)
 include::{snippets}/login-fail/response-fields.adoc[]
 
-=== 회원가입 API
+=== 회원가입
 ***
 
  회원가입을 위한 API 입니다.
@@ -48,69 +48,110 @@ include::{snippets}/signup-success/http-response.adoc[]
 include::{snippets}/signup-success/response-fields.adoc[]
 
 ***
+=== 사용자 질문 리스트 조회
+
+ 특정 사용자의 질문 리스트를 조회하기 위한 API 입니다.
+
+.http-request
+include::{snippets}/member-questions/http-request.adoc[]
+
+.path-parameters
+include::{snippets}/member-questions/path-parameters.adoc[]
+
+.request-parameters
+include::{snippets}/member-questions/request-parameters.adoc[]
+
+.http-response
+include::{snippets}/member-questions/http-response.adoc[]
+
+.response-fields
+include::{snippets}/member-questions/response-fields.adoc[]
+
+***
+=== 사용자 답변 리스트 조회
+
+ 특정 사용자의 답변 리스트를 조회하기 위한 API 입니다.
+
+.http-request
+include::{snippets}/member-answers/http-request.adoc[]
+
+.path-parameters
+include::{snippets}/member-answers/path-parameters.adoc[]
+
+.request-parameters
+include::{snippets}/member-answers/request-parameters.adoc[]
+
+.http-response
+include::{snippets}/member-answers/http-response.adoc[]
+
+.response-fields
+include::{snippets}/member-answers/response-fields.adoc[]
+
+
+***
 == 질문 관련 API
 === 질문 생성
  질문 생성을 위한 API 입니다.
 
 .http-request
-include::{snippets}/post-question/http-request.adoc[]
+include::{snippets}/question-create/http-request.adoc[]
 
 .request-parameters
-include::{snippets}/post-question/request-fields.adoc[]
+include::{snippets}/question-create/request-fields.adoc[]
 
 .http-response
-include::{snippets}/post-question/http-response.adoc[]
+include::{snippets}/question-create/http-response.adoc[]
 
 .response-fields
-include::{snippets}/post-question/response-fields.adoc[]
+include::{snippets}/question-create/response-fields.adoc[]
 
 === 질문 수정
 ***
  질문 수정을 위한 API 입니다.
 
 .http-request
-include::{snippets}/patch-question/http-request.adoc[]
+include::{snippets}/question-update/http-request.adoc[]
 
 .path-parameters
-include::{snippets}/patch-question/path-parameters.adoc[]
+include::{snippets}/question-update/path-parameters.adoc[]
 
 .request-fields
-include::{snippets}/patch-question/request-fields.adoc[]
+include::{snippets}/question-update/request-fields.adoc[]
 
 .http-response
-include::{snippets}/patch-question/http-response.adoc[]
+include::{snippets}/question-update/http-response.adoc[]
 
 .response-fields
-include::{snippets}/patch-question/response-fields.adoc[]
+include::{snippets}/question-update/response-fields.adoc[]
 
-=== 질문 목록
+=== 질문 목록 조회
 ***
- 질문 목록을 위한 API 입니다.
+ 질문 목록 조회를 위한 API 입니다.
 
 .http-request
-include::{snippets}/get-questions/http-request.adoc[]
+include::{snippets}/questions-search/http-request.adoc[]
 
 .request-parameters
-include::{snippets}/get-questions/request-parameters.adoc[]
+include::{snippets}/questions-search/request-parameters.adoc[]
 
 .http-response
-include::{snippets}/get-questions/http-response.adoc[]
+include::{snippets}/questions-search/http-response.adoc[]
 
 .response-fields
-include::{snippets}/get-questions/response-fields.adoc[]
+include::{snippets}/questions-search/response-fields.adoc[]
 
 === 질문 삭제
 ***
  질문 삭제를 위한 API 입니다.
 
 .http-request
-include::{snippets}/delete-question/http-request.adoc[]
+include::{snippets}/question-delete/http-request.adoc[]
 
 .path-parameters
-include::{snippets}/delete-question/path-parameters.adoc[]
+include::{snippets}/question-delete/path-parameters.adoc[]
 
 .http-response
-include::{snippets}/delete-question/http-response.adoc[]
+include::{snippets}/question-delete/http-response.adoc[]
 
 ***
 == 답변 관련 API
@@ -146,7 +187,7 @@ include::{snippets}/answer-update/request-fields.adoc[]
 .http-response
 include::{snippets}/answer-update/http-response.adoc[]
 
-=== 답변 수정
+=== 답변 삭제
 ***
 
  답변 삭제를 위한 API 입니다.
@@ -160,3 +201,57 @@ include::{snippets}/answer-delete/path-parameters.adoc[]
 .http-response
 include::{snippets}/answer-delete/http-response.adoc[]
 
+***
+== 댓글 관련 API
+=== 댓글 생성
+ 댓글 생성을 위한 API 입니다.
+
+.http-request
+include::{snippets}/comment-create/http-request.adoc[]
+
+.request-parameters
+include::{snippets}/comment-create/request-parameters.adoc[]
+
+.request-fields
+include::{snippets}/comment-create/request-fields.adoc[]
+
+.http-response
+include::{snippets}/comment-create/http-response.adoc[]
+
+.response-fields
+include::{snippets}/comment-create/response-fields.adoc[]
+
+=== 댓글 수정
+***
+
+ 댓글 수정을 위한 API 입니다.
+
+.http-request
+include::{snippets}/comment-update/http-request.adoc[]
+
+.path-parameters
+include::{snippets}/comment-update/path-parameters.adoc[]
+
+.request-fields
+include::{snippets}/comment-update/request-fields.adoc[]
+
+.http-response
+include::{snippets}/comment-update/http-response.adoc[]
+
+.response-fields
+include::{snippets}/comment-update/response-fields.adoc[]
+
+
+=== 댓글 삭제
+***
+
+ 댓글 삭제를 위한 API 입니다.
+
+.http-request
+include::{snippets}/comment-delete/http-request.adoc[]
+
+.path-parameters
+include::{snippets}/comment-delete/path-parameters.adoc[]
+
+.http-response
+include::{snippets}/comment-delete/http-response.adoc[]

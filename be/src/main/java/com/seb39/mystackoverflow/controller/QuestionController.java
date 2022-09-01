@@ -63,7 +63,7 @@ public class QuestionController {
         QuestionDto.Response response = questionMapper.questionToQuestionResponse(updateQuestion);
 
 
-        return new ResponseEntity(new SingleResponseDto<>(response), HttpStatus.OK);
+        return new ResponseEntity<>(new SingleResponseDto<>(response), HttpStatus.OK);
     }
 
     //3. 질문 삭제
@@ -72,7 +72,7 @@ public class QuestionController {
                                          @AuthenticationPrincipal PrincipalDetails principalDetails) {
         Long memberId = principalDetails.getMemberId();
         questionService.delete(id, memberId);
-        return new ResponseEntity(HttpStatus.NO_CONTENT);
+        return new ResponseEntity<>(HttpStatus.NO_CONTENT);
     }
 
     //4. 질문 전체 조회
@@ -81,13 +81,7 @@ public class QuestionController {
     public ResponseEntity getQuestions(@Positive @RequestParam int page,
                                        @Positive @RequestParam int size) {
         Page<Question> questionPage = questionService.findQuestions(page - 1, size);
-//        List<QuestionDto.Response> questions = questionPage.getContent()
-//                .stream()
-//                .map(questionMapper::questionToQuestionResponse)
-//                .collect(Collectors.toList());
-        List<Question> questions = questionPage.getContent();
-
-
-        return new ResponseEntity(new MultiResponseDto(questionMapper.questionsToQuestionResponses(questions), questionPage), HttpStatus.OK);
+        List<QuestionDto.Response> responses = questionMapper.questionsToQuestionResponses(questionPage.getContent());
+        return new ResponseEntity<>(new MultiResponseDto<>(responses, questionPage), HttpStatus.OK);
     }
 }

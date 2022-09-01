@@ -107,7 +107,7 @@ class QuestionControllerTest {
                 .content(requestToJson));
         //then
         actions.andExpect(status().isCreated())
-                .andDo(document("post-question",
+                .andDo(document("question-create",
                         getRequestPreProcessor(),
                         getResponsePreProcessor(),
                         requestFields(
@@ -168,7 +168,7 @@ class QuestionControllerTest {
 
         //then
         actions.andExpect(status().isOk())
-                .andDo(document("patch-question",
+                .andDo(document("question-update",
                         getRequestPreProcessor(),
                         getResponsePreProcessor(),
                         pathParameters(
@@ -213,11 +213,13 @@ class QuestionControllerTest {
 
         given(questionService.findQuestions(Mockito.anyInt(), Mockito.anyInt())).willReturn(questions);
         given(questionMapper.questionsToQuestionResponses(Mockito.anyList())).willReturn(responses);
+
         //when
         ResultActions actions = mockMvc.perform(get("/api/questions").param("page", "1").param("size", "2").accept(MediaType.APPLICATION_JSON));
+
         //then
         actions.andExpect(status().isOk())
-                .andDo(document("get-questions",
+                .andDo(document("questions-search",
                         getRequestPreProcessor(),
                         getResponsePreProcessor(),
                         requestParameters(
@@ -280,7 +282,7 @@ class QuestionControllerTest {
         ResultActions actions = mockMvc.perform(delete("/api/questions/{id}", questionId));
         //then
         actions.andExpect(status().isNoContent())
-                .andDo(document("delete-question",
+                .andDo(document("question-delete",
                         pathParameters(
                                 parameterWithName("id").description("삭제할 질문 식별자")
                         )

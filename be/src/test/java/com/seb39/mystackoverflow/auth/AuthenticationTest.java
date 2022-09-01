@@ -31,6 +31,8 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 
+import static com.seb39.mystackoverflow.util.ApiDocumentUtils.getRequestPreProcessor;
+import static com.seb39.mystackoverflow.util.ApiDocumentUtils.getResponsePreProcessor;
 import static org.springframework.restdocs.headers.HeaderDocumentation.*;
 import static org.springframework.restdocs.mockmvc.MockMvcRestDocumentation.*;
 import static org.springframework.restdocs.payload.PayloadDocumentation.*;
@@ -81,6 +83,8 @@ class AuthenticationTest {
                         .content(requestJson))
                 .andExpect(header().exists("Authorization"))
                 .andDo(document("login-success",
+                                getRequestPreProcessor(),
+                                getResponsePreProcessor(),
                                 requestFields(
                                         List.of(
                                                 fieldWithPath("email").type(JsonFieldType.STRING).description("사용자 이메일"),
@@ -111,6 +115,8 @@ class AuthenticationTest {
                         .content(requestJson))
                 .andExpect(status().isUnauthorized())
                 .andDo(document("login-fail",
+                        getRequestPreProcessor(),
+                        getResponsePreProcessor(),
                         requestFields(
                                 List.of(
                                         fieldWithPath("email").type(JsonFieldType.STRING).description("사용자 이메일"),

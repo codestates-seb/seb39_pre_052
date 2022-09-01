@@ -30,24 +30,21 @@ public class MemberController {
     private final QuestionService questionService;
     private final QuestionMapper questionMapper;
 
-    @GetMapping("/{memberId}/answers")
-    private ResponseEntity getAnswers(@PathVariable Long memberId, @Positive @RequestParam(required = false, defaultValue = "1") int page) {
-        Page<Answer> answerPage = answerService.findAnswers(memberId, page - 1);
-        List<AnswerDto.Response> data = answerPage.getContent()
-                .stream()
-                .map(answerMapper::answerToAnswerResponse)
-                .collect(Collectors.toList());
-        return new ResponseEntity<>(new MultiResponseDto<>(data, answerPage), HttpStatus.OK);
-    }
-
     @GetMapping("/{memberId}/questions")
     private ResponseEntity getQuestions(@PathVariable Long memberId,
                                         @Positive @RequestParam(required = false, defaultValue = "1") int page) {
         Page<Question> questionPage = questionService.findQuestions(memberId, page - 1);
-        List<QuestionDto.Response> questions = questionPage.getContent()
-                .stream()
-                .map(questionMapper::questionToQuestionResponse)
-                .collect(Collectors.toList());
-        return new ResponseEntity(new MultiResponseDto<>(questions, questionPage), HttpStatus.OK);
+        List<Question> questions = questionPage.getContent();
+        List<QuestionDto.Response> data = questionMapper.questionsToQuestionResponses(questions);
+        return new ResponseEntity<>(new MultiResponseDto<>(data, questionPage), HttpStatus.OK);
+    }
+
+    @GetMapping("/{memberId}/answers")
+    private ResponseEntity getAnswers(@PathVariable Long memberId,
+                                      @Positive @RequestParam(required = false, defaultValue = "1") int page) {
+        Page<Answer> answerPage = answerService.findAnswers(memberId, page - 1);
+        List<Answer> answers = answerPage.getContent();
+        List<AnswerDto.Response> data = answerMapper.answersToAnswerResponses(answers);
+        return new ResponseEntity<>(new MultiResponseDto<>(data, answerPage), HttpStatus.OK);
     }
 }

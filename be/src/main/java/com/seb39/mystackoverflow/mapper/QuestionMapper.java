@@ -6,6 +6,7 @@ import org.mapstruct.Mapper;
 import org.mapstruct.ReportingPolicy;
 
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Mapper(componentModel = "spring", unmappedTargetPolicy = ReportingPolicy.IGNORE)
 public interface QuestionMapper {
@@ -15,6 +16,9 @@ public interface QuestionMapper {
 
     QuestionDto.Response questionToQuestionResponse(Question question);
 
-    List<QuestionDto.Response> questionsToQuestionResponses(List<Question> questions);
-
+    default List<QuestionDto.Response> questionsToQuestionResponses(List<Question> questions){
+        return questions.stream()
+                .map(this::questionToQuestionResponse)
+                .collect(Collectors.toList());
+    }
 }

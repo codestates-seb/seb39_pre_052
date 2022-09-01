@@ -33,6 +33,8 @@ import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 
 import java.util.List;
 
+import static com.seb39.mystackoverflow.util.ApiDocumentUtils.getRequestPreProcessor;
+import static com.seb39.mystackoverflow.util.ApiDocumentUtils.getResponsePreProcessor;
 import static org.mockito.Mockito.*;
 import static org.springframework.restdocs.mockmvc.MockMvcRestDocumentation.*;
 import static org.springframework.restdocs.mockmvc.RestDocumentationRequestBuilders.*;
@@ -97,6 +99,8 @@ class AnswerControllerTest {
                         .content(requestJson))
                 .andExpect(status().isCreated())
                 .andDo(document("answer-create",
+                        getRequestPreProcessor(),
+                        getResponsePreProcessor(),
                         requestParameters(
                                 parameterWithName("question-id").description("작성한 답변의 질문 ID")
                         ),
@@ -127,6 +131,8 @@ class AnswerControllerTest {
                         .content(requestJson))
                 .andExpect(status().isOk())
                 .andDo(document("answer-update",
+                        getRequestPreProcessor(),
+                        getResponsePreProcessor(),
                         pathParameters(
                                 parameterWithName("answerId").description("수정할 답변의 ID")
                         ),
@@ -147,6 +153,8 @@ class AnswerControllerTest {
         mockMvc.perform(delete("/api/answers/{answerId}",1))
                 .andExpect(status().isOk())
                 .andDo(document("answer-delete",
+                        getRequestPreProcessor(),
+                        getResponsePreProcessor(),
                         pathParameters(
                                 parameterWithName("answerId").description("수정할 답변의 ID")
                         )

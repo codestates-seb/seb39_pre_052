@@ -34,6 +34,8 @@ import org.springframework.test.web.servlet.result.MockMvcResultMatchers;
 import java.time.LocalDateTime;
 import java.util.List;
 
+import static com.seb39.mystackoverflow.util.ApiDocumentUtils.getRequestPreProcessor;
+import static com.seb39.mystackoverflow.util.ApiDocumentUtils.getResponsePreProcessor;
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.BDDMockito.*;
 import static org.springframework.restdocs.mockmvc.MockMvcRestDocumentation.*;
@@ -122,7 +124,9 @@ class CommentControllerTest {
                 .andExpect(jsonPath("$.data.memberId").value(memberId))
                 .andExpect(jsonPath("$.data.postInfo.postType").value(postType.name()))
                 .andExpect(jsonPath("$.data.postInfo.postId").value(questionId))
-                .andDo(document("create-comment",
+                .andDo(document("comment-create",
+                        getRequestPreProcessor(),
+                        getResponsePreProcessor(),
                         requestParameters(
                                 parameterWithName("post-type").description("생성한 댓글이 달린 글의 타입. QUESTION / ANSWER"),
                                 parameterWithName("id").description("생성한 댓글이 달린 글의 ID")
@@ -188,7 +192,9 @@ class CommentControllerTest {
                 .andExpect(jsonPath("$.data.memberId").value(memberId))
                 .andExpect(jsonPath("$.data.postInfo.postType").value(postType.name()))
                 .andExpect(jsonPath("$.data.postInfo.postId").value(answerId))
-                .andDo(document("update-comment",
+                .andDo(document("comment-update",
+                        getRequestPreProcessor(),
+                        getResponsePreProcessor(),
                         pathParameters(
                                 parameterWithName("id").description("수정할 댓글의 id")
                         ),
@@ -220,7 +226,9 @@ class CommentControllerTest {
         // expected
         mockMvc.perform(delete("/api/comments/{id}", commentId))
                 .andExpect(status().isNoContent())
-                .andDo(document("delete-comment",
+                .andDo(document("comment-delete",
+                        getRequestPreProcessor(),
+                        getResponsePreProcessor(),
                         pathParameters(
                                 parameterWithName("id").description("삭제할 댓글의 id")
                         )
