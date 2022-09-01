@@ -13,7 +13,13 @@ import Footer from "./components/Footer";
 
 const Main = styled.div`
   display: flex;
+  flex-direction: column;
+  margin-top: 100px;
 `;
+
+const Body = styled.div`
+  display: flex;
+`
 
 const App = () => {
 
@@ -21,18 +27,20 @@ const App = () => {
     <>
       <GlobalStyle />
       <BrowserRouter>
-        <GNB />
-        <Main>
-          <SNB />
-          <Routes>
-            <Route path="redux" element={<ReduxTest />} />
-            <Route path="/" element={<Questions />} />
-            <Route path="/signup" element={<SignUp />} />
-            <Route path="/login" element={<LogIn />} />
-            <Route path="/questions/ask" element={<NewQuestion />} />
-          </Routes>
-        </Main>
-        <Footer />
+          <GNB />
+          <Main>
+            <Body>
+              <SNB />
+              <Routes>
+                <Route path="redux" element={<ReduxTest />} />
+                <Route path="/" element={<Questions />} />
+                <Route path="/signup" element={<SignUp />} />
+                <Route path="/login" element={<LogIn />} />
+                <Route path="/questions/ask" element={<NewQuestion />} />
+              </Routes>
+            </Body>
+            <Footer />
+          </Main>
       </BrowserRouter>
     </>
   );
