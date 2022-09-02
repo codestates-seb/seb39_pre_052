@@ -14,7 +14,6 @@ import { StickyNav } from 'react-js-stickynav'
 import 'react-js-stickynav/dist/index.css'
 
 const GNB = () => {
-
     // to set the state of data in redux store(slice)
     const dispatch = useDispatch();
 
@@ -30,35 +29,33 @@ const GNB = () => {
 
     // SNB STATE (retrieves the SNB state back from redux slice)
     const show = useSelector(state => {
-      return state.toggle.active;
+        return state.toggle.active;
     })
 
     // sticky GNB
-
-  const style = () => {
-    return (
-      <style jsx>{`
-        .nav {
-          transition: all 0.1s linear;
-          position: fixed;
-          z-index: 2000;
-          padding: 20px;
-          background-color: white;
-          width: 100vw;
-        }
-        .scrollNav {
-          transition: all 0.5s ease-in;
-          z-index: 2000;
-          background: #ffffff;
-          width: 100%;
-          border-bottom: 1px solid #dddddd;
-        }
-        .styl {
-          padding-top: 80px;
-        }
-      `}</style>
-    )
-  }
+    const style = () => {
+        return (
+            <style jsx="true">{`
+            .nav {
+            transition: all 0.1s linear;
+            position: fixed;
+            z-index: 2000;
+            background-color: white;
+            width: 100vw;
+            }
+            .scrollNav {
+            transition: all 0.5s ease-in;
+            z-index: 2000;
+            background: #ffffff;
+            width: 100%;
+            border-bottom: 1px solid #dddddd;
+            }
+            .styl {
+            padding-top: 80px;
+            }
+        `}</style>
+        )
+    }
 
 
     return (
@@ -94,7 +91,7 @@ const GNB = () => {
                     }
                     {isLoggedIn
                         ? <>
-                            <Link to="/"><Profile><img src="https://www.gravatar.com/avatar/edaeaf608980ecad3a299402122bd909?s=256&d=identicon&r=PG" alt="profile" /></Profile></Link>
+                            <Link to="/"><Profile><img src="https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460_1280.png" alt="profile" /></Profile></Link>
                             <Link to="/"><Button color="#d1ebff" border="1px solid #0074CC" text="#0074CC" hover="#9bd1f7" onClick={handleLogout}>Log out</Button></Link>
                         </>
                         : <>
@@ -122,7 +119,7 @@ const Nav = styled.nav`
     > * {
         display: flex;
         align-items: center;
-        
+        text-decoration: none;
     }
     // menu button
     > div:first-of-type {
@@ -135,6 +132,9 @@ const Nav = styled.nav`
         > * {
             font-size: 24px;
             color: gray;
+            :hover {
+                    color: #F48225;
+            }
         }
     }
     // logo
@@ -149,10 +149,16 @@ const Nav = styled.nav`
         padding-left: 5px;
         padding-right: 5px;
         > * {
+            padding: 5px;
+            border-radius: 20px;
             margin-right: 15px;
             list-style: none;
             text-decoration: none;
-            color: #000;
+            color: #5d5e60;
+            :hover {
+                color: #191919;
+                background-color: #e1e4e8;
+            }
         }
     }
 `
@@ -164,7 +170,8 @@ const Search = styled.div`
         height: 36px;
         padding: 5px;
     }
-    border: 1px solid black;
+    border: 1px solid #9d9fa0;
+    border-radius: 5px;
     width: ${props => props.width || "50vw"};
     margin-right: 10px;
 `
@@ -180,6 +187,11 @@ const Button = styled.button`
     font-weight: bold;
     text-decoration: none;
     cursor: pointer;
+    border-radius: 5px;
+
+    > * {
+        text-decoration: none;
+    }
 
     :hover {
         background-color: ${props => props.hover || '#0074CC'};
@@ -194,7 +206,8 @@ const Profile = styled.div`
     align-items: center;
     margin-right: 10px;
     > img {
-        width: 2em;
+        width: 2.5em;
+        border-radius: 5px;
     }
 
 `

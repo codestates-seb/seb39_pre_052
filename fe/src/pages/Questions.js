@@ -1,25 +1,38 @@
 import { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom'
 import { useNavigate } from 'react-router-dom';
-import { useSelector } from "react-redux";
+import { useSelector, useDispatch } from "react-redux";
 import styled from "styled-components";
 import Question from "../components/Question";
 import Pagination from "../components/Pagination";
 
+import { setPosts } from "../features/qListSlice";
+
 const Questions = () => {
     const [qNum, setQNum] = useState("");
 
-    const [posts, setPosts] = useState([]);
-    const [total, setTotal] = useState(0);
     const [limit, setLimit] = useState(5);
     const [page, setPage] = useState(1);
     const [isDeleted, setIsDeleted] = useState(false);
     const offset = (page - 1) * limit;
 
     const navigate = useNavigate();
+    const dispatch = useDispatch();
+
+    const isLoggedIn = useSelector((state) => {
+        return state.user.isLoggedIn;
+    });
 
     const token = useSelector((state) => {
-        return state.user.userToken
+        return state.user.userToken;
+    });
+
+    const posts = useSelector((state) => {
+        return state.qlist.posts;
+    });
+
+    const total = useSelector((state) => {
+        return state.qlist.total;
     });
 
     // // TEST DATA
@@ -33,9 +46,11 @@ const Questions = () => {
     useEffect(() => {
         fetch(`/api/questions?size=${limit}&page=${page}`)
             .then((res) => res.json())
-            .then((data) => {setPosts(data.data); setTotal(data.pageInfo.totalElements);})
+            .then((data) => {
+                dispatch(setPosts({posts: data.data, total: data.pageInfo.totalElements})); 
+            })
             .catch((err) => console.log(`!CANNOT FETCH QUESTION DATA! ${err}!`))
-    }, [page, limit, isDeleted]);
+    }, [page, limit, isDeleted, dispatch]);
 
     const deleteHandler = () => {
         fetch(`/api/questions/${posts[qNum-1].id}`, {
@@ -45,6 +60,10 @@ const Questions = () => {
             },
         })
         .then(res => {console.log(res); /*window.location.reload();*/ setIsDeleted(!isDeleted)})
+    }
+
+    const handleClick = () => {
+        console.log("hi")
     }
 
     return (
@@ -57,7 +76,7 @@ const Questions = () => {
                 <div>
                     <input onChange={e => setQNum(e.target.value)} placeholder="Which question would you like to delete?" style={{width: "250px"}}></input>
                     <Button onClick={deleteHandler}>DELETE</Button>
-                    <Link to="/questions/ask">
+                    <Link to={isLoggedIn? "/questions/ask" : "/login"}>
                         <Button>Ask Question</Button>
                     </Link>
                 </div>
@@ -71,7 +90,7 @@ const Questions = () => {
             {/* The below is for MAIN DATA, server side will send sliced data*/}
             <List>
                 {posts.map((post, idx) => {
-                    return <Question key={idx} post={post}></Question>
+                    return <Question key={post.id} post={post} id={post.id}></Question>
                 })}
             </List>
             <Pagination
@@ -113,6 +132,7 @@ const Header = styled.div`
 const Button = styled.button`
   background-color: #0a95ff;
   border: none;
+  border-radius: 5px;
   padding: 15px;
   margin-right: 15px;
   color: white;
