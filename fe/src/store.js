@@ -8,6 +8,7 @@ import counterSlice from './features/counterSlice';
 import showSlice from './features/showSlice'
 import userSlice from './features/userSlice';
 import qListSlice from './features/qListSlice';
+import questionSlice from './features/questionSlice';
 
 const store = configureStore({
   reducer: {
@@ -15,6 +16,7 @@ const store = configureStore({
     toggle: showSlice.reducer,
     user: userSlice.reducer,
     qlist: qListSlice.reducer,
+    question: questionSlice.reducer,
   }
 });
 

@@ -39,4 +39,4 @@ const userSlice = createSlice({
 });
 
 export default userSlice;
-export const { loginFulfilled, loginRejected, logoutFulfilled } = userSlice.actions
+export const { loginFulfilled, loginRejected, logoutFulfilled } = userSlice.actions;
