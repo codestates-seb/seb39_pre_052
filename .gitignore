@@ -44,3 +44,9 @@ out/
 application.yml
 application-local.yml
 application-production.yml
+**/src/main/generated/
+**/src/main/resources/static/docs/
+
+
+
+

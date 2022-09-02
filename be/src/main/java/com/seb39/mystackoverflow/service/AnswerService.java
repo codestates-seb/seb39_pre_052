@@ -4,17 +4,13 @@ import com.seb39.mystackoverflow.entity.Answer;
 import com.seb39.mystackoverflow.entity.Member;
 import com.seb39.mystackoverflow.entity.Question;
 import com.seb39.mystackoverflow.repository.AnswerRepository;
-import com.seb39.mystackoverflow.repository.MemberRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-import org.springframework.util.StringUtils;
 
-import javax.swing.text.html.Option;
-import java.util.List;
 import java.util.Optional;
 
 @Service
@@ -41,7 +37,7 @@ public class AnswerService {
     public Long createAnswer(Answer answer, Long questionId, Long memberId) {
         Question question = questionService.findQuestion(questionId);
         Member member = memberService.findById(memberId);
-        answer.setQuestion(question);
+        answer.changeQuestion(question);
         answer.setMember(member);
         answerRepository.save(answer);
         return answer.getId();

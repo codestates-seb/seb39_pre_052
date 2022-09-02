@@ -1,9 +1,7 @@
 package com.seb39.mystackoverflow.service;
 
-import com.seb39.mystackoverflow.dto.CommentDto;
 import com.seb39.mystackoverflow.entity.*;
 import com.seb39.mystackoverflow.repository.CommentRepository;
-import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -52,7 +50,7 @@ class CommentServiceTest {
         question.setView(0);
         question.setVote(0);
         question.setContent("contentA");
-        question.setQuestionMember(member);
+        question.setMember(member);
         questionService.createQuestion(question, question.getMember().getId());
 
         Comment comment = new Comment();
@@ -82,11 +80,11 @@ class CommentServiceTest {
         question.setView(0);
         question.setVote(0);
         question.setContent("contentA");
-        question.setQuestionMember(member);
+        question.setMember(member);
         questionService.createQuestion(question, question.getMember().getId());
 
         Answer answer = new Answer();
-        answer.setQuestion(question);
+        answer.changeQuestion(question);
         answer.setMember(member);
         answer.setContent("Answer 1");
         answerService.createAnswer(answer,question.getId(),member.getId());
@@ -121,7 +119,7 @@ class CommentServiceTest {
         question.setView(0);
         question.setVote(0);
         question.setContent("contentA");
-        question.setQuestionMember(member);
+        question.setMember(member);
         questionService.createQuestion(question, question.getMember().getId());
 
         Comment comment = new Comment();
@@ -150,7 +148,7 @@ class CommentServiceTest {
         question.setView(0);
         question.setVote(0);
         question.setContent("contentA");
-        question.setQuestionMember(member);
+        question.setMember(member);
         questionService.createQuestion(question, question.getMember().getId());
 
         Comment comment = new Comment();

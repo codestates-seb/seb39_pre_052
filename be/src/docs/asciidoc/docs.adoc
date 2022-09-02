@@ -140,6 +140,24 @@ include::{snippets}/questions-search/http-response.adoc[]
 .response-fields
 include::{snippets}/questions-search/response-fields.adoc[]
 
+=== 질문 세부내용 조회
+***
+  질문과 질문의 댓글, 질문에 달린 답변과 답변에 달린 댓글을 한번에 조회할 수 있는 API 입니다.
+
+.http-request
+include::{snippets}/question-detail/http-request.adoc[]
+
+.path-parameters
+include::{snippets}/question-detail/path-parameters.adoc[]
+
+.http-response
+include::{snippets}/question-detail/http-response.adoc[]
+
+.response-fields
+include::{snippets}/question-detail/response-fields.adoc[]
+
+
+
 === 질문 삭제
 ***
  질문 삭제를 위한 API 입니다.

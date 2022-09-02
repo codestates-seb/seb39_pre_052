@@ -42,21 +42,27 @@ public class Comment extends BaseEntity {
         throw new UnsupportedOperationException("Unsupported PostType. postType = " + postType);
     }
 
-    //==연관관계 메서드==
-    public void setCommentPost(PostType postType, Object post) {
+    public void changePost(PostType postType, Object post) {
         this.postType = postType;
         if (postType == PostType.QUESTION && post instanceof Question) {
-            this.question = (Question) post;
+            question = (Question) post;
+            question.getComments().add(this);
             return;
         }
         if(postType == PostType.ANSWER && post instanceof Answer){
-            this.answer = (Answer) post;
+            answer = (Answer) post;
+            answer.getComments().add(this);
             return;
         }
         throw new UnsupportedOperationException("Unsupported PostType. postType = " + postType);
     }
 
-    public void setCommentMember(Member member) {
-        this.member = member;
+    @Override
+    public String toString() {
+        return "Comment{" +
+                "id=" + id +
+                ", postType=" + postType +
+                ", content='" + content + '\'' +
+                '}';
     }
 }

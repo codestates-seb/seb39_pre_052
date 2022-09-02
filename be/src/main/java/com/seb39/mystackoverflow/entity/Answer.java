@@ -1,13 +1,15 @@
 package com.seb39.mystackoverflow.entity;
 
-import lombok.Getter;
-import lombok.Setter;
+import lombok.*;
 
 import javax.persistence.*;
+import java.util.ArrayList;
+import java.util.List;
 
 @Entity
 @Getter
 @Setter
+@NoArgsConstructor
 public class Answer extends BaseEntity{
 
     @Id
@@ -29,14 +31,28 @@ public class Answer extends BaseEntity{
     @JoinColumn(name = "member_id")
     private Member member;
 
-    public void setQuestion(Question question){
+    @OneToMany(mappedBy = "answer")
+    private List<Comment> comments = new ArrayList<>();
+
+    @Builder
+    public Answer(String content, Question question, Member member) {
+        this.content = content;
         this.question = question;
-        // 양방향 매핑시 question.addAnswer 추가 필요
-    }
-
-    public void setMember(Member member){
         this.member = member;
-        // 양방향 매핑시 member.addAnswer 추가 필요
     }
 
+    public void changeQuestion(Question question){
+        this.question = question;
+        question.getAnswers().add(this);
+    }
+
+    @Override
+    public String toString() {
+        return "Answer{" +
+                "id=" + id +
+                ", content='" + content + '\'' +
+                ", vote=" + vote +
+                ", accepted=" + accepted +
+                '}';
+    }
 }
