@@ -9,7 +9,6 @@ import com.seb39.mystackoverflow.mapper.QuestionMapper;
 import com.seb39.mystackoverflow.service.QuestionService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.domain.Page;
-import org.springframework.data.web.PageableDefault;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
@@ -18,7 +17,6 @@ import org.springframework.web.bind.annotation.*;
 import javax.validation.Valid;
 import javax.validation.constraints.Positive;
 import java.util.List;
-import java.util.stream.Collectors;
 
 @RestController
 @RequestMapping("/api/questions")
@@ -78,9 +76,20 @@ public class QuestionController {
     //4. 질문 전체 조회
     //Member Entity와 연관관계 매핑 후, 질문을 전체 조회할 때 Member와 관련된 정보도 포함할 수 있도록 수정할 예정
     @GetMapping
-    public ResponseEntity getQuestions(@Positive @RequestParam int page,
-                                       @Positive @RequestParam int size) {
-        Page<Question> questionPage = questionService.findQuestions(page - 1, size);
+    public ResponseEntity getQuestions(@RequestParam(required = false) String keyword,
+                                       @Positive @RequestParam int page,
+                                       @Positive @RequestParam int size
+    ) {
+        //1. 검색 기본 => 제목으로 검색
+        //2. 검색어에 "" 존재 => 내용으로 검색
+        //3. 검색어가 user: 로 시작 => user:{id} id에 해당하는 사용자가 올린 질문 검색
+        //(Optional)4. 검색어가 score: 로 시작 => score:{scoreNum} score가 scoreNum 이상인 질문 검색
+        Page<Question> questionPage = null;
+        if (keyword == null) {
+            questionPage = questionService.findQuestions(page - 1, size);
+        } else {
+            questionPage = questionService.findQuestionsByTitle(keyword, page - 1);
+        }
         List<QuestionDto.Response> responses = questionMapper.questionsToQuestionResponses(questionPage.getContent());
         return new ResponseEntity<>(new MultiResponseDto<>(responses, questionPage), HttpStatus.OK);
     }

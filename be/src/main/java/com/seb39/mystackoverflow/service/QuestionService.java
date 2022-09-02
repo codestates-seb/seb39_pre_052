@@ -66,6 +66,15 @@ public class QuestionService {
         return questionRepository.findAllByMemberId(memberId, PageRequest.of(page, 30, Sort.by("id").descending()));
     }
 
+    //6. 질문 제목으로 검색
+    public Page<Question> findQuestionsByTitle(String keyword, int page) {
+        return questionRepository.findByTitleContainingIgnoreCase(keyword, PageRequest.of(page, 30, Sort.by("createdAt").descending()));
+    }
+
+    /*public Page<Question> findQuestionByTitleAndContent(String keyword, int page) {
+        return questionRepository.findByTitleContainingIgnoreCaseOrContentContainingIgnoreCase(keyword, PageRequest.of(page, 30, Sort.by("createdAt").descending()));
+    }*/
+
     //해당 질문이 존재하는지 확인하는 메서드
     public Question findQuestion(Long questionId) {
         Optional<Question> optionalQuestion = questionRepository.findById(questionId);
