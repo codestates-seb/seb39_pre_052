@@ -71,6 +71,11 @@ public class QuestionService {
         return questionRepository.findByTitleContainingIgnoreCase(keyword, PageRequest.of(page, 30, Sort.by("createdAt").descending()));
     }
 
+    //7. 질문 내용으로 검색
+    public Page<Question> findQuestionsByContent(String keyword, int page) {
+        return questionRepository.findByContentContainingIgnoreCase(keyword, PageRequest.of(page, 30, Sort.by("createdAt").descending()));
+    }
+
     /*public Page<Question> findQuestionByTitleAndContent(String keyword, int page) {
         return questionRepository.findByTitleContainingIgnoreCaseOrContentContainingIgnoreCase(keyword, PageRequest.of(page, 30, Sort.by("createdAt").descending()));
     }*/
