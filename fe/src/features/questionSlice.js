@@ -3,7 +3,6 @@ import { createSlice } from "@reduxjs/toolkit";
 
 const initialState = {
     question: {},
-    answers: {}
 }
 
 const questionSlice = createSlice({
@@ -12,7 +11,6 @@ const questionSlice = createSlice({
     reducers: {
         questionDetails(state, action) {
             state.question = action.payload.data;
-            state.answers = action.payload.answers;
         }
     }
 });

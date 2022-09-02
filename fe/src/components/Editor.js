@@ -1,37 +1,44 @@
 import styled from "styled-components"
 import { useState, useRef } from "react";
 import { useNavigate } from 'react-router-dom';
-import { useSelector } from "react-redux";
+import { useSelector, useDispatch } from "react-redux";
+import { setTitle, setIsTitleEmpty } from "../features/textEditSlice";
 
 import Toolbox from "./Toolbox";
 
-const Editor = () => {
-    const [title, setTitle] = useState(""); //Title
-    const [htmlStr, setHtmlStr] = useState(""); //Body (html string)
-    const [isTitleEmpty, setIsTitleEmpty] = useState(true);
-    const [isContentEmpty, setIsContentEmpty] = useState(true);
+const Editor = ({ fetchMode }) => {
+    // Empty Input Handling State
     const [emptyTitleMsg, setEmptyTitleMsg] = useState("");
     const [emptyContentMsg, setEmptyContentMsg] = useState("");
 
     const navigate = useNavigate();
-
+    const dispatch = useDispatch();
+    
+    // To focus certain empty input box
     const titleRef = useRef();
     const contentRef = useRef();
 
+    // Take token, title, htmlStr states from redux slices
     const token = useSelector((state) => {
         return state.user.userToken
     });
+    const title = useSelector((state) => {
+        return state.editMode.title;
+    });
+    const htmlStr = useSelector((state) => {
+        return state.editMode.htmlStr;
+    });
 
     const handleTitleInput = (e) => {
-        setTitle(e.target.value);
+        dispatch(setTitle({title: e.target.value}));
         
-        // The red essage disappears when input is entered
+        // The red message disappears when input is entered
         if (title.length < 0) {
-            setIsTitleEmpty(true);
+            dispatch(setIsTitleEmpty({isTitleEmpty: true}));
             setEmptyTitleMsg("Title is missing.");
         }
         else {
-            setIsTitleEmpty(false);
+            dispatch(setIsTitleEmpty({isTitleEmpty: false}));
             setEmptyTitleMsg("");
         }
     }
@@ -57,34 +64,48 @@ const Editor = () => {
             contentRef.current.focus();
             setEmptyContentMsg("Body is missing.")
             setEmptyTitleMsg("");
-            console.log(htmlStr);
         }
         // 유효성 검사 통과
         else {
-            fetch("/api/questions", {
-                method: "POST",
-                headers: {
-                    'Accept': 'application/json, text/plain',
-                    'Content-Type': 'application/json;charset=UTF-8',
-                    "Authorization": token,
-                },
-                body: JSON.stringify({ title: title, content: htmlStr }),
-            })
-            .then((res) => {
-                if (res.status === 201) {
-                    console.log(res);
-                    alert(`Successfully Submitted!`)
-                    navigate("/"); // 질문 상세 페이지로 변경 예정
-                }
-                // else if to be deleted
-                else if (res.status === 500) {
-                    alert(`ERROR: check your token`)
-                }
-                else {
-                    console.log(res);
-                    alert(`ERROR: ${res.status}`)
-                }
-            });
+            // 에디터 사용 컴포넌트가 새 게시글 작성일 때
+            if (fetchMode === "post") {
+                fetch("/api/questions", {
+                    method: "POST",
+                    headers: {
+                        'Accept': 'application/json, text/plain',
+                        'Content-Type': 'application/json;charset=UTF-8',
+                        "Authorization": token,
+                    },
+                    body: JSON.stringify({ title: title, content: htmlStr }),
+                })
+                .then((res) => {
+                    if (res.status === 201) {
+                        console.log(res);
+                        alert(`Successfully Submitted!`)
+                        // navigate(`/questions/${res.data.id}`); 
+                        navigate(`/questions/1`); // 질문 상세 페이지로 변경 예정
+                    }
+                    // else if to be deleted
+                    else if (res.status === 500) {
+                        alert(`ERROR: check your token`)
+                    }
+                    else {
+                        console.log(res);
+                        alert(`ERROR: ${res.status}`)
+                    }
+                });
+            }
+            else if (fetchMode === 'put') {
+                fetch("/api/questions", {
+                    method: "POST",
+                    headers: {
+                        'Accept': 'application/json, text/plain',
+                        'Content-Type': 'application/json;charset=UTF-8',
+                        "Authorization": token,
+                    },
+                    body: JSON.stringify({ title: title, content: htmlStr }),
+                })
+            }
         }
     }
 
@@ -110,10 +131,7 @@ const Editor = () => {
                 <p>Include all the information someone would need to answer your question</p>
                 {/* <ReactQuill theme="snow" value={value} onChange={setValue} /> */}
                 <Toolbox
-                    htmlStr={htmlStr}
-                    setHtmlStr={setHtmlStr}
                     contentRef={contentRef}
-                    setIsContentEmpty={setIsContentEmpty}
                     setEmptyContentMsg={setEmptyContentMsg}
                 ></Toolbox>
                 <Msg>{emptyContentMsg}</Msg>

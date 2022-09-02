@@ -62,6 +62,10 @@ const Questions = () => {
         .then(res => {console.log(res); /*window.location.reload();*/ setIsDeleted(!isDeleted)})
     }
 
+    const handleClick = () => {
+        console.log("hi")
+    }
+
     return (
         <Container>
             <Header>
@@ -86,7 +90,7 @@ const Questions = () => {
             {/* The below is for MAIN DATA, server side will send sliced data*/}
             <List>
                 {posts.map((post, idx) => {
-                    return <Question key={idx} post={post}></Question>
+                    return <Question key={post.id} post={post} id={post.id}></Question>
                 })}
             </List>
             <Pagination

@@ -4,14 +4,24 @@ import ReactQuill from 'react-quill';
 import 'react-quill/dist/quill.snow.css';
 import React from 'react';
 
+import { useSelector, useDispatch } from "react-redux";
+import { setHtmlStr, setIsContentEmpty } from '../features/textEditSlice';
+
 const CustomReactQuill = styled(ReactQuill)`
     height: 300px;
     border-bottom: 1px solid #D1D1D1;
     overflow: hidden;
 `
 
-const Toolbox = ({ htmlStr, setHtmlStr, contentRef, setIsContentEmpty, setEmptyContentMsg }) => {
+const Toolbox = ({ contentRef, setEmptyContentMsg }) => {
 
+    const htmlStr = useSelector((state) => {
+        return state.editMode.htmlStr;
+    })
+
+    const dispatch = useDispatch();
+
+    // Quill js Toolbox Module Options
     const modules = useMemo(() => ({
         toolbar: {
             container: [
@@ -49,15 +59,15 @@ const Toolbox = ({ htmlStr, setHtmlStr, contentRef, setIsContentEmpty, setEmptyC
     ];
 
     const handleText = (content, delta, source, editor) => {
-      setHtmlStr(editor.getHTML());
+      dispatch(setHtmlStr({htmlStr: editor.getHTML()}));
     
       // The red essage disappears when input is entered
       if (htmlStr.length < 0 || htmlStr === '<p><br></p>' || htmlStr === '<p></p>') {
-          setIsContentEmpty(true);
+          dispatch(setIsContentEmpty({isContentEmpty: true}));
           setEmptyContentMsg("Body is missing.");
       }
       else {
-          setIsContentEmpty(false);
+          dispatch(setIsContentEmpty({ isContentEmpty: false }));
           setEmptyContentMsg("");
       }
     };

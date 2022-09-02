@@ -16,12 +16,15 @@ const Header = styled.div`
     overflow: hidden;
 `
 const NewQuestion = () => {
+
+    const fetchMode = "post";
+
     return (
         <Container>
             <Header>
                 Ask a public question
             </Header>
-            <Editor />
+            <Editor fetchMode={fetchMode} />
         </Container>
     )
 };

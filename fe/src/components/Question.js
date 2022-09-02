@@ -1,7 +1,10 @@
 import styled from 'styled-components';
 import { Markup } from 'interweave'; // react library to interpret html string to jsx
 
-const Question = ( {post} ) => {
+import { useDispatch, useSelector } from 'react-redux';
+import { setQuestionId } from '../features/textEditSlice';
+
+const Question = ({ post, id }) => {
     // shows the time since a certain time point
     function timeSince (date) {
     
@@ -33,16 +36,29 @@ const Question = ( {post} ) => {
 
     let num = Date.parse(post.createdAt);
 
+    const dispatch = useDispatch();
+
+    const what = useSelector((state) => {
+        console.log(state.editMode.questionId);
+    })
+
+    const handleContentClick = () => {
+        dispatch(setQuestionId({ questionId: id }))
+        console.log(`this ${what}`);
+        console.log(id);
+    }
+
     return (
         <Block>
+            {/* <div>{post.createdAt}</div> */}
             <Side>
                 <div>{post.vote} votes</div>
                 <div>{post.answered} answers</div>
                 <div>{post.view} views</div>
             </Side>
             <Main>
-                <div>{post.title}</div>
-                <Markup content={post.content} />
+                <div onClick={handleContentClick}>{post.title}</div>
+                <Markup content={post.content} onClick={handleContentClick} />
                 <div>
                     <img src="https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460_1280.png" alt="profile"></img>
                     <div>{post.member.memberName}</div>
