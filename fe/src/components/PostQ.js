@@ -2,11 +2,11 @@ import styled from "styled-components";
 import dummy from "../dummy";
 import Moment from "react-moment";
 
-const PostQ = () => {
-  /* answered Jul 28, 2011 at 22:22 */
-  const datedata = new Date(dummy[0].time);
-  //   console.log(datedata); //Thu Aug 25 2022 10:02:17 GMT+0900 (한국 표준시)
-
+const PostQ = ({ individualPost }) => {
+  /* answered Jul 28, 2011 at 22:22 으로 나타내기*/
+  const datedata = new Date(individualPost.askedAt);
+  // const datedata = new Date(dummy[0].time);
+  console.log(datedata); //2022-09-02T07:31:25.340465
   const month = new Intl.DateTimeFormat("en", { month: "short" }).format(
     datedata
   );
@@ -24,21 +24,23 @@ const PostQ = () => {
     <>
       <QHeader>
         <div>
-          <Title>{dummy[0].title}</Title>
+          <Title>{individualPost.title}</Title>
           <Button>Ask Question</Button>
         </div>
         <TitleInfo>
           <div>
-            Asked <Moment fromNow>2022-09-01T16:10:46.910852</Moment>
+            Asked <Moment fromNow>{datedata}</Moment>
           </div>
-          <div>Modified ago</div>
-          <div> Viewed {dummy[0].viewNum} times</div>
+          <div>
+            Modified <Moment fromNow>{datedata}</Moment>
+          </div>
+          <div> Viewed {individualPost.view} times</div>
         </TitleInfo>
       </QHeader>
       <Post>
-        <Votecell>{dummy[0].voteNum}</Votecell>
+        <Votecell>{individualPost.vote}</Votecell>
         <Postcell>
-          <Content>{dummy[0].content}</Content>
+          <Content>{individualPost.content}</Content>
           <UserContent>
             <div className="edit">
               <div>Share</div>
@@ -54,7 +56,7 @@ const PostQ = () => {
               </div>
               <div>
                 <span>{fullDateFormat}</span>
-                <div>{dummy[0].userId}</div>
+                <div>{individualPost.member.name}</div>
               </div>
             </div>
           </UserContent>
@@ -139,6 +141,8 @@ const UserContent = styled.div`
   }
   > div.userinfo {
     flex-basis: 40%;
+    max-width: 200px;
+    max-height: 66px;
     background-color: #d9eaf7;
     border-radius: 5px;
     display: flex;

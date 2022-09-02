@@ -3,7 +3,7 @@ import dummy from "../dummy";
 import Pagination from "./Pagination";
 
 const PostA = () => {
-  const datedata = new Date(dummy[0].time);
+  const datedata = new Date();
   const month = new Intl.DateTimeFormat("en", { month: "short" }).format(
     datedata
   );
@@ -23,7 +23,7 @@ const PostA = () => {
           <Title>{dummy.length} Answers</Title>
           {/* <Button>Ask Question</Button> */}
         </div>
-        <Pagination total={10} limit={5} page={1}></Pagination>
+        {/* <Pagination total={10} limit={5} page={1}></Pagination> */}
       </AHeader>
       <Post>
         <Votecell>{dummy[0].voteNum}</Votecell>
@@ -121,6 +121,8 @@ const UserContent = styled.div`
     border-radius: 5px;
     display: flex;
     flex-wrap: wrap;
+    max-width: 200px;
+    max-height: 66px;
   }
 `;
 

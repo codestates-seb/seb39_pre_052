@@ -20,10 +20,9 @@ const Main = styled.div`
 
 const Body = styled.div`
   display: flex;
-`
+`;
 
 const App = () => {
-
   return (
     <>
       <GlobalStyle />
@@ -39,7 +38,7 @@ const App = () => {
               <Route path="/login" element={<LogIn />} />
               <Route path="/questions/ask" element={<NewQuestion />} />
               <Route path="/questions/1" element={<PostQAC />} />
-              {/* /questions/{questionId} 대신 임시로 하드코딩 */}
+              {/* /questions/{questionId} 대신 임시로 하드코딩 -> 나중에 slice에 저장되어있는 id로 가져오기*/}
             </Routes>
           </Body>
           <Footer />
