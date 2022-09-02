@@ -64,6 +64,22 @@ public class QuestionService {
         return questionRepository.findAllByMemberId(memberId, PageRequest.of(page, 30, Sort.by("id").descending()));
     }
 
+    public Page<Question> findQuestionsByTitle(String keyword, int page) {
+        return questionRepository.findByTitleContainingIgnoreCase(keyword, PageRequest.of(page, 30, Sort.by("createdAt").descending()));
+    }
+
+    public Page<Question> findQuestionsByContent(String keyword, int page) {
+        return questionRepository.findByContentContainingIgnoreCase(keyword, PageRequest.of(page, 30, Sort.by("createdAt").descending()));
+    }
+
+    public Question findQuestion(Long questionId) {
+        Optional<Question> optionalQuestion = questionRepository.findById(questionId);
+
+        Question findQuestion = optionalQuestion.orElseThrow(() -> new IllegalArgumentException("해당 질문을 찾을 수 없습니다."));
+
+        return findQuestion;
+    }
+
     public void verifyWriter(Long memberId, Question question) {
         Long writerId = question.getMember().getId();
         if (writerId != memberId) {

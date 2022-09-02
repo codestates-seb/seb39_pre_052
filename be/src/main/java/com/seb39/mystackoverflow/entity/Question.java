@@ -31,7 +31,7 @@ public class Question extends BaseEntity{
     @ColumnDefault("0")
     private int vote;
 
-    @ManyToOne(fetch = FetchType.EAGER) //question과 관련된 member 정보를 모두 response 할 수 있음
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "member_id")
     private Member member;
 
