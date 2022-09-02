@@ -273,3 +273,37 @@ include::{snippets}/comment-delete/path-parameters.adoc[]
 
 .http-response
 include::{snippets}/comment-delete/http-response.adoc[]
+
+***
+== 검색 관련 API
+ 검색 기능을 휘한 API 입니다.
+
+=== 질문 제목 검색
+
+.http-request
+include::{snippets}/questions-searchByTitle/http-request.adoc[]
+ 위와 같이 검색을 하게 되면(keyword=spring), 질문 제목에 spring이 포함된 모든 질문을 가져옵니다.
+
+.request-parameters
+include::{snippets}/questions-searchByTitle/request-parameters.adoc[]
+
+.response-body
+include::{snippets}/questions-searchByTitle/response-body.adoc[]
+
+=== 질문 내용 검색
+
+.http-request
+include::{snippets}/questions-searchByContent/http-request.adoc[]
+ 위와 같이 검색을 하게 되면(keyword="spring boot"), 질문 내용에 spring boot가 포함된 모든 질문을 가져옵니다.
+
+.response-body
+include::{snippets}/questions-searchByContent/response-body.adoc[]
+
+=== 질문 작성자 검색
+
+.http-request
+include::{snippets}/questions-searchByMemberId/http-request.adoc[]
+ 위와 같이 검색을 하게 되면(keyword=user:{작성자 식별자}), 해당 작성자의 모든 질문을 가져옵니다.
+
+.response-body
+include::{snippets}/questions-searchByMemberId/response-body.adoc[]
