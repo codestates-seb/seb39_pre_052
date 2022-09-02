@@ -38,7 +38,7 @@ class QuestionSearchTest {
         Question question1 = new Question();
         question1.setTitle("Java Spring");
         question1.setContent("contentA");
-        question1.setQuestionMember(findMember);
+        question1.setMember(findMember);
         questionService.createQuestion(question1, findMember.getId());
         //when
         Page<Question> questions = questionService.findQuestionsByTitle("java", 0);
@@ -62,11 +62,11 @@ class QuestionSearchTest {
 
         Question question1 = new Question();
         question1.setTitle("Java Spring");
-        question1.setContent("contentA");
-        question1.setQuestionMember(findMember);
+        question1.setContent("hello java");
+        question1.setMember(findMember);
         questionService.createQuestion(question1, findMember.getId());
         //when
-        Page<Question> questions = questionService.findQuestionByTitleAndContent("java", 0);
+        Page<Question> questions = questionService.findQuestionsByContent("java", 0);
         List<Question> content = questions.getContent();
         //then
         Assertions.assertEquals(content.size(), 1);
