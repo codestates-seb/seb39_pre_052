@@ -346,7 +346,7 @@ class QuestionControllerTest {
 
         //then
         actions.andExpect(status().isOk())
-                .andDo(document("questions-search",
+                .andDo(document("questions-list",
                         getRequestPreProcessor(),
                         getResponsePreProcessor(),
                         requestParameters(
