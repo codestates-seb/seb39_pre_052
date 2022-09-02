@@ -1,5 +1,6 @@
 package com.seb39.mystackoverflow.mapper;
 
+import com.seb39.mystackoverflow.dto.QuestionDetailDto;
 import com.seb39.mystackoverflow.dto.QuestionDto;
 import com.seb39.mystackoverflow.entity.Question;
 import org.mapstruct.Mapper;

@@ -37,13 +37,6 @@ public class Member extends BaseEntity{
                 .collect(Collectors.toList());
     }
 
-    /**
-     * Question 연관관계
-     */
-    @JsonBackReference(value = "question_id")
-    @OneToMany(mappedBy = "member", cascade = CascadeType.ALL) //member의 값이 변화하면 다른 값도 모두 변경
-    private List<Question> questions = new ArrayList<>();
-
 
     @Builder
     public Member(String email, String password, String name, String roles) {

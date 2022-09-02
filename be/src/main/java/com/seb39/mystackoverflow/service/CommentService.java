@@ -22,7 +22,7 @@ public class CommentService {
     @Transactional
     public Comment createComment(Comment comment, PostType postType, Long postId, Long memberId){
         Member member = memberService.findById(memberId);
-        comment.setCommentMember(member);
+        comment.setMember(member);
 
         if(postType == PostType.QUESTION)
             return createCommentOnQuestion(comment, postId, member);
@@ -34,13 +34,13 @@ public class CommentService {
 
     private Comment createCommentOnQuestion(Comment comment, Long questionId, Member member) {
         Question question = questionService.findQuestion(questionId);
-        comment.setCommentPost(PostType.QUESTION, question);
+        comment.changePost(PostType.QUESTION, question);
         return commentRepository.save(comment);
     }
 
     private Comment createCommentOnAnswer(Comment comment, Long answerId, Member member) {
         Answer answer = answerService.findAnswer(answerId);
-        comment.setCommentPost(PostType.ANSWER, answer);
+        comment.changePost(PostType.ANSWER, answer);
         return commentRepository.save(comment);
     }
 

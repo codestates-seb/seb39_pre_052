@@ -2,11 +2,14 @@ package com.seb39.mystackoverflow.controller;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.seb39.mystackoverflow.dto.QuestionDetailDto;
 import com.seb39.mystackoverflow.dto.QuestionDto;
 import com.seb39.mystackoverflow.entity.Member;
 import com.seb39.mystackoverflow.entity.Question;
+import com.seb39.mystackoverflow.mapper.QuestionDetailMapper;
 import com.seb39.mystackoverflow.mapper.QuestionMapper;
 import com.seb39.mystackoverflow.repository.MemberRepository;
+import com.seb39.mystackoverflow.service.QuestionDetailService;
 import com.seb39.mystackoverflow.service.QuestionService;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
@@ -61,6 +64,12 @@ class QuestionControllerTest {
     @MockBean
     private QuestionMapper questionMapper;
 
+    @MockBean
+    private QuestionDetailService questionDetailService;
+
+    @MockBean
+    private QuestionDetailMapper questionDetailMapper;
+
     private ObjectMapper objectMapper = new ObjectMapper();
 
     @Autowired
@@ -79,6 +88,113 @@ class QuestionControllerTest {
     @AfterEach
     void afterEach() {
         memberRepository.deleteAll();
+    }
+
+    @Test
+    void 질문_조회_테스트() throws Exception {
+        //given
+        given(questionDetailService.findQuestionDetail(anyLong()))
+                .willReturn(new Question());
+
+        QuestionDetailDto.Member member1 = new QuestionDetailDto.Member(4L, "AAA");
+        QuestionDetailDto.Member member2 = new QuestionDetailDto.Member(5L, "BBB");
+        QuestionDetailDto.Member member3 = new QuestionDetailDto.Member(8L, "CCC");
+
+        QuestionDetailDto.Comment comment1 = new QuestionDetailDto.Comment(23L, "Comment 01", LocalDateTime.now(), member1);
+        QuestionDetailDto.Comment comment2 = new QuestionDetailDto.Comment(54L, "Comment 02", LocalDateTime.now(), member2);
+        QuestionDetailDto.Comment comment3 = new QuestionDetailDto.Comment(886L, "Comment 03", LocalDateTime.now(), member2);
+        QuestionDetailDto.Comment comment4 = new QuestionDetailDto.Comment(424L, "Comment 04", LocalDateTime.now(), member3);
+
+        QuestionDetailDto.Answer answer1 = QuestionDetailDto.Answer.builder()
+                .id(34L)
+                .content("Answer 01")
+                .answeredAt(LocalDateTime.now())
+                .member(member2)
+                .comments(List.of(comment1, comment2))
+                .build();
+
+        QuestionDetailDto.Answer answer2 = QuestionDetailDto.Answer.builder()
+                .id(44L)
+                .content("Answer 02")
+                .answeredAt(LocalDateTime.now())
+                .member(member3)
+                .comments(List.of())
+                .build();
+
+        QuestionDetailDto response = QuestionDetailDto.builder()
+                .id(1L)
+                .title("Question title")
+                .content("Question content")
+                .askedAt(LocalDateTime.now())
+                .view(1123)
+                .vote(53)
+                .member(member1)
+                .comments(List.of(comment3, comment4))
+                .answers(List.of(answer1, answer2))
+                .build();
+
+        given(questionDetailMapper.questionToQuestionDetail(any()))
+                .willReturn(response);
+
+        // expected
+        ResultActions result = mockMvc.perform(get("/api/questions/{id}", "1"))
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("data").isNotEmpty())
+                .andExpect(jsonPath("data.id").value(1L))
+                .andExpect(jsonPath("data.title").value("Question title"))
+                .andExpect(jsonPath("data.content").value("Question content"))
+                .andExpect(jsonPath("data.view").value(1123))
+                .andExpect(jsonPath("data.vote").value(53))
+                .andExpect(jsonPath("data.member.name").value(member1.getName()))
+                .andExpect(jsonPath("data.comments[0].content").value(comment3.getContent()))
+                .andExpect(jsonPath("data.answers[0].content").value(answer1.getContent()))
+                .andExpect(jsonPath("data.answers[0].comments[0].content").value(comment1.getContent()))
+                .andExpect(jsonPath("data.answers[1].comments").isEmpty());
+
+        // document
+        result.andDo(document("question-detail",
+                getRequestPreProcessor(),
+                getResponsePreProcessor(),
+                pathParameters(
+                        parameterWithName("id").description("조회할 질문의 ID")
+                ),
+                responseFields(
+                        List.of(
+                                fieldWithPath("data").type(JsonFieldType.OBJECT).description("조회된 질문 데이터"),
+                                fieldWithPath("data.id").type(JsonFieldType.NUMBER).description("질문 식별자"),
+                                fieldWithPath("data.title").type(JsonFieldType.STRING).description("질문 제목"),
+                                fieldWithPath("data.content").type(JsonFieldType.STRING).description("질문 내용"),
+                                fieldWithPath("data.view").type(JsonFieldType.NUMBER).description("질문 조회수"),
+                                fieldWithPath("data.vote").type(JsonFieldType.NUMBER).description("질문 추천수"),
+                                fieldWithPath("data.askedAt").type(JsonFieldType.STRING).description("질문 생성 일시"),
+                                fieldWithPath("data.member").type(JsonFieldType.OBJECT).description("작성자 데이터"),
+                                fieldWithPath("data.member.id").type(JsonFieldType.NUMBER).description("작성자 식별자"),
+                                fieldWithPath("data.member.name").type(JsonFieldType.STRING).description("작성자 이름"),
+                                fieldWithPath("data.comments").type(JsonFieldType.ARRAY).description("질문의 댓글 리스트"),
+                                fieldWithPath("data.comments[].id").type(JsonFieldType.NUMBER).description("질문의 댓글 식별자"),
+                                fieldWithPath("data.comments[].content").type(JsonFieldType.STRING).description("질문의 댓글 내용"),
+                                fieldWithPath("data.comments[].createdAt").type(JsonFieldType.STRING).description("질문의 댓글 생성 일자"),
+                                fieldWithPath("data.comments[].member").type(JsonFieldType.OBJECT).description("질문의 댓글 작성자"),
+                                fieldWithPath("data.comments[].member.id").type(JsonFieldType.NUMBER).description("질문의 댓글 작성자 식별자"),
+                                fieldWithPath("data.comments[].member.name").type(JsonFieldType.STRING).description("질문의 댓글 작성자 이름"),
+                                fieldWithPath("data.answers").type(JsonFieldType.ARRAY).description("질문의 답변 리스트"),
+                                fieldWithPath("data.answers[].id").type(JsonFieldType.NUMBER).description("답변 식별자"),
+                                fieldWithPath("data.answers[].content").type(JsonFieldType.STRING).description("답변 내용"),
+                                fieldWithPath("data.answers[].answeredAt").type(JsonFieldType.STRING).description("답변 생성 일자"),
+                                fieldWithPath("data.answers[].vote").type(JsonFieldType.NUMBER).description("답변 추천 수"),
+                                fieldWithPath("data.answers[].accepted").type(JsonFieldType.BOOLEAN).description("답변 채택 유무"),
+                                fieldWithPath("data.answers[].member").type(JsonFieldType.OBJECT).description("답변 작성자"),
+                                fieldWithPath("data.answers[].member.id").type(JsonFieldType.NUMBER).description("답변 작성자 식별자"),
+                                fieldWithPath("data.answers[].member.name").type(JsonFieldType.STRING).description("답변 작성자 이름"),
+                                fieldWithPath("data.answers[].comments").type(JsonFieldType.ARRAY).description("답변의 댓글 리스트"),
+                                fieldWithPath("data.answers[].comments[].id").type(JsonFieldType.NUMBER).description("답변의 댓글 식별자"),
+                                fieldWithPath("data.answers[].comments[].content").type(JsonFieldType.STRING).description("답변의 댓글 내용"),
+                                fieldWithPath("data.answers[].comments[].createdAt").type(JsonFieldType.STRING).description("답변의 댓글 생성 일자"),
+                                fieldWithPath("data.answers[].comments[].member").type(JsonFieldType.OBJECT).description("답변의 댓글 작성자"),
+                                fieldWithPath("data.answers[].comments[].member.id").type(JsonFieldType.NUMBER).description("답변의 댓글 작성자 식별자"),
+                                fieldWithPath("data.answers[].comments[].member.name").type(JsonFieldType.STRING).description("답변의 댓글 작성자 이름")
+                        )
+                )));
     }
 
     @Test
@@ -138,7 +254,7 @@ class QuestionControllerTest {
     }
 
     @Test
-    public void 질문수정_테스트() throws Exception{
+    public void 질문수정_테스트() throws Exception {
         //given
         Member member = memberRepository.findByEmail("test@email.com").get();
         QuestionDto.Response.MemberSimple memberSimple = new QuestionDto.Response.MemberSimple(member.getId(), member.getName());
@@ -162,7 +278,7 @@ class QuestionControllerTest {
                 LocalDateTime.now(),
                 LocalDateTime.now(),
                 memberSimple
-                );
+        );
         given(questionMapper.questionPatchToQuestion(Mockito.any(QuestionDto.Patch.class))).willReturn(new Question());
         given(questionService.updateQuestion(Mockito.any(Question.class), any())).willReturn(new Question());
         given(questionMapper.questionToQuestionResponse(Mockito.any(Question.class))).willReturn(response);
@@ -299,7 +415,7 @@ class QuestionControllerTest {
                         pathParameters(
                                 parameterWithName("id").description("삭제할 질문 식별자")
                         )
-                        ));
+                ));
     }
 
 }

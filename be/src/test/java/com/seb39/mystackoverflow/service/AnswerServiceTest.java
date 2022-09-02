@@ -3,10 +3,8 @@ package com.seb39.mystackoverflow.service;
 import com.seb39.mystackoverflow.entity.Answer;
 import com.seb39.mystackoverflow.entity.Member;
 import com.seb39.mystackoverflow.entity.Question;
-import com.seb39.mystackoverflow.repository.AnswerRepository;
 import com.seb39.mystackoverflow.repository.MemberRepository;
 import com.seb39.mystackoverflow.repository.QuestionRepository;
-import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -18,7 +16,6 @@ import org.springframework.transaction.annotation.Transactional;
 import java.util.List;
 
 import static org.assertj.core.api.Assertions.*;
-import static org.junit.jupiter.api.Assertions.*;
 
 @SpringBootTest
 @Transactional
@@ -52,7 +49,7 @@ class AnswerServiceTest {
         Question question = new Question();
         question.setTitle("TEST QUESTION");
         question.setContent("TEST QUESTION's content");
-        question.setQuestionMember(other);
+        question.setMember(other);
         questionRepository.save(question);
     }
 
