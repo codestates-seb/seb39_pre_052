@@ -13,7 +13,6 @@ import org.springframework.transaction.annotation.Transactional;
 
 import javax.persistence.EntityManager;
 import java.util.List;
-import java.util.Optional;
 
 @SpringBootTest
 @Transactional
@@ -31,7 +30,8 @@ class QuestionDetailsServiceTest {
     @Autowired
     CommentRepository commentRepository;
 
-    @Autowired QuestionDetailsService questionDetailsService;
+    @Autowired
+    QuestionDetailService questionDetailsService;
 
     @Autowired
     EntityManager em;

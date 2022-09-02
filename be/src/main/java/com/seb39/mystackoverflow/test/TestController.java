@@ -52,54 +52,6 @@ public class TestController {
     }
 
 
-    @GetMapping("/test/question/1")
-    public QuestionDetailDto testQuestionDetail() {
-
-        QuestionDetailDto.Member member1 = new QuestionDetailDto.Member(1L, "USERAAA");
-        QuestionDetailDto.Member member2 = new QuestionDetailDto.Member(2L, "USERBBB");
-        QuestionDetailDto.Member member3 = new QuestionDetailDto.Member(3L, "USERCCC");
-
-
-        QuestionDetailDto dto = new QuestionDetailDto();
-        dto.setId(1L);
-        dto.setTitle("Test Question");
-        dto.setContent("test content...");
-        dto.setAskedAt(LocalDateTime.now());
-        dto.setView(754625);
-        dto.setVote(2247);
-        dto.setMember(member1);
-
-        dto.setComments(List.of(
-                new QuestionDetailDto.Comment(23L, "Question comment 1", member2),
-                new QuestionDetailDto.Comment(25L, "Question comment 2", member3)
-        ));
-
-        QuestionDetailDto.Answer answer1 = new QuestionDetailDto.Answer();
-        answer1.setId(4L);
-        answer1.setContent("Test Answer 01");
-        answer1.setAnsweredAt(LocalDateTime.now());
-        answer1.setMember(member2);
-        answer1.setComments(List.of(
-                new QuestionDetailDto.Comment(23L, "Answer comment 1", member1),
-                new QuestionDetailDto.Comment(25L, "Answer comment 2", member3)
-        ));
-
-        QuestionDetailDto.Answer answer2 = new QuestionDetailDto.Answer();
-        answer2.setId(223L);
-        answer2.setContent("Test Answer 02");
-        answer2.setAnsweredAt(LocalDateTime.now());
-        answer2.setMember(member2);
-        answer2.setComments(List.of());
-
-        dto.setAnswers(List.of(
-                answer1,
-                answer2
-        ));
-
-        return dto;
-    }
-
-
     @GetMapping("/test/init")
     public String init(){
         Member member1 = Member.builder()
