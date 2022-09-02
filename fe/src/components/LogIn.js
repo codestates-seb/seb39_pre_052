@@ -24,13 +24,13 @@ const LogIn = () => {
   //로그인 여부 확인해서
   const navigate = useNavigate();
   const dispatch = useDispatch();
-  const logindata = useSelector((state) => {
-    // 현재 상태 확인용 콘솔
-    console.log(`EMAIL: ${state.user.userEmail}`);
-    console.log(`TOKEN: ${state.user.userToken}`);
-    console.log(`LOGIN?: ${state.user.isLoggedIn}`);
-    console.log(`--------------------------------`);
-  });
+  // const logindata = useSelector((state) => {
+  //   // 현재 상태 확인용 콘솔
+  //   console.log(`EMAIL: ${state.user.userEmail}`);
+  //   console.log(`TOKEN: ${state.user.userToken}`);
+  //   console.log(`LOGIN?: ${state.user.isLoggedIn}`);
+  //   console.log(`--------------------------------`);
+  // });
 
   //Sign up 버튼 누르면 POST 요청하기
   const handleSubmit = (event) => {
