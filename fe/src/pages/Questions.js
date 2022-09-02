@@ -19,6 +19,10 @@ const Questions = () => {
     const navigate = useNavigate();
     const dispatch = useDispatch();
 
+    const isLoggedIn = useSelector((state) => {
+        return state.user.isLoggedIn;
+    });
+
     const token = useSelector((state) => {
         return state.user.userToken;
     });
@@ -46,7 +50,7 @@ const Questions = () => {
                 dispatch(setPosts({posts: data.data, total: data.pageInfo.totalElements})); 
             })
             .catch((err) => console.log(`!CANNOT FETCH QUESTION DATA! ${err}!`))
-    }, [page, limit, isDeleted]);
+    }, [page, limit, isDeleted, dispatch]);
 
     const deleteHandler = () => {
         fetch(`/api/questions/${posts[qNum-1].id}`, {
@@ -68,7 +72,7 @@ const Questions = () => {
                 <div>
                     <input onChange={e => setQNum(e.target.value)} placeholder="Which question would you like to delete?" style={{width: "250px"}}></input>
                     <Button onClick={deleteHandler}>DELETE</Button>
-                    <Link to="/questions/ask">
+                    <Link to={isLoggedIn? "/questions/ask" : "/login"}>
                         <Button>Ask Question</Button>
                     </Link>
                 </div>

@@ -78,7 +78,7 @@ const Editor = () => {
                 }
                 // else if to be deleted
                 else if (res.status === 500) {
-                    console.log(`ERROR: check your token`)
+                    alert(`ERROR: check your token`)
                 }
                 else {
                     console.log(res);
