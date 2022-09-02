@@ -1,24 +1,46 @@
 import styled from "styled-components";
 import dummy from "../dummy";
+import Moment from "react-moment";
 
-const PostQ = () => {
+const PostQ = ({ individualPost }) => {
+  /* answered Jul 28, 2011 at 22:22 으로 나타내기*/
+  const datedata = new Date(individualPost.askedAt);
+  // const datedata = new Date(dummy[0].time);
+  console.log(datedata); //2022-09-02T07:31:25.340465
+  const month = new Intl.DateTimeFormat("en", { month: "short" }).format(
+    datedata
+  );
+  const year = new Intl.DateTimeFormat("en", { year: "numeric" }).format(
+    datedata
+  );
+  const day = new Intl.DateTimeFormat("en", { day: "2-digit" }).format(
+    datedata
+  );
+  const fullDateFormat = `${month} ${day}, ${year} at ${(
+    "0" + datedata.getHours()
+  ).slice(-2)}:${("0" + datedata.getMinutes()).slice(-2)}`;
+
   return (
     <>
       <QHeader>
         <div>
-          <Title>{dummy[0].title}</Title>
+          <Title>{individualPost.title}</Title>
           <Button>Ask Question</Button>
         </div>
         <TitleInfo>
-          <div>Asked {dummy[0].time} ago</div>
-          <div>Modified ago</div>
-          <div> Viewed {dummy[0].viewNum} times</div>
+          <div>
+            Asked <Moment fromNow>{datedata}</Moment>
+          </div>
+          <div>
+            Modified <Moment fromNow>{datedata}</Moment>
+          </div>
+          <div> Viewed {individualPost.view} times</div>
         </TitleInfo>
       </QHeader>
       <Post>
-        <Votecell>{dummy[0].voteNum}</Votecell>
+        <Votecell>{individualPost.vote}</Votecell>
         <Postcell>
-          <Content>{dummy[0].content}</Content>
+          <Content>{individualPost.content}</Content>
           <UserContent>
             <div className="edit">
               <div>Share</div>
@@ -33,8 +55,8 @@ const PostQ = () => {
                 </div>
               </div>
               <div>
-                <span>{dummy[0].time}</span>
-                <div>{dummy[0].userId}</div>
+                <span>{fullDateFormat}</span>
+                <div>{individualPost.member.name}</div>
               </div>
             </div>
           </UserContent>
@@ -119,6 +141,8 @@ const UserContent = styled.div`
   }
   > div.userinfo {
     flex-basis: 40%;
+    max-width: 200px;
+    max-height: 66px;
     background-color: #d9eaf7;
     border-radius: 5px;
     display: flex;
