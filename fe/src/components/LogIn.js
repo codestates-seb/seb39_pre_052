@@ -212,7 +212,7 @@ const LogInWrapper = styled.div`
     /* flex-basis: 70%; */
     margin: 20px 52px 24px 52px;
     width: 316px;
-    height: 280px;
+    height: 300px;
     padding: 24px;
     border-radius: 10px;
     background-color: white;
@@ -224,7 +224,7 @@ const LogInWrapper = styled.div`
       /* justify-content: center;
       align-content: center; */
       width: 268px;
-      height: 280px;
+      /* min-height: 300px; */
     }
 
     > form > div {
@@ -256,8 +256,9 @@ const LogInWrapper = styled.div`
     }
 
     > form > button {
-      position: relative;
-      top: 5%;
+      /* position: relative;
+      top: 50%; */
+      margin-top: 15px;
       width: 268px;
       height: 38px;
       background-color: #0a95ff;
