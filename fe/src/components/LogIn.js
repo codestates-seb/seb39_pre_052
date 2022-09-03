@@ -154,7 +154,7 @@ const LogInWrapper = styled.div`
   justify-content: center;
   align-items: center;
   width: 100vw;
-  height: 100vh;
+  height: 100%;
   background-color: #f1f2f3;
 
   > div:first-of-type {

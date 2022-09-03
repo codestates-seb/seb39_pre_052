@@ -1,6 +1,12 @@
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import styled from "styled-components";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import {
+  faSquareFacebook,
+  faGoogle,
+  faGithub,
+} from "@fortawesome//free-brands-svg-icons";
 
 const SignUp = () => {
   const [name, setName] = useState("");
@@ -99,9 +105,32 @@ const SignUp = () => {
       {/* 소셜 회원 가입 */}
       <section className="social_buttons">
         <div>
-          <button>Sign up with Google</button>
-          <button>Sign up with Github</button>
-          <button>Sign up with Facebook</button>
+          <button>
+            {" "}
+            <FontAwesomeIcon
+              icon={faGoogle}
+              size="lg"
+              style={{ marginRight: 5 }}
+            />
+            Sign up with Google
+          </button>
+          <button>
+            <FontAwesomeIcon
+              icon={faGithub}
+              size="lg"
+              style={{ marginRight: 5 }}
+            />
+            Sign up with Github
+          </button>
+          <button>
+            {" "}
+            <FontAwesomeIcon
+              icon={faSquareFacebook}
+              size="lg"
+              style={{ marginRight: 5 }}
+            />
+            Sign up with Facebook
+          </button>
         </div>
       </section>
 
@@ -163,7 +192,7 @@ const SignUpWrapper = styled.div`
   justify-content: center;
   align-items: center;
   width: 100vw;
-  height: 100vh;
+  height: 100%;
   background-color: #f1f2f3;
 
   > div:first-of-type {
@@ -172,7 +201,7 @@ const SignUpWrapper = styled.div`
     height: 55px;
     font-size: 21px;
     text-align: center;
-    margin-top: 20px;
+    margin: 20px;
   }
 
   > section.social_buttons {
@@ -274,7 +303,7 @@ const SignUpWrapper = styled.div`
       /* flex-grow: 30%; */
       /* flex: 0 1 auto; */
       position: relative;
-      top: 20%;
+      top: 15%;
       width: 268px;
       height: 38px;
       background-color: #0a95ff;
