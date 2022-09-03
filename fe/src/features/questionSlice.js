@@ -10,7 +10,7 @@ const questionSlice = createSlice({
     initialState,
     reducers: {
         questionDetails(state, action) {
-            state.question = action.payload.data;
+            state.question = action.payload.question;
         }
     }
 });

@@ -1,6 +1,7 @@
 import styled from "styled-components";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 import GlobalStyle from "./GlobalStyle";
+import { useSelector } from 'react-redux';
 
 import ReduxTest from "./components/ReduxTest";
 import GNB from "./components/GNB";
@@ -23,6 +24,10 @@ const Body = styled.div`
 `;
 
 const App = () => {
+  const questionId = useSelector((state) => {
+    return state.editMode.questionId;
+  });
+
   return (
     <>
       <GlobalStyle />
@@ -37,7 +42,8 @@ const App = () => {
               <Route path="/signup" element={<SignUp />} />
               <Route path="/login" element={<LogIn />} />
               <Route path="/questions/ask" element={<NewQuestion />} />
-              <Route path="/questions/1" element={<PostQAC />} />
+              {/* <Route path={`/questions/1`} element={<PostQAC />} /> */}
+              <Route path={`/questions/${questionId}`} element={<PostQAC />} /> 
               {/* /questions/{questionId} 대신 임시로 하드코딩 -> 나중에 slice에 저장되어있는 id로 가져오기*/}
             </Routes>
           </Body>

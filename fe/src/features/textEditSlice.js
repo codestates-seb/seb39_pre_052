@@ -6,7 +6,7 @@ const initialState = {
     htmlStr: '',
     isTitleEmpty: true,
     isContentEmpty: true,
-    questionId: 0,
+    questionId: null,
 }
 
 const textEditSlice = createSlice({

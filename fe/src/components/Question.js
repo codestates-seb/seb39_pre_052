@@ -1,10 +1,16 @@
 import styled from 'styled-components';
+import { Link } from 'react-router-dom'
 import { Markup } from 'interweave'; // react library to interpret html string to jsx
 
 import { useDispatch, useSelector } from 'react-redux';
 import { setQuestionId } from '../features/textEditSlice';
+import { useNavigate } from 'react-router-dom';
+import { useState, useEffect } from 'react';
 
 const Question = ({ post, id }) => {
+
+    const [isClicked, setIsClicked] = useState(false);
+
     // shows the time since a certain time point
     function timeSince (date) {
     
@@ -37,15 +43,16 @@ const Question = ({ post, id }) => {
     let num = Date.parse(post.createdAt);
 
     const dispatch = useDispatch();
+    const navigate = useNavigate();
 
-    const what = useSelector((state) => {
-        console.log(state.editMode.questionId);
-    })
-
+    const questionId = useSelector((state) => {
+        return state.editMode.questionId;
+    });
+    
     const handleContentClick = () => {
-        dispatch(setQuestionId({ questionId: id }))
-        console.log(`this ${what}`);
-        console.log(id);
+        dispatch(setQuestionId({ questionId: id }));
+        console.log(questionId);
+        console.log(`hi`);
     }
 
     return (
@@ -57,8 +64,12 @@ const Question = ({ post, id }) => {
                 <div>{post.view} views</div>
             </Side>
             <Main>
-                <div onClick={handleContentClick}>{post.title}</div>
-                <Markup content={post.content} onClick={handleContentClick} />
+                <Link to={`questions/${id}`}>
+                    <div onClick={handleContentClick}>{post.title}</div>
+                </Link>
+                <Link to={`questions/${id}`}>
+                    <Markup content={post.content} onClick={handleContentClick} />
+                </Link>
                 <div>
                     <img src="https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460_1280.png" alt="profile"></img>
                     <div>{post.member.memberName}</div>
@@ -107,9 +118,10 @@ const Main = styled.div`
     > * {
         overflow: hidden;
         padding-bottom: 10px;
+        text-decoration: none;
     }
     // Title
-    > div:first-child {
+    > *:first-child > div:first-child {
         font-weight: 600;
         color: #0074cc;
         font-size: 20px;
@@ -118,7 +130,8 @@ const Main = styled.div`
         }
     }
     // Content
-    > *:nth-child(2) {
+    > *:nth-child(2) > *:nth-child(1) {
+        color: #5d5e60;
         :hover {
             color: #191919;
         }
