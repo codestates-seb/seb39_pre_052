@@ -2,7 +2,7 @@ import styled from "styled-components"
 import { useState, useRef } from "react";
 import { useNavigate } from 'react-router-dom';
 import { useSelector, useDispatch } from "react-redux";
-import { setTitle, setIsTitleEmpty } from "../features/textEditSlice";
+import { setTitle, setIsTitleEmpty, setQuestionId } from "../features/textEditSlice";
 
 import Toolbox from "./Toolbox";
 
@@ -13,7 +13,7 @@ const Editor = ({ fetchMode }) => {
 
     const navigate = useNavigate();
     const dispatch = useDispatch();
-    
+
     // To focus certain empty input box
     const titleRef = useRef();
     const contentRef = useRef();
@@ -28,17 +28,20 @@ const Editor = ({ fetchMode }) => {
     const htmlStr = useSelector((state) => {
         return state.editMode.htmlStr;
     });
+    const questionId = useSelector((state) => {
+        return state.editMode.questionId;
+    });
 
     const handleTitleInput = (e) => {
-        dispatch(setTitle({title: e.target.value}));
-        
+        dispatch(setTitle({ title: e.target.value }));
+
         // The red message disappears when input is entered
         if (title.length < 0) {
-            dispatch(setIsTitleEmpty({isTitleEmpty: true}));
+            dispatch(setIsTitleEmpty({ isTitleEmpty: true }));
             setEmptyTitleMsg("Title is missing.");
         }
         else {
-            dispatch(setIsTitleEmpty({isTitleEmpty: false}));
+            dispatch(setIsTitleEmpty({ isTitleEmpty: false }));
             setEmptyTitleMsg("");
         }
     }
@@ -80,6 +83,30 @@ const Editor = ({ fetchMode }) => {
                 })
                 .then((res) => {
                     if (res.status === 201) {
+                        return res.json();
+                    }
+                })
+                .then((json) => {
+                    console.log(json.data.id)
+                    alert(`Successfully Submitted!`)
+                    dispatch(setQuestionId(json.data.id))
+                    navigate(`/questions/${json.data.id}`);
+                })
+                .catch(() => console.log("ERROR!"))
+            }
+            // 에디터 사용 컴포넌트가 게시글 (Q) 수정일 때
+            else if (fetchMode === 'put') {
+                fetch(`/api/questions/${questionId}`, {
+                    method: "PUT",
+                    headers: {
+                        'Accept': 'application/json, text/plain',
+                        'Content-Type': 'application/json;charset=UTF-8',
+                        "Authorization": token,
+                    },
+                    body: JSON.stringify({ title: title, content: htmlStr }),
+                })
+                .then((res) => {
+                    if (res.status === 201) {
                         console.log(res);
                         alert(`Successfully Submitted!`)
                         // navigate(`/questions/${res.data.id}`); 
@@ -95,17 +122,6 @@ const Editor = ({ fetchMode }) => {
                     }
                 });
             }
-            else if (fetchMode === 'put') {
-                fetch("/api/questions", {
-                    method: "POST",
-                    headers: {
-                        'Accept': 'application/json, text/plain',
-                        'Content-Type': 'application/json;charset=UTF-8',
-                        "Authorization": token,
-                    },
-                    body: JSON.stringify({ title: title, content: htmlStr }),
-                })
-            }
         }
     }
 
@@ -114,8 +130,8 @@ const Editor = ({ fetchMode }) => {
             <Header>
                 <h1>Title</h1>
                 <p>Be specific and imagine you’re asking a question to another person</p>
-                <input 
-                    type="text" 
+                <input
+                    type="text"
                     placeholder="e.g. Is there an R function for finding the index of an element in a vector?"
                     onChange={handleTitleInput}
                     ref={titleRef}
