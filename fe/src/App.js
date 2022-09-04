@@ -3,16 +3,15 @@ import { BrowserRouter, Routes, Route } from "react-router-dom";
 import GlobalStyle from "./GlobalStyle";
 import { useSelector } from 'react-redux';
 
-import ReduxTest from "./components/ReduxTest";
 import GNB from "./components/GNB";
 import SNB from "./components/SNB";
+import Home from "./pages/Home";
 import Questions from "./pages/Questions";
 import SignUp from "./components/SignUp";
 import LogIn from "./components/LogIn";
 import NewQuestion from "./pages/NewQuestion";
 import Footer from "./components/Footer";
 import PostQAC from "./components/PostQAC";
-import EditQuestion from "./pages/EditQuestion";
 
 const Main = styled.div`
   display: flex;
@@ -38,9 +37,8 @@ const App = () => {
           <Body>
             <SNB />
             <Routes>
-              <Route path="redux" element={<ReduxTest />} />
-              <Route path="edit" element={<EditQuestion />} />
-              <Route path="/" element={<Questions />} />
+              <Route path="/" element={<Home />}/>
+              <Route path="/questions" element={<Questions />} />
               <Route path="/signup" element={<SignUp />} />
               <Route path="/login" element={<LogIn />} />
               <Route path="/questions/ask" element={<NewQuestion />} />
