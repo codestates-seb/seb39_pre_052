@@ -17,7 +17,7 @@ const Header = styled.div`
 `
 const EditQuestion = () => {
 
-    const fetchMode = "put";
+    const fetchMode = "patch";
 
     return (
         <Container>

@@ -62,10 +62,6 @@ const Questions = () => {
         .then(res => {console.log(res); /*window.location.reload();*/ setIsDeleted(!isDeleted)})
     }
 
-    const handleClick = () => {
-        console.log("hi")
-    }
-
     return (
         <Container>
             <Header>
@@ -79,6 +75,7 @@ const Questions = () => {
                     <Link to={isLoggedIn? "/questions/ask" : "/login"}>
                         <Button>Ask Question</Button>
                     </Link>
+                    <Link to="/Edit"><Button>Edit</Button></Link>
                 </div>
             </Header>
             {/* The below is for TEST DATA, slicing data from client side

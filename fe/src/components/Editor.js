@@ -87,7 +87,6 @@ const Editor = ({ fetchMode }) => {
                     }
                 })
                 .then((json) => {
-                    console.log(json.data.id)
                     alert(`Successfully Submitted!`)
                     dispatch(setQuestionId(json.data.id))
                     navigate(`/questions/${json.data.id}`);
@@ -97,9 +96,9 @@ const Editor = ({ fetchMode }) => {
                 .catch(() => console.log("ERROR!"))
             }
             // 에디터 사용 컴포넌트가 게시글 (Q) 수정일 때
-            else if (fetchMode === 'put') {
-                fetch(`/api/questions/${questionId}`, {
-                    method: "PUT",
+            else if (fetchMode === 'patch') {
+                fetch(`/api/questions/24`, {
+                    method: "PATCH",
                     headers: {
                         'Accept': 'application/json, text/plain',
                         'Content-Type': 'application/json;charset=UTF-8',
@@ -107,20 +106,20 @@ const Editor = ({ fetchMode }) => {
                     },
                     body: JSON.stringify({ title: title, content: htmlStr }),
                 })
-                .then((res) => {
-                    if (res.status === 201) {
+                .then((res) => {                 
+                    if (res.status === 200) {
                         return res.json();
                     }
                 })
                 .then((json) => {
-                    console.log(json.id)
                     alert(`Successfully Submitted!`)
-                    dispatch(setQuestionId(json.id))
-                    navigate(`/questions/${json.id}`);
+                    console.log(json);
+                    dispatch(setQuestionId(json.data.id))
+                    navigate(`/questions/${json.data.id}`);
                     dispatch(setTitle({ title: "" }));
                     dispatch(setHtmlStr({ htmlStr: "" }));
                 })
-                .catch(() => console.log("ERROR!"))
+                .catch((err) => console.log("ERROR!", err))
             }
         }
     }
