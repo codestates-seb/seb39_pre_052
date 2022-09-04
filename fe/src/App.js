@@ -12,6 +12,7 @@ import LogIn from "./components/LogIn";
 import NewQuestion from "./pages/NewQuestion";
 import Footer from "./components/Footer";
 import PostQAC from "./components/PostQAC";
+import EditQuestion from "./pages/EditQuestion";
 
 const Main = styled.div`
   display: flex;
@@ -38,6 +39,7 @@ const App = () => {
             <SNB />
             <Routes>
               <Route path="redux" element={<ReduxTest />} />
+              <Route path="edit" element={<EditQuestion />} />
               <Route path="/" element={<Questions />} />
               <Route path="/signup" element={<SignUp />} />
               <Route path="/login" element={<LogIn />} />

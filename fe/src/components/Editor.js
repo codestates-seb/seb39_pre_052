@@ -2,7 +2,7 @@ import styled from "styled-components"
 import { useState, useRef } from "react";
 import { useNavigate } from 'react-router-dom';
 import { useSelector, useDispatch } from "react-redux";
-import { setTitle, setIsTitleEmpty, setQuestionId } from "../features/textEditSlice";
+import { setTitle, setIsTitleEmpty, setQuestionId, setHtmlStr } from "../features/textEditSlice";
 
 import Toolbox from "./Toolbox";
 
@@ -91,6 +91,8 @@ const Editor = ({ fetchMode }) => {
                     alert(`Successfully Submitted!`)
                     dispatch(setQuestionId(json.data.id))
                     navigate(`/questions/${json.data.id}`);
+                    dispatch(setTitle({ title: "" }));
+                    dispatch(setHtmlStr({ htmlStr: "" }));
                 })
                 .catch(() => console.log("ERROR!"))
             }
@@ -107,20 +109,18 @@ const Editor = ({ fetchMode }) => {
                 })
                 .then((res) => {
                     if (res.status === 201) {
-                        console.log(res);
-                        alert(`Successfully Submitted!`)
-                        // navigate(`/questions/${res.data.id}`); 
-                        navigate(`/questions/1`); // 질문 상세 페이지로 변경 예정
+                        return res.json();
                     }
-                    // else if to be deleted
-                    else if (res.status === 500) {
-                        alert(`ERROR: check your token`)
-                    }
-                    else {
-                        console.log(res);
-                        alert(`ERROR: ${res.status}`)
-                    }
-                });
+                })
+                .then((json) => {
+                    console.log(json.id)
+                    alert(`Successfully Submitted!`)
+                    dispatch(setQuestionId(json.id))
+                    navigate(`/questions/${json.id}`);
+                    dispatch(setTitle({ title: "" }));
+                    dispatch(setHtmlStr({ htmlStr: "" }));
+                })
+                .catch(() => console.log("ERROR!"))
             }
         }
     }
@@ -135,6 +135,7 @@ const Editor = ({ fetchMode }) => {
                     placeholder="e.g. Is there an R function for finding the index of an element in a vector?"
                     onChange={handleTitleInput}
                     ref={titleRef}
+                    value={title}
                 ></input>
                 <Msg>{emptyTitleMsg}</Msg>
             </Header>

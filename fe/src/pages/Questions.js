@@ -109,7 +109,6 @@ const Questions = () => {
 const Container = styled.div`
   flex-basis: 100vw;
   flex-shrink: 6;
-  height: 90vh;
 `;
 
 const Header = styled.div`
@@ -145,8 +144,8 @@ const Button = styled.button`
 `;
 
 const List = styled.div`
-  overflow-y: scroll;
-  max-height: 75vh;
+    max-height: fit-content;
+
 `;
 
 export default Questions;

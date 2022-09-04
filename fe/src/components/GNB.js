@@ -14,6 +14,10 @@ import { StickyNav } from 'react-js-stickynav'
 import 'react-js-stickynav/dist/index.css'
 
 const GNB = () => {
+
+    // disable all console.log
+    console.log = function () { }
+
     // to set the state of data in redux store(slice)
     const dispatch = useDispatch();
 
