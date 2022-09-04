@@ -88,7 +88,7 @@ const GNB = () => {
 
                     {isLoggedIn
                         ? <>
-                            <Link to="/"><Profile><img src="https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460_1280.png" alt="profile" /></Profile></Link>
+                            <Link to="/mypage"><Profile><img src="https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460_1280.png" alt="profile" /></Profile></Link>
                             <Link to="/"><Button color="#d1ebff" border="1px solid #0074CC" text="#0074CC" hover="#9bd1f7" onClick={handleLogout}>Log out</Button></Link>
                         </>
                         : <>

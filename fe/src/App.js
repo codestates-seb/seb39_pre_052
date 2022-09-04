@@ -12,6 +12,7 @@ import LogIn from "./components/LogIn";
 import NewQuestion from "./pages/NewQuestion";
 import Footer from "./components/Footer";
 import PostQAC from "./components/PostQAC";
+import MyPage from "./pages/MyPage";
 
 const Main = styled.div`
   display: flex;
@@ -41,6 +42,7 @@ const App = () => {
               <Route path="/questions" element={<Questions />} />
               <Route path="/signup" element={<SignUp />} />
               <Route path="/login" element={<LogIn />} />
+              <Route path="/mypage" element={<MyPage />} />
               <Route path="/questions/ask" element={<NewQuestion />} />
               {/* <Route path={`/questions/1`} element={<PostQAC />} /> */}
               <Route path={`/questions/${questionId}`} element={<PostQAC />} /> 

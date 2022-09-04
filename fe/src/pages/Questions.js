@@ -14,23 +14,18 @@ const Questions = () => {
     const [limit, setLimit] = useState(5);
     const [page, setPage] = useState(1);
     const [isDeleted, setIsDeleted] = useState(false);
-    const offset = (page - 1) * limit;
 
-    const navigate = useNavigate();
     const dispatch = useDispatch();
 
     const isLoggedIn = useSelector((state) => {
         return state.user.isLoggedIn;
     });
-
     const token = useSelector((state) => {
         return state.user.userToken;
     });
-
     const posts = useSelector((state) => {
         return state.qlist.posts;
     });
-
     const total = useSelector((state) => {
         return state.qlist.total;
     });
