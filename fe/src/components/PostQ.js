@@ -45,6 +45,7 @@ const PostQ = ({ individualPost }) => {
             <div className="edit">
               <div>Share</div>
               <div>Edit</div>
+              {/* edit 페이지 연결하기 */}
               <div>Follow</div>
             </div>
             <div className="userinfo">
