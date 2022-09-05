@@ -21,10 +21,12 @@ public class QuestionDetailService {
     private final QuestionRepository questionRepository;
     private final AnswerRepository answerRepository;
 
+    @Transactional
     public Question findQuestionDetail(Long id){
         Question question = questionRepository.findQuestionWithCommentsById(id)
                 .orElseThrow(()-> new BusinessLogicException(ExceptionCode.QUESTION_NOT_FOUND));
 
+        question.addView();
         List<Answer> answers = answerRepository.findAnswerWithCommentsByQuestionId(id);
         question.setAnswers(answers);
 
