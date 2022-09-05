@@ -129,16 +129,16 @@ include::{snippets}/question-update/response-fields.adoc[]
  질문 목록 조회를 위한 API 입니다.
 
 .http-request
-include::{snippets}/questions-search/http-request.adoc[]
+include::{snippets}/questions-list/http-request.adoc[]
 
 .request-parameters
-include::{snippets}/questions-search/request-parameters.adoc[]
+include::{snippets}/questions-list/request-parameters.adoc[]
 
 .http-response
-include::{snippets}/questions-search/http-response.adoc[]
+include::{snippets}/questions-list/http-response.adoc[]
 
 .response-fields
-include::{snippets}/questions-search/response-fields.adoc[]
+include::{snippets}/questions-list/response-fields.adoc[]
 
 === 질문 세부내용 조회
 ***
