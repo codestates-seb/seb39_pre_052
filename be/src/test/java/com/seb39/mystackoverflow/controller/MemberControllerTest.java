@@ -6,8 +6,10 @@ import com.seb39.mystackoverflow.entity.Answer;
 import com.seb39.mystackoverflow.entity.Member;
 import com.seb39.mystackoverflow.entity.Question;
 import com.seb39.mystackoverflow.mapper.AnswerMapper;
+import com.seb39.mystackoverflow.mapper.MemberMapper;
 import com.seb39.mystackoverflow.mapper.QuestionMapper;
 import com.seb39.mystackoverflow.service.AnswerService;
+import com.seb39.mystackoverflow.service.MemberService;
 import com.seb39.mystackoverflow.service.QuestionService;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -61,6 +63,13 @@ class MemberControllerTest {
     QuestionMapper questionMapper;
 
     @MockBean
+    private MemberService memberService;
+
+    @MockBean
+    private MemberMapper memberMapper;
+
+
+    @MockBean
     AnswerService answerService;
 
     @MockBean
@@ -86,9 +95,9 @@ class MemberControllerTest {
         QuestionDto.Response.MemberSimple memberSimple = new QuestionDto.Response.MemberSimple(member.getId(), member.getName());
 
         List<QuestionDto.Response> data = List.of(
-                new QuestionDto.Response(1L, "title01", "content01", 1111, 11, createdAt, createdAt, memberSimple),
-                new QuestionDto.Response(2L, "title02", "content02", 768, 22, createdAt, createdAt, memberSimple),
-                new QuestionDto.Response(3L, "title03", "content03", 353, -7, createdAt, createdAt, memberSimple)
+                new QuestionDto.Response(1L, "title01", "content01", 1111, 11, createdAt, createdAt, memberSimple, 0),
+                new QuestionDto.Response(2L, "title02", "content02", 768, 22, createdAt, createdAt, memberSimple, 0),
+                new QuestionDto.Response(3L, "title03", "content03", 353, -7, createdAt, createdAt, memberSimple, 0)
         );
         given(questionMapper.questionsToQuestionResponses(any()))
                 .willReturn(data);
@@ -127,6 +136,7 @@ class MemberControllerTest {
                                 fieldWithPath("data[].member").type(JsonFieldType.OBJECT).description("질문 작성자 정보"),
                                 fieldWithPath("data.[].member.memberId").type(JsonFieldType.NUMBER).description("질문 작성자 식별자"),
                                 fieldWithPath("data.[].member.memberName").type(JsonFieldType.STRING).description("질문 작성자 이름"),
+                                fieldWithPath("data.[].answerNum").type(JsonFieldType.NUMBER).description("답변 개수"),
                                 fieldWithPath("pageInfo.page").type(JsonFieldType.NUMBER).description("현재 페이지"),
                                 fieldWithPath("pageInfo.size").type(JsonFieldType.NUMBER).description("현재 사이즈"),
                                 fieldWithPath("pageInfo.totalElements").type(JsonFieldType.NUMBER).description("질문 전체 수"),

@@ -213,7 +213,8 @@ class QuestionControllerTest {
                 0,
                 LocalDateTime.now(),
                 LocalDateTime.now(),
-                memberSimple);
+                memberSimple
+        , 0);
 
         given(questionMapper.questionPostToQuestion(any())).willReturn(new Question());
         given(questionService.createQuestion(any(), any())).willReturn(new Question());
@@ -247,7 +248,8 @@ class QuestionControllerTest {
                                         fieldWithPath("data.lastModifiedAt").type(JsonFieldType.STRING).description("질문 수정 일시"),
                                         fieldWithPath("data.member").type(JsonFieldType.OBJECT).description("작성자 데이터"),
                                         fieldWithPath("data.member.memberId").type(JsonFieldType.NUMBER).description("작성자 식별자"),
-                                        fieldWithPath("data.member.memberName").type(JsonFieldType.STRING).description("작성자 이름")
+                                        fieldWithPath("data.member.memberName").type(JsonFieldType.STRING).description("작성자 이름"),
+                                        fieldWithPath("data.answerNum").type(JsonFieldType.NUMBER).description("답변 개수")
                                 )
                         )
                 ));
@@ -278,6 +280,7 @@ class QuestionControllerTest {
                 LocalDateTime.now(),
                 LocalDateTime.now(),
                 memberSimple
+                , 0
         );
         given(questionMapper.questionPatchToQuestion(Mockito.any(QuestionDto.Patch.class))).willReturn(new Question());
         given(questionService.updateQuestion(Mockito.any(Question.class), any())).willReturn(new Question());
@@ -316,7 +319,8 @@ class QuestionControllerTest {
                                         fieldWithPath("data.lastModifiedAt").type(JsonFieldType.STRING).description("질문 수정 일시"),
                                         fieldWithPath("data.member").type(JsonFieldType.OBJECT).description("작성자 데이터"),
                                         fieldWithPath("data.member.memberId").type(JsonFieldType.NUMBER).description("작성자 식별자"),
-                                        fieldWithPath("data.member.memberName").type(JsonFieldType.STRING).description("작성자 이름")
+                                        fieldWithPath("data.member.memberName").type(JsonFieldType.STRING).description("작성자 이름"),
+                                        fieldWithPath("data.answerNum").type(JsonFieldType.NUMBER).description("답변 개수")
                                 )
                         )
                 ));
@@ -334,8 +338,8 @@ class QuestionControllerTest {
         Page<Question> questions = new PageImpl<>(List.of(question1, question2),
                 PageRequest.of(0, 10, Sort.by("id").descending()), 2);
 
-        List<QuestionDto.Response> responses = List.of(new QuestionDto.Response(1L, "title", "content", 0, 0, LocalDateTime.now(), LocalDateTime.now(), memberSimple),
-                new QuestionDto.Response(2L, "title", "content", 0, 0, LocalDateTime.now(), LocalDateTime.now(), memberSimple));
+        List<QuestionDto.Response> responses = List.of(new QuestionDto.Response(1L, "title", "content", 0, 0, LocalDateTime.now(), LocalDateTime.now(), memberSimple, 0),
+                new QuestionDto.Response(2L, "title", "content", 0, 0, LocalDateTime.now(), LocalDateTime.now(), memberSimple, 0));
 
 
         given(questionService.findQuestions(Mockito.anyInt(), Mockito.anyInt())).willReturn(questions);
@@ -367,6 +371,7 @@ class QuestionControllerTest {
                                 fieldWithPath("data.[].member").type(JsonFieldType.OBJECT).description("작성자 데이터"),
                                 fieldWithPath("data.[].member.memberId").type(JsonFieldType.NUMBER).description("작성자 식별자"),
                                 fieldWithPath("data.[].member.memberName").type(JsonFieldType.STRING).description("작성자 이름"),
+                                fieldWithPath("data.[].answerNum").type(JsonFieldType.NUMBER).description("답변 개수"),
                                 fieldWithPath("pageInfo.page").type(JsonFieldType.NUMBER).description("현재 페이지"),
                                 fieldWithPath("pageInfo.size").type(JsonFieldType.NUMBER).description("현재 사이즈"),
                                 fieldWithPath("pageInfo.totalElements").type(JsonFieldType.NUMBER).description("질문 전체 수"),

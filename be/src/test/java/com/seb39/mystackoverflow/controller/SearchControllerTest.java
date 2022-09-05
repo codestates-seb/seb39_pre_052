@@ -4,9 +4,13 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.seb39.mystackoverflow.dto.QuestionDto;
 import com.seb39.mystackoverflow.entity.Member;
 import com.seb39.mystackoverflow.entity.Question;
+import com.seb39.mystackoverflow.mapper.AnswerMapper;
+import com.seb39.mystackoverflow.mapper.MemberMapper;
 import com.seb39.mystackoverflow.mapper.QuestionDetailMapper;
 import com.seb39.mystackoverflow.mapper.QuestionMapper;
 import com.seb39.mystackoverflow.repository.MemberRepository;
+import com.seb39.mystackoverflow.service.AnswerService;
+import com.seb39.mystackoverflow.service.MemberService;
 import com.seb39.mystackoverflow.service.QuestionDetailService;
 import com.seb39.mystackoverflow.service.QuestionService;
 import org.junit.jupiter.api.AfterEach;
@@ -109,8 +113,8 @@ class SearchControllerTest {
         Page<Question> questions = new PageImpl<>(List.of(question1, question2),
                 PageRequest.of(0, 10, Sort.by("id").descending()), 2);
 
-        List<QuestionDto.Response> responses = List.of(new QuestionDto.Response(1L, "Spring Boot", "content", 0, 0, LocalDateTime.now(), LocalDateTime.now(), memberSimple1),
-                new QuestionDto.Response(2L, "Java Spring Boot", "content", 0, 0, LocalDateTime.now(), LocalDateTime.now(), memberSimple2));
+        List<QuestionDto.Response> responses = List.of(new QuestionDto.Response(1L, "Spring Boot", "content", 0, 0, LocalDateTime.now(), LocalDateTime.now(), memberSimple1, 0),
+                new QuestionDto.Response(2L, "Java Spring Boot", "content", 0, 0, LocalDateTime.now(), LocalDateTime.now(), memberSimple2, 0));
 
         given(questionService.findQuestionsByTitle(Mockito.anyString(), Mockito.anyInt())).willReturn(questions);
         given(questionMapper.questionsToQuestionResponses(Mockito.anyList())).willReturn(responses);
@@ -142,6 +146,7 @@ class SearchControllerTest {
                                 fieldWithPath("data.[].member").type(JsonFieldType.OBJECT).description("작성자 데이터"),
                                 fieldWithPath("data.[].member.memberId").type(JsonFieldType.NUMBER).description("작성자 식별자"),
                                 fieldWithPath("data.[].member.memberName").type(JsonFieldType.STRING).description("작성자 이름"),
+                                fieldWithPath("data.[].answerNum").type(JsonFieldType.NUMBER).description("답변 개수"),
                                 fieldWithPath("pageInfo.page").type(JsonFieldType.NUMBER).description("현재 페이지"),
                                 fieldWithPath("pageInfo.size").type(JsonFieldType.NUMBER).description("현재 사이즈"),
                                 fieldWithPath("pageInfo.totalElements").type(JsonFieldType.NUMBER).description("질문 전체 수"),
@@ -163,8 +168,8 @@ class SearchControllerTest {
         Page<Question> questions = new PageImpl<>(List.of(question1, question2),
                 PageRequest.of(0, 10, Sort.by("id").descending()), 2);
 
-        List<QuestionDto.Response> responses = List.of(new QuestionDto.Response(1L, "Spring Boot", "How to use spring boot", 0, 0, LocalDateTime.now(), LocalDateTime.now(), memberSimple1),
-                new QuestionDto.Response(2L, "Java Spring Boot", "spring boot configuration", 0, 0, LocalDateTime.now(), LocalDateTime.now(), memberSimple2));
+        List<QuestionDto.Response> responses = List.of(new QuestionDto.Response(1L, "Spring Boot", "How to use spring boot", 0, 0, LocalDateTime.now(), LocalDateTime.now(), memberSimple1, 0),
+                new QuestionDto.Response(2L, "Java Spring Boot", "spring boot configuration", 0, 0, LocalDateTime.now(), LocalDateTime.now(), memberSimple2, 0));
 
         given(questionService.findQuestionsByContent(Mockito.anyString(), Mockito.anyInt())).willReturn(questions);
         given(questionMapper.questionsToQuestionResponses(Mockito.anyList())).willReturn(responses);
@@ -196,6 +201,7 @@ class SearchControllerTest {
                                 fieldWithPath("data.[].member").type(JsonFieldType.OBJECT).description("작성자 데이터"),
                                 fieldWithPath("data.[].member.memberId").type(JsonFieldType.NUMBER).description("작성자 식별자"),
                                 fieldWithPath("data.[].member.memberName").type(JsonFieldType.STRING).description("작성자 이름"),
+                                fieldWithPath("data.[].answerNum").type(JsonFieldType.NUMBER).description("답변 개수"),
                                 fieldWithPath("pageInfo.page").type(JsonFieldType.NUMBER).description("현재 페이지"),
                                 fieldWithPath("pageInfo.size").type(JsonFieldType.NUMBER).description("현재 사이즈"),
                                 fieldWithPath("pageInfo.totalElements").type(JsonFieldType.NUMBER).description("질문 전체 수"),
@@ -218,8 +224,8 @@ class SearchControllerTest {
         Page<Question> questions = new PageImpl<>(List.of(question1, question2, question3),
                 PageRequest.of(0, 10, Sort.by("id").descending()), 3);
 
-        List<QuestionDto.Response> responses = List.of(new QuestionDto.Response(1L, "Spring Boot", "How to use spring boot", 0, 0, LocalDateTime.now(), LocalDateTime.now(), memberSimple1),
-                new QuestionDto.Response(3L, "Java Spring Boot", "spring boot configuration", 0, 0, LocalDateTime.now(), LocalDateTime.now(), memberSimple1));
+        List<QuestionDto.Response> responses = List.of(new QuestionDto.Response(1L, "Spring Boot", "How to use spring boot", 0, 0, LocalDateTime.now(), LocalDateTime.now(), memberSimple1, 0),
+                new QuestionDto.Response(3L, "Java Spring Boot", "spring boot configuration", 0, 0, LocalDateTime.now(), LocalDateTime.now(), memberSimple1, 0));
 
         given(questionService.findQuestions(Mockito.anyLong(), Mockito.anyInt())).willReturn(questions);
         given(questionMapper.questionsToQuestionResponses(Mockito.anyList())).willReturn(responses);
@@ -251,6 +257,7 @@ class SearchControllerTest {
                                 fieldWithPath("data.[].member").type(JsonFieldType.OBJECT).description("작성자 데이터"),
                                 fieldWithPath("data.[].member.memberId").type(JsonFieldType.NUMBER).description("작성자 식별자"),
                                 fieldWithPath("data.[].member.memberName").type(JsonFieldType.STRING).description("작성자 이름"),
+                                fieldWithPath("data.[].answerNum").type(JsonFieldType.NUMBER).description("답변 개수"),
                                 fieldWithPath("pageInfo.page").type(JsonFieldType.NUMBER).description("현재 페이지"),
                                 fieldWithPath("pageInfo.size").type(JsonFieldType.NUMBER).description("현재 사이즈"),
                                 fieldWithPath("pageInfo.totalElements").type(JsonFieldType.NUMBER).description("질문 전체 수"),
