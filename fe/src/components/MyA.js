@@ -3,12 +3,12 @@ import styled from "styled-components";
 import { faA } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 
-const MyA = () => {
+const MyA = ( {aContent} ) => {
 
     return (
         <Container>
             <FontAwesomeIcon icon={faA} />
-            <div>Answer Content</div>
+            <div>{aContent}</div>
         </Container>
     )
 };

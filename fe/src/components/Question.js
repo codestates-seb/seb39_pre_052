@@ -51,13 +51,11 @@ const Question = ({ post, id }) => {
     
     const handleContentClick = () => {
         dispatch(setQuestionId({ questionId: id }));
-        console.log(questionId);
-        console.log(`hi`);
     }
 
     return (
         <Block>
-            {/* <div>{post.createdAt}</div> */}
+            {/* <div>{typeof post.createdAt}</div> */}
             <Side>
                 <div>{post.vote} votes</div>
                 <div>{post.answered} answers</div>

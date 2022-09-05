@@ -3,12 +3,12 @@ import styled from "styled-components";
 import { faQ } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 
-const MyQ = () => {
+const MyQ = ( {qTitle} ) => {
 
     return (
         <Container>
             <FontAwesomeIcon icon={faQ} />
-            <div>Question Title</div>
+            <div>{qTitle}</div>
         </Container>
     )
 };
