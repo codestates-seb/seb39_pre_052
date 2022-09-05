@@ -1,4 +1,5 @@
 import styled from "styled-components";
+import { Markup } from 'interweave';
 
 const PostA = ({ answer }) => {
   const datedata = new Date(answer.answeredAt);
@@ -19,7 +20,7 @@ const PostA = ({ answer }) => {
       <Post>
         <Votecell>{answer.vote}</Votecell>
         <Postcell>
-          <Content>{answer.content}</Content>
+          <Markup content={answer.content}><Content>{answer.content}</Content></Markup>
           <UserContent>
             <div className="edit">
               <div>Share</div>
