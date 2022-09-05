@@ -38,7 +38,7 @@ public class QuestionController {
 
 
     @GetMapping("/{id}")
-    public ResponseEntity getQuestionDetail(@PathVariable Long id){
+    public ResponseEntity<SingleResponseDto<QuestionDetailDto>> getQuestionDetail(@PathVariable Long id){
         Question question = questionDetailService.findQuestionDetail(id);
         QuestionDetailDto questionDetail = questionDetailMapper.questionToQuestionDetail(question);
         return new ResponseEntity<>(new SingleResponseDto<>(questionDetail), HttpStatus.OK);
@@ -46,7 +46,7 @@ public class QuestionController {
 
     @PostMapping
     @Secured("ROLE_USER")
-    public ResponseEntity postQuestion(@Valid @RequestBody QuestionDto.Post requestBody,
+    public ResponseEntity<SingleResponseDto<QuestionDto.Response>> postQuestion(@Valid @RequestBody QuestionDto.Post requestBody,
                                        @AuthenticationPrincipal PrincipalDetails principalDetails) {
         Question question = questionMapper.questionPostToQuestion(requestBody);
         Long memberId = principalDetails.getMemberId();
@@ -59,7 +59,7 @@ public class QuestionController {
 
     @PatchMapping("/{id}")
     @Secured("ROLE_USER")
-    public ResponseEntity patchQuestion(
+    public ResponseEntity<SingleResponseDto<QuestionDto.Response>> patchQuestion(
             @PathVariable("id") @Positive long id,
             @Valid @RequestBody QuestionDto.Patch requestBody,
             @AuthenticationPrincipal PrincipalDetails principalDetails) {
@@ -77,7 +77,7 @@ public class QuestionController {
 
     @DeleteMapping("/{id}")
     @Secured("ROLE_USER")
-    public ResponseEntity deleteQuestion(@PathVariable("id") @Positive long id,
+    public ResponseEntity<String> deleteQuestion(@PathVariable("id") @Positive long id,
                                          @AuthenticationPrincipal PrincipalDetails principalDetails) {
         Long memberId = principalDetails.getMemberId();
         questionService.delete(id, memberId);
@@ -85,7 +85,7 @@ public class QuestionController {
     }
 
     @GetMapping
-    public ResponseEntity getQuestions(@Positive @RequestParam int page,
+    public ResponseEntity<MultiResponseDto<QuestionDto.Response>> getQuestions(@Positive @RequestParam int page,
                                        @Positive @RequestParam int size
     ) {
         Page<Question> questionPage = questionService.findQuestions(page - 1, size);

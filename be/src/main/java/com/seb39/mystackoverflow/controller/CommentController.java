@@ -25,10 +25,9 @@ public class CommentController {
     private final CommentMapper commentMapper;
     private final CommentService commentService;
 
-    //1. 댓글 등록(질문글)
     @PostMapping
     @Secured("ROLE_USER")
-    public ResponseEntity postComment(
+    public ResponseEntity<SingleResponseDto<CommentDto.Response>> postComment(
             @RequestParam(value = "post-type") PostType postType,
             @RequestParam(value = "id") Long postId,
             @Valid @RequestBody CommentDto.Post requestBody,
@@ -45,7 +44,7 @@ public class CommentController {
     //2. 댓글 수정
     @PatchMapping("/{id}")
     @Secured("ROLE_USER")
-    public ResponseEntity patchComment(
+    public ResponseEntity<SingleResponseDto<CommentDto.Response>> patchComment(
             @PathVariable("id") @Positive long id,
             @Valid @RequestBody CommentDto.Patch requestBody,
             @AuthenticationPrincipal PrincipalDetails principalDetails) {
@@ -62,7 +61,7 @@ public class CommentController {
     //3. 댓글 삭제
     @DeleteMapping("/{id}")
     @Secured("ROLE_USER")
-    public ResponseEntity deleteComment(
+    public ResponseEntity<String> deleteComment(
             @PathVariable("id") @Positive long id,
             @AuthenticationPrincipal PrincipalDetails principalDetails) {
         Long memberId = principalDetails.getMemberId();

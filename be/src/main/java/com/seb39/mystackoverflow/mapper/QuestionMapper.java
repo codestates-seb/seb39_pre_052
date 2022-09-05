@@ -15,8 +15,19 @@ public interface QuestionMapper {
 
     Question questionPatchToQuestion(QuestionDto.Patch requestBody);
 
-    QuestionDto.Response questionToQuestionResponse(Question question);
-
+    default QuestionDto.Response questionToQuestionResponse(Question question) {
+        return QuestionDto.Response.builder()
+                .id(question.getId())
+                .content(question.getContent())
+                .createdAt(question.getCreatedAt())
+                .lastModifiedAt(question.getLastModifiedAt())
+                .member(question.getMember())
+                .title(question.getTitle())
+                .view(question.getView())
+                .vote(question.getVote())
+                .answerNum(question.getAnswers().size())
+                .build();
+    }
     default List<QuestionDto.Response> questionsToQuestionResponses(List<Question> questions){
         return questions.stream()
                 .map(this::questionToQuestionResponse)

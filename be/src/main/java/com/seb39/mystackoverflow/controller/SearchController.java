@@ -27,27 +27,19 @@ public class SearchController {
     private final QuestionService questionService;
     private final QuestionMapper questionMapper;
 
-    //keyword 적지 않으면 어떤 페이지로 갈지 상의해야 함
     @GetMapping
-    public ResponseEntity searchQuestions(@RequestParam(required = false) String keyword,
+    public ResponseEntity<MultiResponseDto<QuestionDto.Response>> searchQuestions(@RequestParam(required = false) String keyword,
                                           @Positive @RequestParam int page,
                                           @Positive @RequestParam int size) {
-        //(Optional)4. 검색어가 score: 로 시작 => score:{scoreNum} score가 scoreNum 이상인 질문 검색
         Page<Question> questionPage = null;
 
         if (keyword == null) {
             questionPage = questionService.findQuestions(page - 1, size);
         }
-        //2. 검색어에 "" 존재 => 내용으로 검색
         else if (Arrays.stream(keyword.split(" ")).anyMatch(s -> s.startsWith("\""))) {
             keyword = keyword.substring(keyword.indexOf("\"") + 1, keyword.lastIndexOf("\""));
             questionPage = questionService.findQuestionsByContent(keyword, page - 1);
-            /**
-             * 검색어와 완전히 일치하지 않으면 검색되지 않는 문제점 존재
-             */
-
         }
-        //3. 검색어가 user: 로 시작 => user:{id} id에 해당하는 사용자가 올린 질문 검색
         else if (Arrays.stream(keyword.split(" ")).anyMatch(s -> s.startsWith("user:"))) {
             StringBuilder sb = new StringBuilder();
             keyword = keyword.substring(keyword.indexOf(":") + 1);
@@ -59,7 +51,6 @@ public class SearchController {
             long memberId = Long.parseLong(sb.toString());
             questionPage = questionService.findQuestions(memberId, page - 1);
         }
-        //1. 검색 기본 => 제목으로 검색
         else {
             questionPage = questionService.findQuestionsByTitle(keyword, page - 1);
         }

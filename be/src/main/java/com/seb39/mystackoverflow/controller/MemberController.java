@@ -1,10 +1,7 @@
 package com.seb39.mystackoverflow.controller;
 
 import com.seb39.mystackoverflow.auth.PrincipalDetails;
-import com.seb39.mystackoverflow.dto.AnswerDto;
-import com.seb39.mystackoverflow.dto.MemberDto;
-import com.seb39.mystackoverflow.dto.MultiResponseDto;
-import com.seb39.mystackoverflow.dto.QuestionDto;
+import com.seb39.mystackoverflow.dto.*;
 import com.seb39.mystackoverflow.entity.Answer;
 import com.seb39.mystackoverflow.entity.Member;
 import com.seb39.mystackoverflow.entity.Question;
@@ -38,7 +35,7 @@ public class MemberController {
     private final MemberMapper memberMapper;
 
     @GetMapping("/{memberId}/questions")
-    private ResponseEntity getQuestions(@PathVariable Long memberId,
+    private ResponseEntity<MultiResponseDto<QuestionDto.Response>> getQuestions(@PathVariable Long memberId,
                                         @Positive @RequestParam(required = false, defaultValue = "1") int page) {
         Page<Question> questionPage = questionService.findQuestions(memberId, page - 1);
         List<Question> questions = questionPage.getContent();
@@ -47,17 +44,18 @@ public class MemberController {
     }
 
     @GetMapping("/{memberId}/answers")
-    private ResponseEntity getAnswers(@PathVariable Long memberId,
+    private ResponseEntity<MultiResponseDto<AnswerDto.Response>> getAnswers(@PathVariable Long memberId,
                                       @Positive @RequestParam(required = false, defaultValue = "1") int page) {
         Page<Answer> answerPage = answerService.findAnswers(memberId, page - 1);
         List<Answer> answers = answerPage.getContent();
         List<AnswerDto.Response> data = answerMapper.answersToAnswerResponses(answers);
         return new ResponseEntity<>(new MultiResponseDto<>(data, answerPage), HttpStatus.OK);
     }
+    
     @GetMapping("/me")
-    public ResponseEntity myPage(@AuthenticationPrincipal PrincipalDetails principalDetails) {
+    public ResponseEntity<SingleResponseDto<MemberDto.Response>> myPage(@AuthenticationPrincipal PrincipalDetails principalDetails) {
         Member member = memberService.findById(principalDetails.getMemberId());
         MemberDto.Response response = memberMapper.memberToMemberResponse(member);
-        return new ResponseEntity(response, HttpStatus.OK);
+        return new ResponseEntity<>(new SingleResponseDto<>(response), HttpStatus.OK);
     }
 }
