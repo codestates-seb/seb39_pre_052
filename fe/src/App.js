@@ -1,7 +1,8 @@
 import styled from "styled-components";
 import { BrowserRouter, Routes, Route, useParams } from "react-router-dom";
 import GlobalStyle from "./GlobalStyle";
-import { useSelector } from 'react-redux';
+import { useSelector, useDispatch } from 'react-redux';
+import { loginFulfilled } from "./features/userSlice";
 
 import GNB from "./components/GNB";
 import SNB from "./components/SNB";
@@ -14,6 +15,9 @@ import Footer from "./components/Footer";
 import PostQAC from "./components/PostQAC";
 import MyPage from "./pages/MyPage";
 import SearchResult from "./pages/SearchResult";
+import DetailedPost from "./pages/DetailedPost";
+import EditQuestion from "./pages/EditQuestion";
+
 
 const Main = styled.div`
   display: flex;
@@ -28,9 +32,19 @@ const Body = styled.div`
 const App = () => {
   
   const { id } = useParams();
+  const dispatch = useDispatch();
+
   const questionId = useSelector((state) => {
     return state.editMode.questionId;
   });
+
+  let token = localStorage.getItem("access-token");
+
+  if (localStorage["access-token"]) {
+    dispatch(loginFulfilled({ userEmail: "", userToken: token }));
+  }
+
+
 console.log(questionId)
   return (
     <>
@@ -41,8 +55,10 @@ console.log(questionId)
           <Body>
             <SNB />
             <Routes>
+              <Route path={`/questions/:id`} element={<PostQAC />}/>
               <Route path="/" element={<Home />}/>
               <Route path="/questions" element={<Questions />} />
+              <Route path="/questions/edit" element={<EditQuestion />} />
               <Route path="/search" element={<SearchResult />} />
               <Route path="/signup" element={<SignUp />} />
               <Route path="/login" element={<LogIn />} />
@@ -50,7 +66,7 @@ console.log(questionId)
               <Route path="/questions/ask" element={<NewQuestion />} />
 
               {/* <Route path={`/api/questions/1`} element={<PostQAC />} /> */}
-              <Route path={`/questions/${questionId}`} element={<PostQAC />} /> 
+              {/* <Route path={`/questions/${questionId}`} element={<PostQAC />} />  */}
               {/* <Route path={`/questions/`+id} element={<PostQAC />} />  //useParams 사용*/}
               {/* <Route path={`/api/questions/${questionId}`} element={<PostQAC />} /> */}
               {/* /questions/{questionId} 대신 임시로 하드코딩 -> 나중에 slice에 저장되어있는 id로 가져오기 */}
