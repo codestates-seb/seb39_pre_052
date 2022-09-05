@@ -1,7 +1,8 @@
 import styled from "styled-components";
 import { BrowserRouter, Routes, Route, useParams } from "react-router-dom";
 import GlobalStyle from "./GlobalStyle";
-import { useSelector } from 'react-redux';
+import { useSelector, useDispatch } from 'react-redux';
+import { loginFulfilled } from "./features/userSlice";
 
 import GNB from "./components/GNB";
 import SNB from "./components/SNB";
@@ -16,6 +17,8 @@ import MyPage from "./pages/MyPage";
 import SearchResult from "./pages/SearchResult";
 import EditQuestion from "./pages/EditQuestion";
 
+
+
 const Main = styled.div`
   display: flex;
   flex-direction: column;
@@ -28,9 +31,20 @@ const Body = styled.div`
 
 const App = () => {
   
+  const { id } = useParams();
+  const dispatch = useDispatch();
+
   const questionId = useSelector((state) => {
     return state.editMode.questionId;
   });
+
+  let token = localStorage.getItem("access-token");
+
+  if (localStorage["access-token"]) {
+    dispatch(loginFulfilled({ userEmail: "", userToken: token }));
+  }
+
+
 console.log(questionId)
   return (
     <>
@@ -52,7 +66,10 @@ console.log(questionId)
 
               {/* <Route path={`/api/questions/1`} element={<PostQAC />} /> */}
               {/* <Route path={`/questions/${questionId}`} element={<PostQAC />} />  */}
+              {/* <Route path={`/questions/`+id} element={<PostQAC />} />  //useParams 사용*/}
+
               <Route path={`/questions/:id`} element={<PostQAC />} />  {/*useParams 사용*/}
+
               {/* <Route path={`/api/questions/${questionId}`} element={<PostQAC />} /> */}
               {/* /questions/{questionId} 대신 임시로 하드코딩 -> 나중에 slice에 저장되어있는 id로 가져오기 */}
 
