@@ -1,9 +1,7 @@
 import styled from "styled-components";
-import dummy from "../dummy";
-import Pagination from "./Pagination";
 
-const PostA = () => {
-  const datedata = new Date();
+const PostA = ({ answer }) => {
+  const datedata = new Date(answer.answeredAt);
   const month = new Intl.DateTimeFormat("en", { month: "short" }).format(
     datedata
   );
@@ -18,17 +16,10 @@ const PostA = () => {
   ).slice(-2)}:${("0" + datedata.getMinutes()).slice(-2)}`;
   return (
     <>
-      <AHeader>
-        <div>
-          <Title>{dummy.length} Answers</Title>
-          {/* <Button>Ask Question</Button> */}
-        </div>
-        {/* <Pagination total={10} limit={5} page={1}></Pagination> */}
-      </AHeader>
       <Post>
-        <Votecell>{dummy[0].voteNum}</Votecell>
+        <Votecell>{answer.vote}</Votecell>
         <Postcell>
-          <Content>{dummy[0].content}</Content>
+          <Content>{answer.content}</Content>
           <UserContent>
             <div className="edit">
               <div>Share</div>
@@ -42,7 +33,7 @@ const PostA = () => {
               </div>
               <div>
                 <span>{fullDateFormat}</span>
-                <div>{dummy[0].userId}</div>
+                <div>{answer.member.name}</div>
               </div>
             </div>
           </UserContent>
@@ -52,25 +43,25 @@ const PostA = () => {
   );
 };
 
-const AHeader = styled.div`
-  display: flex;
-  flex-direction: column;
-  align-items: flex-start;
+// const AHeader = styled.div`
+//   display: flex;
+//   flex-direction: column;
+//   align-items: flex-start;
 
-  > div {
-    display: flex;
-    flex-direction: row;
-    width: 95%;
-    margin: 10px;
-    justify-content: space-between;
-  }
-`;
+//   > div {
+//     display: flex;
+//     flex-direction: row;
+//     width: 95%;
+//     margin: 10px;
+//     justify-content: space-between;
+//   }
+// `;
 
-const Title = styled.div`
-  flex-basis: 70%;
-  font-size: 20px;
-  font-weight: 500;
-`;
+// const Title = styled.div`
+//   flex-basis: 70%;
+//   font-size: 20px;
+//   font-weight: 500;
+// `;
 
 // const Button = styled.button`
 //   width: 100px;
@@ -79,6 +70,7 @@ const Title = styled.div`
 
 const Post = styled.div`
   display: flex;
+  /* border-bottom: 1px solid darkgray; */
 `;
 const Votecell = styled.div`
   flex-basis: 10%;

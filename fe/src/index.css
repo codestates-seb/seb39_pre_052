@@ -16,14 +16,3 @@ p.message.error {
   color: #e1585c;
 }
 
-footer {
-  bottom: 0;
-  background-color: rgb(35, 38, 40);
-  color: rgb(167, 172, 177);
-  text-align: center;
-  padding: 20px;
-}
-
-ul {
-  list-style-type: none;
-}

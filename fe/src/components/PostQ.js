@@ -6,7 +6,7 @@ const PostQ = ({ individualPost }) => {
   /* answered Jul 28, 2011 at 22:22 으로 나타내기*/
   const datedata = new Date(individualPost.askedAt);
   // const datedata = new Date(dummy[0].time);
-  console.log(datedata); //2022-09-02T07:31:25.340465
+  // console.log(datedata); //2022-09-02T07:31:25.340465
   const month = new Intl.DateTimeFormat("en", { month: "short" }).format(
     datedata
   );
@@ -45,6 +45,7 @@ const PostQ = ({ individualPost }) => {
             <div className="edit">
               <div>Share</div>
               <div>Edit</div>
+              {/* edit 페이지 연결하기 */}
               <div>Follow</div>
             </div>
             <div className="userinfo">
