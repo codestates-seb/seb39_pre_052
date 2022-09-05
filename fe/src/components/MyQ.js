@@ -1,14 +1,39 @@
 import styled from "styled-components";
+import { Link } from "react-router-dom";
+import { useState } from 'react';
 
 import { faQ } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 
-const MyQ = ( {qTitle} ) => {
+const MyQ = ( {qTitle, id} ) => {
+
+    const [isHovering, setIsHovering] = useState(false);
+
+    const handleMouseEnter = () => {
+        setIsHovering(true);
+    };
+    
+      const handleMouseLeave = () => {
+        setIsHovering(false);
+    };
+
+    const style = {
+        textDecoration: isHovering? "underline": "none",
+        color: "#35383a",
+        fontWeight: isHovering? "bold": "normal",
+    }
 
     return (
         <Container>
             <FontAwesomeIcon icon={faQ} />
-            <div>{qTitle}</div>
+            <Link
+                to={`/questions/${id}`}
+                style={style}
+                onMouseEnter={handleMouseEnter}
+                onMouseLeave={handleMouseLeave}
+            >
+                <div>{qTitle}</div>
+            </Link>
         </Container>
     )
 };

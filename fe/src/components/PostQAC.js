@@ -9,8 +9,7 @@ import PostC from "./PostC";
 import PostComm from "./PostComm";
 import PostQ from "./PostQ";
 import Toolbox from "./Toolbox";
-import { Markup } from 'interweave';
-
+import { Markup } from 'interweave'; 
 
 const PostQAC = () => {
   const contentRef = useRef();
@@ -145,7 +144,7 @@ console.log(questionId);
       <Post>
         <Votecell>{datavote}</Votecell>
         <Postcell>
-        <Markup content={datacontent}> <Content>{datacontent}</Content> </Markup>
+          <Markup content={datacontent}><Content>{datacontent}</Content></Markup>
           <UserContent>
             <div className="edit">
               <div>Share</div>
