@@ -1,6 +1,8 @@
 package com.seb39.mystackoverflow.service;
 
 import com.seb39.mystackoverflow.entity.Member;
+import com.seb39.mystackoverflow.exception.BusinessLogicException;
+import com.seb39.mystackoverflow.exception.ExceptionCode;
 import com.seb39.mystackoverflow.repository.MemberRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -20,13 +22,13 @@ public class MemberService {
     public Member findById(Long id) {
         Optional<Member> optionalMember = memberRepository.findById(id);
         return optionalMember
-                .orElseThrow(() -> new IllegalArgumentException("Member not found. id = " + id));
+                .orElseThrow(() -> new BusinessLogicException(ExceptionCode.MEMBER_NOT_FOUND));
     }
 
     public Member findByEmail(String email){
         Optional<Member> optionalMember = memberRepository.findByEmail(email);
         return optionalMember
-                .orElseThrow(() -> new IllegalArgumentException("Member not found. email = " + email));
+                .orElseThrow(() -> new BusinessLogicException(ExceptionCode.MEMBER_NOT_FOUND));
     }
 
     public boolean exist(String email){
@@ -46,6 +48,6 @@ public class MemberService {
 
     private void verify(Member member){
         if(memberRepository.existsByEmail(member.getEmail()))
-            throw new IllegalArgumentException("email " + member.getEmail() + " already exist.");
+            throw new BusinessLogicException(ExceptionCode.MEMBER_EXISTS);
     }
 }

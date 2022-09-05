@@ -17,6 +17,7 @@ public class Answer extends BaseEntity{
     @Column(name = "answer_id")
     private Long id;
 
+    @Lob
     private String content;
 
     private int vote;

@@ -3,6 +3,8 @@ package com.seb39.mystackoverflow.service;
 import com.seb39.mystackoverflow.entity.Answer;
 import com.seb39.mystackoverflow.entity.Member;
 import com.seb39.mystackoverflow.entity.Question;
+import com.seb39.mystackoverflow.exception.BusinessLogicException;
+import com.seb39.mystackoverflow.exception.ExceptionCode;
 import com.seb39.mystackoverflow.repository.AnswerRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
@@ -24,7 +26,7 @@ public class AnswerService {
 
     public Answer findAnswer(Long answerId) {
         return answerRepository.findById(answerId)
-                .orElseThrow(() -> new IllegalArgumentException("Answer not exist. id = " + answerId));
+                .orElseThrow(() -> new BusinessLogicException(ExceptionCode.ANSWER_NOT_FOUND));
     }
 
     public Page<Answer> findAnswers(Long memberId, int page) {
@@ -61,8 +63,7 @@ public class AnswerService {
         Answer answer = findAnswer(answerId);
         Long writerId = answer.getMember().getId();
         if (!writerId.equals(memberId)) {
-            String message = String.format("Member '%s' is not writer of answer '%s'", memberId, answer.getId());
-            throw new IllegalArgumentException(message);
+            throw new BusinessLogicException(ExceptionCode.PERMISSION_DENIED);
         }
     }
 }

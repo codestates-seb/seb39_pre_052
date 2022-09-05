@@ -18,6 +18,7 @@ public class Comment extends BaseEntity {
     @Enumerated(EnumType.STRING)
     private PostType postType;
 
+    @Lob
     private String content;
 
     @ManyToOne(fetch = FetchType.LAZY)

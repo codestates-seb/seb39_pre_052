@@ -1,6 +1,8 @@
 package com.seb39.mystackoverflow.service;
 
 import com.seb39.mystackoverflow.entity.*;
+import com.seb39.mystackoverflow.exception.BusinessLogicException;
+import com.seb39.mystackoverflow.exception.ExceptionCode;
 import com.seb39.mystackoverflow.repository.CommentRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -63,7 +65,7 @@ public class CommentService {
     private Comment findComment(Long commentId) {
         Optional<Comment> optionalComment = commentRepository.findById(commentId);
         return optionalComment.orElseThrow(
-                () -> new IllegalArgumentException("해당 댓글을 찾을 수 없습니다."));
+                () -> new BusinessLogicException(ExceptionCode.COMMENT_NOT_FOUND));
     }
 
     public void verifyWriter(Long memberId, Comment comment) {
@@ -71,7 +73,7 @@ public class CommentService {
         Long writerId = comment.getMember().getId();
 
         if (!writerId.equals(memberId)) {
-            throw new RuntimeException("작성자가 아니면 수정 또는 삭제할 수 없습니다!");
+            throw new BusinessLogicException(ExceptionCode.PERMISSION_DENIED);
         }
     }
 }

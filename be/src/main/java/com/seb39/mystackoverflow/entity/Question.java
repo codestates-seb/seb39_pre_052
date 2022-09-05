@@ -23,6 +23,7 @@ public class Question extends BaseEntity{
 
     private String title;
 
+    @Lob
     private String content;
 
     @ColumnDefault("0")

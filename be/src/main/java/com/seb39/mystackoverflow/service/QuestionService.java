@@ -2,6 +2,8 @@ package com.seb39.mystackoverflow.service;
 
 import com.seb39.mystackoverflow.entity.Member;
 import com.seb39.mystackoverflow.entity.Question;
+import com.seb39.mystackoverflow.exception.BusinessLogicException;
+import com.seb39.mystackoverflow.exception.ExceptionCode;
 import com.seb39.mystackoverflow.repository.QuestionRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
@@ -24,7 +26,7 @@ public class QuestionService {
         Optional<Question> optionalQuestion = questionRepository.findById(questionId);
 
         return optionalQuestion.orElseThrow(
-                () -> new IllegalArgumentException("해당 질문을 찾을 수 없습니다."));
+                () -> new BusinessLogicException(ExceptionCode.QUESTION_NOT_FOUND));
     }
 
     @Transactional
@@ -76,7 +78,7 @@ public class QuestionService {
     public void verifyWriter(Long memberId, Question question) {
         Long writerId = question.getMember().getId();
         if (writerId != memberId) {
-            throw new RuntimeException("작성자가 아니면 수정 또는 삭제할 수 없습니다!");
+            throw new BusinessLogicException(ExceptionCode.PERMISSION_DENIED);
         }
     }
 }
