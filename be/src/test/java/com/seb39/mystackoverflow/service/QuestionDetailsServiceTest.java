@@ -87,6 +87,14 @@ class QuestionDetailsServiceTest {
             commentRepository.save(comment);
         }
 
+        Question question2 = new Question();
+        question2.setTitle("Test Question");
+        question2.setContent("Test Question Content");
+        question2.setView(1111);
+        question2.setVote(11);
+        question2.setMember(members[0]);
+        questionRepository.save(question2);
+
         em.flush();
         em.clear();
     }
@@ -109,6 +117,21 @@ class QuestionDetailsServiceTest {
             System.out.println("comment : "+comment.getContent() + " member " + comment.getMember().getId() + " " + comment.getMember().getName());
         }
     }
+
+    @Test
+    void questionWithNoCommentTest(){
+        Question q = questionRepository.findAll().get(1);
+        Long id = q.getId();
+        em.flush();
+        em.clear();
+
+        // System.out.println(questionRepository.findCommentCountByQuestionId(id));
+
+        Question findQ = questionDetailsService.findQuestionDetail(id);
+        System.out.println(findQ);
+
+    }
+
 
     @Test
     void answerWithCommentsTest(){

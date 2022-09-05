@@ -51,6 +51,7 @@ public class MemberController {
         List<AnswerDto.Response> data = answerMapper.answersToAnswerResponses(answers);
         return new ResponseEntity<>(new MultiResponseDto<>(data, answerPage), HttpStatus.OK);
     }
+    
     @GetMapping("/me")
     public ResponseEntity<SingleResponseDto<MemberDto.Response>> myPage(@AuthenticationPrincipal PrincipalDetails principalDetails) {
         Member member = memberService.findById(principalDetails.getMemberId());
