@@ -74,7 +74,7 @@ const PostQAC = () => {
         "Accept": "application/json, text/plain",
         "Content-Type": "application/json;charset=UTF-8",
         "Authorization": localStorage.getItem("access-token"),
-        // "Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJsb2dpbiBqd3QgdG9rZW4iLCJleHAiOjE2NjIzMDIwMDQsImVtYWlsIjoiYWJjZEAxMjM0LmNvbSJ9.vAaoR7i0qE6nr995ovci9u23ptmbi1jMaVhEVGcKDwWD81b8QNUFGKE0HfBNrAieQbb5nHZYDOeTuS-UTEL3hA"
+        // "Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJsb2dpbiBqd3QgdG9rZW4iLCJleHAiOjE2NjIzMDIwMDQsImVtYWlsIjoiYWJjZEAxMjM0LmNvbSJ9.vAaoR7i0qE6nr995ovci9u23ptmbi1jMaVhEVGcKDwWD81b8QNUFGKE0HfBNrAieQbb5nHZYDOeTuS-UTEL3hA" //만료된 토큰
         // "Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJsb2dpbiBqd3QgdG9rZW4iLCJleHAiOjE2NjIyOTE5NzUsImVtYWlsIjoiYWJjZEAxMjM0LmNvbSJ9.xXcPST3NdppL7mB8AHsHYpVG0-VOnJZ9ifxVUcI6L-t4AfO61rtW_qDJLp264VLgK5IvGdA5TJDDuEkhyAkvPQ", //만료된 토큰
       },
       body: JSON.stringify({ content: htmlStr }),
@@ -90,6 +90,7 @@ const PostQAC = () => {
       .catch((err) => console.log(err));
   };
   console.log(htmlStr);
+  console.log(localStorage.getItem("access-token"))
 
   return (
     <Container>
