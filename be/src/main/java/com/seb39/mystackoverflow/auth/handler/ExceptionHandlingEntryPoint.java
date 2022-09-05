@@ -22,7 +22,7 @@ public class ExceptionHandlingEntryPoint implements AuthenticationEntryPoint {
 
     @Override
     public void commence(HttpServletRequest request, HttpServletResponse response, AuthenticationException authException) throws IOException, ServletException {
-        log.info("exception Reason", authException);
+        log.error("Authentication exception", authException);
         response.setStatus(HttpStatus.UNAUTHORIZED.value());
         String exceptionReason = (String) request.getAttribute("exception");
         AuthResponse authResponse = AuthResponse.failure(exceptionReason);

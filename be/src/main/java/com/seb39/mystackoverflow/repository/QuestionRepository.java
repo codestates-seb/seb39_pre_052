@@ -20,7 +20,4 @@ public interface QuestionRepository extends JpaRepository<Question, Long> {
 
     @Query("select q from Question q join fetch q.member left join fetch q.comments c left join fetch c.member where q.id = ?1")
     Optional<Question> findQuestionWithCommentsById(Long id);
-
-    @Query("select q.comments.size from Question q where q.id = ?1")
-    int findCommentCountByQuestionId(Long id);
 }
