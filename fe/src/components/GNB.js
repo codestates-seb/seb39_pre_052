@@ -31,6 +31,7 @@ const GNB = () => {
     const handleLogout = () => {
         dispatch(logoutFulfilled());
         localStorage.removeItem("access-token");
+        localStorage.removeItem("userId");
     }
 
     // SNB STATE (retrieves the SNB state back from redux slice)

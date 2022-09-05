@@ -8,6 +8,7 @@ const initialState = {
     userToken: null, // for storing the JWT
     error: null,
     isLoggedIn: false, // for monitoring the registration process
+    userId: null,
 }
 
 // 저장소 만들기
@@ -34,9 +35,12 @@ const userSlice = createSlice({
             state.userEmail = null;
             state.userToken = null;
         },
+        myPageData(state, action) {
+            state.userId = action.payload.userId; 
+        }
     },
     extraReducers: {},
 });
 
 export default userSlice;
-export const { loginFulfilled, loginRejected, logoutFulfilled } = userSlice.actions;
+export const { loginFulfilled, loginRejected, logoutFulfilled, myPageData } = userSlice.actions;

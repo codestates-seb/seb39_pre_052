@@ -15,6 +15,7 @@ const PostA = ({ answer }) => {
   const fullDateFormat = `${month} ${day}, ${year} at ${(
     "0" + datedata.getHours()
   ).slice(-2)}:${("0" + datedata.getMinutes()).slice(-2)}`;
+  
   return (
     <>
       <Post>
