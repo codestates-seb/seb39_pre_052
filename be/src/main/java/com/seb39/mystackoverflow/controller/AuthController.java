@@ -1,8 +1,11 @@
 package com.seb39.mystackoverflow.controller;
 
 import com.seb39.mystackoverflow.auth.PrincipalDetails;
+import com.seb39.mystackoverflow.dto.MemberDto;
 import com.seb39.mystackoverflow.dto.auth.SignUpRequest;
 import com.seb39.mystackoverflow.dto.auth.AuthResponse;
+import com.seb39.mystackoverflow.entity.Member;
+import com.seb39.mystackoverflow.mapper.MemberMapper;
 import com.seb39.mystackoverflow.service.MemberService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
@@ -42,4 +45,6 @@ public class AuthController {
         AuthResponse response = AuthResponse.failure(reason);
         return new ResponseEntity<>(response,HttpStatus.CONFLICT);
     }
+
+
 }
