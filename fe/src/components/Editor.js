@@ -110,7 +110,7 @@ const Editor = ({ fetchMode }) => {
                 })
                 .then((json) => {
                     console.log(json);
-                    dispatch(setQuestionId(json.data.id))
+                    dispatch(setQuestionId(json.data.id));
                     navigate(`/questions/${json.data.id}`);
                     dispatch(setTitle({ title: "" }));
                     dispatch(setHtmlStr({ htmlStr: "" }));

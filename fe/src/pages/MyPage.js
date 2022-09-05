@@ -107,6 +107,7 @@ const MyPage = () => {
             <Body>
                 <MyQuestions>
                     <div>My Questions</div>
+                    <div>total{qTotal}</div>
                     {/* <MyQ></MyQ> */}
                     <List>
                         {myQ.slice(offset, offset + limit).map((post, idx) => {

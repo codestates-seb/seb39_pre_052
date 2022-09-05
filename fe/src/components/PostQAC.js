@@ -98,6 +98,7 @@ console.log(questionId);
       // .then((res) => console.log(res)); //Response {type: 'basic', url: 'http://localhost:3000/api/answers?question-id=1', redirected: false, status: 201, ok: true, …}
       .then((res) => {
         if (res.status === 201) {
+          window.location.reload();
           console.log(res);
           alert("successfully posted your answer");
           navigate("/questions/"+id);

@@ -56,11 +56,11 @@ const PostA = ({ answer, Button}) => {
     }) 
     .then((res) => {
       if (res.ok) {
+        window.location.reload(); //새로고침
         console.log(res)
         alert("successfully edited your answer")
         setIsEdited(false)
         // navigate("/questions/"+id); //question id는 useParams로 받아옴
-        window.location.reload(); //새로고침
       }
     })
     .catch((err) => {
