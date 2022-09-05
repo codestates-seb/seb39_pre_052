@@ -45,26 +45,27 @@ const PostQAC = () => {
   //         "name": "BBB"
   //     }
   // },..]
+  // let idx =0;
+  // for (let i=0; i<commentsForQ.length; i++) {
+  //   idx = i;
+  // }
 
   const answers = useSelector((state) => {
     return state.question.question.answers;
   });
   // console.log(answers); // [{…}, {…}]
 
-  //답변 관련
-  // const token = useSelector((state) => {
-  //   return state.user.userToken;
-  // });
 
   const htmlStr = useSelector((state) => {
     return state.editMode.htmlStr;
   });
 
-  const questionId = useSelector((state) => {
-    return state.editMode.questionId;
-});
-console.log(questionId);
-    //Fetch 질문 세부 내용 조회하기
+//   const questionId = useSelector((state) => {
+//     return state.editMode.questionId;
+// });
+// console.log(questionId);
+
+  //Fetch 질문 세부 내용 조회하기
   useEffect(() => {
     // fetch(`/api/questions/${questionId}`)
     fetch(`/api/questions/`+id) //useParams
@@ -98,10 +99,12 @@ console.log(questionId);
       // .then((res) => console.log(res)); //Response {type: 'basic', url: 'http://localhost:3000/api/answers?question-id=1', redirected: false, status: 201, ok: true, …}
       .then((res) => {
         if (res.status === 201) {
+          window.location.reload();
           console.log(res);
           alert("successfully posted your answer");
           navigate("/questions/"+id);
           // window.location.reload();
+          dispatch(setHtmlStr({htmlStr: ""}));
         }
       })
       .catch((err) => {
@@ -109,13 +112,32 @@ console.log(questionId);
       console.log(err)});
   };
   // console.log("htmlStr", htmlStr);
-  console.log(localStorage.getItem("access-token"))
+  // console.log(localStorage.getItem("access-token"))
 
   //edit 버튼 누르면 Editor 컴포넌트로 넘어가고 현재 질문 제목과 컨텐츠를 textEditSlice 상태 저장소로 저장
   //Editor컴포넌트는 Toolbox 컴포넌트를 포함. Editor에서 저장된 title, htmlStr 상태 불러온다
   const editHandler = () => {
     dispatch(setTitle({title: datatitle}))
     dispatch(setHtmlStr({htmlStr: datacontent}))
+  }
+
+  //질문 삭제 
+  const deleteQuestion = () => {
+    fetch(`/api/questions/`+id, {
+      method: "DELETE",
+      headers: {
+        "Authorization": localStorage.getItem("access-token")
+      }
+    })
+    .then((res) => {
+      if(res.ok) {
+        alert('deleted your question')
+        navigate("/")
+      }
+    })
+    .catch(err => {
+    console.log(err) 
+    })
   }
 
   return (
@@ -149,8 +171,11 @@ console.log(questionId);
             <div className="edit">
               <div>Share</div>
               <Link to="/questions/edit">
-              <div onClick={editHandler}>Edit</div> {/* edit 페이지 연결하기 */}
+              <div className="edit_q" onClick={editHandler}>Edit</div> {/* edit 페이지 연결하기 */}
               </Link>
+
+              &nbsp;&nbsp;&nbsp;&nbsp;
+              <div className="delete" onClick={deleteQuestion}>Delete</div>
               
               <div>Follow</div>
             </div>
@@ -172,7 +197,8 @@ console.log(questionId);
       {/*  */}
 
       {/* <PostC commentsForQ={commentsForQ}></PostC> */}
-      {commentsForQ? <PostC commentsForQ={commentsForQ}></PostC> : 'comment 안받아오기'}
+      {commentsForQ? 
+      <PostC commentsForQ={commentsForQ} Button={Button}></PostC> : 'comment 안받아오기'}
       {answers?  
       <>  
       <AHeader>
@@ -186,6 +212,7 @@ console.log(questionId);
           <PostComm
             key={answer.comments.id}
             commentsForA={answer.comments}
+            Button={Button}
           ></PostComm>
         </div>
       ))} 
@@ -300,9 +327,19 @@ const UserContent = styled.div`
     flex-basis: 60%;
     display: flex;
     flex-direction: row;
-
+   
     > div {
-      padding-right: 15px;
+      padding-right: 15px; 
+      text-decoration: none;
+      cursor: not-allowed
+    }
+
+    > div.edit_q {
+      cursor: pointer;
+    }
+
+    > div.delete {
+      cursor: pointer;
     }
   }
   > div.userinfo {

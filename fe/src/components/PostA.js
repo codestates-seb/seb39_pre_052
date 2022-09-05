@@ -41,8 +41,28 @@ const PostA = ({ answer, Button}) => {
     dispatch(setHtmlStr({htmlStr: answer.content}))
   }
 
-  console.log("answerToken:",localStorage.getItem("access-token"))
-  const token = localStorage.getItem("access-token")
+  const clickCancelEditAnswer = () => {
+    setIsEdited(false);
+    dispatch(setHtmlStr({htmlStr: ""}))
+  }
+
+  const clickDeleteAnswer = () => {
+    fetch(`/api/answers/`+answer.id, {
+      method: "DELETE",
+      headers: {
+        "Authorization": localStorage.getItem("access-token")
+      }
+    })
+    .then((res) => {
+      if (res.ok) {
+        window.location.reload(); 
+        alert("deleted your answer ")
+      }
+    })
+    .catch(err => console.log(err))
+  }
+
+  // console.log("Token:",localStorage.getItem("access-token"))
 
   const handleEditAnswerBtn = () => {
     fetch(`/api/answers/`+answer.id, {
@@ -50,21 +70,22 @@ const PostA = ({ answer, Button}) => {
       headers: {
         "Accept": "application/json, text/plain",
         "Content-Type": "application/json;charset=UTF-8",
-        "Authorization": token,
+        "Authorization": localStorage.getItem("access-token"),
       },
       body: JSON.stringify({content: htmlStr})
     }) 
     .then((res) => {
-      if (res.ok) {
+      if (res.ok) {        
+        window.location.reload(); //새로고침
         console.log(res)
         alert("successfully edited your answer")
         setIsEdited(false)
         // navigate("/questions/"+id); //question id는 useParams로 받아옴
-        window.location.reload(); //새로고침
+        dispatch(setHtmlStr({htmlStr: ""}));
       }
     })
     .catch((err) => {
-      alert(err)
+      // alert(`${err}`)
       console.log(err) 
     })
   }
@@ -81,6 +102,7 @@ const PostA = ({ answer, Button}) => {
             <div className="edit">
               <Button onClick={handleEditAnswerBtn}>Edit your Answer</Button>
             </div>
+            <div className="cancel_edit" onClick={clickCancelEditAnswer}>Cancel</div>
             <div className="userinfo">
               <div>
                 <div>answered </div>
@@ -101,6 +123,7 @@ const PostA = ({ answer, Button}) => {
             <div className="edit">
               <div>Share</div>
               <div className="click_edit" onClick={clickEditAnswer}>Edit</div>
+              <div className="click_delete" onClick={clickDeleteAnswer}>Delete</div>
               <div>Follow</div>
             </div>
             <div className="userinfo">
@@ -189,7 +212,13 @@ const UserContent = styled.div`
     > div.click_edit {
       cursor: pointer;
     }
-    
+    > div.click_delete{
+      cursor: pointer;
+    }
+  }
+
+  > div.cancel_edit  {
+    cursor: pointer;
   }
   > div.userinfo {
     flex-basis: 40%;
