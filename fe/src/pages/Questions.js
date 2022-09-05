@@ -86,7 +86,7 @@ const Questions = () => {
                 })}
             </List>
             <Pagination
-                total={posts.length}
+                total={total}
                 limit={limit}
                 page={page}
                 setPage={setPage}
