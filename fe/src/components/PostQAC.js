@@ -3,15 +3,13 @@ import { useDispatch, useSelector } from "react-redux";
 import { Link, useNavigate, useParams } from "react-router-dom";
 import styled from "styled-components";
 import { questionDetails } from "../features/questionSlice";
-import { setQuestionId, setTitle, setHtmlStr } from "../features/textEditSlice";
+import { setTitle, setHtmlStr } from "../features/textEditSlice";
 import PostA from "./PostA";
 import PostC from "./PostC";
 import PostComm from "./PostComm";
 import PostQ from "./PostQ";
 import Toolbox from "./Toolbox";
 import { Markup } from 'interweave'; 
-
-
 
 const PostQAC = () => {
   const contentRef = useRef();
@@ -33,13 +31,13 @@ const PostQAC = () => {
   const individualPost = useSelector((state) => {
     return state.question.question;
   });
-  console.log("individualPost: ", individualPost);
+  // console.log("individualPost: ", individualPost);
   //{id: 1, title: 'Test Question', content: 'Test Question Content', askedAt: '2022-09-02T07:31:25.340465', view: 1111, …}
 
   const commentsForQ = useSelector((state) => {
     return state.question.question.comments;
   });
-  console.log("commentsForQ", commentsForQ);
+  // console.log("commentsForQ", commentsForQ);
   // [{…}, {…}, {…}]
   // [
   //   { "id": 1, "content": "Question comment 1", "createdAt": "2022-09-02T07:31:25.43259", "member": {
@@ -102,16 +100,19 @@ console.log(questionId);
         if (res.status === 201) {
           console.log(res);
           alert("successfully posted your answer");
-          // navigate("/questions/"+id);
+          navigate("/questions/"+id);
           // window.location.reload();
         }
       })
-      .catch((err) => console.log(err));
+      .catch((err) => {
+        alert(err)
+      console.log(err)});
   };
-  console.log("htmlStr", htmlStr);
+  // console.log("htmlStr", htmlStr);
   console.log(localStorage.getItem("access-token"))
 
-  //edit 
+  //edit 버튼 누르면 Editor 컴포넌트로 넘어가고 현재 질문 제목과 컨텐츠를 textEditSlice 상태 저장소로 저장
+  //Editor컴포넌트는 Toolbox 컴포넌트를 포함. Editor에서 저장된 title, htmlStr 상태 불러온다
   const editHandler = () => {
     dispatch(setTitle({title: datatitle}))
     dispatch(setHtmlStr({htmlStr: datacontent}))
@@ -148,9 +149,9 @@ console.log(questionId);
             <div className="edit">
               <div>Share</div>
               <Link to="/questions/edit">
-              <div onClick={editHandler}>Edit</div>
+              <div onClick={editHandler}>Edit</div> {/* edit 페이지 연결하기 */}
               </Link>
-              {/* edit 페이지 연결하기 */}
+              
               <div>Follow</div>
             </div>
             <div className="userinfo">
@@ -170,8 +171,8 @@ console.log(questionId);
       </Post>
       {/*  */}
 
-      {/* {commentsForQ? <PostC commentsForQ={commentsForQ}></PostC> : 'wait'} */}
       {/* <PostC commentsForQ={commentsForQ}></PostC> */}
+      {commentsForQ? <PostC commentsForQ={commentsForQ}></PostC> : 'comment 안받아오기'}
       {answers?  
       <>  
       <AHeader>
@@ -181,7 +182,7 @@ console.log(questionId);
       </AHeader>
       {answers.map((answer) => (
         <div className="br">
-          <PostA key={answer.id} answer={answer}></PostA>
+          <PostA key={answer.id} answer={answer} Button={Button}></PostA>
           <PostComm
             key={answer.comments.id}
             commentsForA={answer.comments}
