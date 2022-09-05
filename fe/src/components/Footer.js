@@ -50,6 +50,23 @@ const FooterWrapper = styled.footer`
   text-decoration: none;
   > * {
   }
+  
+  // StackOverflow
+  > div:nth-child(2) > ul > *:first-child{
+
+  }
+  // Questions
+  > div:nth-child(2) > ul > *:not(:first-child){
+    text-decoration: none;
+    color: rgb(167, 172, 177);
+    font-weight: 100;
+  }
+  // Social Links
+  > div:nth-child(3) > ul > * {
+    text-decoration: none;
+    color: rgb(167, 172, 177);
+    font-weight: 100;
+  }
 
   li {
     padding: 5px;

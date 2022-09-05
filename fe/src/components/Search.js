@@ -1,13 +1,20 @@
 import styled from 'styled-components';
 import { useSelector, useDispatch } from 'react-redux';
 import { useState } from 'react';
+import { useNavigate, useSearchParams, useParams } from 'react-router-dom';
 
 import { setPosts } from '../features/qListSlice';
 
 const Search = () => {
+    const [searchParams, setSearchParams] = useSearchParams();
+
+    const searchTerm = searchParams.get('keyword');
 
     // Search Value
     const [ query, setQuery ] = useState("");
+    
+    const dispatch = useDispatch();
+    const navigate = useNavigate();
 
     // LOGIN STATE
     const isLoggedIn = useSelector(state => {
@@ -16,15 +23,17 @@ const Search = () => {
     
     const handleChange = (e) => {
         setQuery(e.target.value);
+        setSearchParams({keyword: e.target.value});
     }
 
     const handleKeyPress = (e) => {
         if (e.key === 'Enter') {
-            fetch(`/api/search?q=${query}`)
+            fetch(`/api/search?keyword=${searchTerm}&page=1&size=50`)
             .then((res) => res.json())
             .then((data) => {
-                console.log(data);
-                // dispatch(setPosts({posts: data.data, total: data.pageInfo.totalElements})); 
+                dispatch(setPosts({posts: data.data, total: data.pageInfo.totalElements}));
+                setQuery("");
+                navigate(`/search`);
             })
             .catch((err) => console.log(`!CANNOT FETCH QUESTION DATA! ${err}!`))
         }
@@ -38,6 +47,7 @@ const Search = () => {
                     <input placeholder="Search..."
                         onChange={handleChange}
                         onKeyPress={handleKeyPress}
+                        value={query}
                     ></input>
                 </SearchBar>
                 :
@@ -45,6 +55,7 @@ const Search = () => {
                     <input placeholder="Search..."
                         onChange={handleChange}
                         onKeyPress={handleKeyPress}
+                        value={query}
                     ></input>
                 </SearchBar>
             }
