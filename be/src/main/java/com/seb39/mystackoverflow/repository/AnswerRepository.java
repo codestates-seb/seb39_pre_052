@@ -13,6 +13,6 @@ import java.util.Optional;
 public interface AnswerRepository extends JpaRepository<Answer,Long> {
     Page<Answer> findAllByMemberId(Long memberId, Pageable pageable);
 
-    @Query("select distinct a from Answer a join fetch a.member join fetch a.comments c join fetch c.member where a.question.id = ?1")
+    @Query("select distinct a from Answer a join fetch a.member left join fetch a.comments c left join fetch c.member where a.question.id = ?1")
     List<Answer> findAnswerWithCommentsByQuestionId(Long questionId);
 }

@@ -46,16 +46,12 @@ public class JwtAuthenticationFilter extends UsernamePasswordAuthenticationFilte
         String email = loginRequest.getEmail();
         String password = loginRequest.getPassword();
 
-        log.info("AuthenticationFilter - attemptAuthentication. email={}, password={}", email, password);
-
         UsernamePasswordAuthenticationToken token = new UsernamePasswordAuthenticationToken(email, password);
         return authenticationManager.authenticate(token);
     }
 
     @Override
     protected void successfulAuthentication(HttpServletRequest request, HttpServletResponse response, FilterChain chain, Authentication authResult) throws IOException, ServletException {
-
-        log.info("AuthenticationFilter - successfulAuthentication");
 
         PrincipalDetails principal = (PrincipalDetails) authResult.getPrincipal();
         String jwtToken = jwtUtils.createJwtToken(principal.getUsername());
