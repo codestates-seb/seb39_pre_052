@@ -10,7 +10,8 @@ const Nav = styled.nav`
     border-right: 1px solid darkgray;
     flex-basis: 200px;
     flex-shrink: 1;
-    height: 90vh;
+    background-color: white;
+    min-height: 80vh;
 
     > * {
 

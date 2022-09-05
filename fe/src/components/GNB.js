@@ -3,6 +3,7 @@ import styled from "styled-components";
 import { faBars, faXmark } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { Link } from 'react-router-dom'
+import Search from "./Search";
 
 // redux toolkit related
 import { useSelector, useDispatch } from 'react-redux';
@@ -14,6 +15,10 @@ import { StickyNav } from 'react-js-stickynav'
 import 'react-js-stickynav/dist/index.css'
 
 const GNB = () => {
+
+    // disable all console.log
+    // console.log = function () { }
+
     // to set the state of data in redux store(slice)
     const dispatch = useDispatch();
 
@@ -79,19 +84,11 @@ const GNB = () => {
                             </>
                         }
                     </ul>
-                    {isLoggedIn
-                        ?
-                        <Search width="61vw">
-                            <input placeholder="Search..."></input>
-                        </Search>
-                        :
-                        <Search>
-                            <input placeholder="Search..."></input>
-                        </Search>
-                    }
+                    <Search />
+
                     {isLoggedIn
                         ? <>
-                            <Link to="/"><Profile><img src="https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460_1280.png" alt="profile" /></Profile></Link>
+                            <Link to="/mypage"><Profile><img src="https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460_1280.png" alt="profile" /></Profile></Link>
                             <Link to="/"><Button color="#d1ebff" border="1px solid #0074CC" text="#0074CC" hover="#9bd1f7" onClick={handleLogout}>Log out</Button></Link>
                         </>
                         : <>
@@ -161,19 +158,6 @@ const Nav = styled.nav`
             }
         }
     }
-`
-
-const Search = styled.div`
-    > input {
-        border: none;
-        width: ${props => props.width || "50vw"};
-        height: 36px;
-        padding: 5px;
-    }
-    border: 1px solid #9d9fa0;
-    border-radius: 5px;
-    width: ${props => props.width || "50vw"};
-    margin-right: 10px;
 `
 
 const Button = styled.button`
