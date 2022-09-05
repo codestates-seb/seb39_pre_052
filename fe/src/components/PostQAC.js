@@ -1,14 +1,16 @@
 import { useEffect, useState, useRef } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { useNavigate, useParams } from "react-router-dom";
+import { Link, useNavigate, useParams } from "react-router-dom";
 import styled from "styled-components";
 import { questionDetails } from "../features/questionSlice";
-import { setQuestionId } from "../features/textEditSlice";
+import { setQuestionId, setTitle, setHtmlStr } from "../features/textEditSlice";
 import PostA from "./PostA";
 import PostC from "./PostC";
 import PostComm from "./PostComm";
 import PostQ from "./PostQ";
 import Toolbox from "./Toolbox";
+
+
 
 const PostQAC = () => {
   const contentRef = useRef();
@@ -16,7 +18,7 @@ const PostQAC = () => {
   const navigate = useNavigate();
 
   const dispatch = useDispatch();
-  // const { id } = useParams();
+  const { id } = useParams();
 
   //redux 대신 상태로 question 포스트 받아오기
   const [dataid, setDataid] = useState();
@@ -27,17 +29,16 @@ const PostQAC = () => {
   const [datavote, setDatavote] = useState();
   const [datamember, setDatamember] = useState({});
 
-  
-  // const individualPost = useSelector((state) => {
-  //   return state.question.question;
-  // });
-  // console.log(individualPost);
+  const individualPost = useSelector((state) => {
+    return state.question.question;
+  });
+  console.log("individualPost: ", individualPost);
   //{id: 1, title: 'Test Question', content: 'Test Question Content', askedAt: '2022-09-02T07:31:25.340465', view: 1111, …}
 
   const commentsForQ = useSelector((state) => {
     return state.question.question.comments;
   });
-  // console.log("commentsForQ", commentsForQ);
+  console.log("commentsForQ", commentsForQ);
   // [{…}, {…}, {…}]
   // [
   //   { "id": 1, "content": "Question comment 1", "createdAt": "2022-09-02T07:31:25.43259", "member": {
@@ -49,8 +50,6 @@ const PostQAC = () => {
   const answers = useSelector((state) => {
     return state.question.question.answers;
   });
-  // console.log("individualPost", individualPost); //useState 상태로 저장했을때
-  //{id: 1, title: 'Test Question', content: 'Test Question Content', askedAt: '2022-09-02T07:31:25.340465', view: 1111, …}
   // console.log(answers); // [{…}, {…}]
 
   //답변 관련
@@ -66,15 +65,14 @@ const PostQAC = () => {
     return state.editMode.questionId;
 });
 console.log(questionId);
-
-  //Fetch 질문 세부 내용 조회하기
+    //Fetch 질문 세부 내용 조회하기
   useEffect(() => {
-    fetch(`/api/questions/${questionId}`)
-    // fetch(`/api/questions/1`)
+    // fetch(`/api/questions/${questionId}`)
+    fetch(`/api/questions/`+id) //useParams
       .then((res) => res.json())
       .then((data) => {
         console.log(data.data);
-        // dispatch(questionDetails({ question: data.data }));
+        dispatch(questionDetails({ question: data.data }));
         //redux 대신 상태로
         setDataid(data.data.id)
         setDatatitle(data.data.title)
@@ -86,17 +84,15 @@ console.log(questionId);
       })
       .catch((err) => console.log("cannot fetch individual question data"));
   }, []);
-
+ 
   //답변 생성
   const handlePostAnswer = () => {
-    fetch("/api/answers?question-id=1", {
+    fetch(`/api/answers?question-id=${id}`, {
       method: "POST",
       headers: {
         "Accept": "application/json, text/plain",
         "Content-Type": "application/json;charset=UTF-8",
         "Authorization": localStorage.getItem("access-token"),
-        // "Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJsb2dpbiBqd3QgdG9rZW4iLCJleHAiOjE2NjIzMDIwMDQsImVtYWlsIjoiYWJjZEAxMjM0LmNvbSJ9.vAaoR7i0qE6nr995ovci9u23ptmbi1jMaVhEVGcKDwWD81b8QNUFGKE0HfBNrAieQbb5nHZYDOeTuS-UTEL3hA" //만료된 토큰
-        // "Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJsb2dpbiBqd3QgdG9rZW4iLCJleHAiOjE2NjIyOTE5NzUsImVtYWlsIjoiYWJjZEAxMjM0LmNvbSJ9.xXcPST3NdppL7mB8AHsHYpVG0-VOnJZ9ifxVUcI6L-t4AfO61rtW_qDJLp264VLgK5IvGdA5TJDDuEkhyAkvPQ", //만료된 토큰
       },
       body: JSON.stringify({ content: htmlStr }),
     })
@@ -105,13 +101,20 @@ console.log(questionId);
         if (res.status === 201) {
           console.log(res);
           alert("successfully posted your answer");
-          navigate("/api/questions/1");
+          // navigate("/questions/"+id);
+          // window.location.reload();
         }
       })
       .catch((err) => console.log(err));
   };
-  console.log(htmlStr);
+  console.log("htmlStr", htmlStr);
   console.log(localStorage.getItem("access-token"))
+
+  //edit 
+  const editHandler = () => {
+    dispatch(setTitle({title: datatitle}))
+    dispatch(setHtmlStr({htmlStr: datacontent}))
+  }
 
   return (
     <Container>
@@ -143,7 +146,9 @@ console.log(questionId);
           <UserContent>
             <div className="edit">
               <div>Share</div>
-              <div>Edit</div>
+              <Link to="/questions/edit">
+              <div onClick={editHandler}>Edit</div>
+              </Link>
               {/* edit 페이지 연결하기 */}
               <div>Follow</div>
             </div>
@@ -164,7 +169,10 @@ console.log(questionId);
       </Post>
       {/*  */}
 
-      {/* <PostC commentsForQ={commentsForQ}></PostC>
+      {/* {commentsForQ? <PostC commentsForQ={commentsForQ}></PostC> : 'wait'} */}
+      {/* <PostC commentsForQ={commentsForQ}></PostC> */}
+      {answers?  
+      <>  
       <AHeader>
         <div>
           <Title>{answers.length} Answers</Title>
@@ -178,7 +186,8 @@ console.log(questionId);
             commentsForA={answer.comments}
           ></PostComm>
         </div>
-      ))} */}
+      ))} 
+      </>  : <>answers 없음</>}
       <PostAnswer>
         <div>Your Answer</div>
         <Toolbox

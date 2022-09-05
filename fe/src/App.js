@@ -15,8 +15,8 @@ import Footer from "./components/Footer";
 import PostQAC from "./components/PostQAC";
 import MyPage from "./pages/MyPage";
 import SearchResult from "./pages/SearchResult";
-import DetailedPost from "./pages/DetailedPost";
 import EditQuestion from "./pages/EditQuestion";
+
 
 
 const Main = styled.div`
@@ -55,7 +55,6 @@ console.log(questionId)
           <Body>
             <SNB />
             <Routes>
-              <Route path={`/questions/:id`} element={<PostQAC />}/>
               <Route path="/" element={<Home />}/>
               <Route path="/questions" element={<Questions />} />
               <Route path="/questions/edit" element={<EditQuestion />} />
@@ -68,6 +67,9 @@ console.log(questionId)
               {/* <Route path={`/api/questions/1`} element={<PostQAC />} /> */}
               {/* <Route path={`/questions/${questionId}`} element={<PostQAC />} />  */}
               {/* <Route path={`/questions/`+id} element={<PostQAC />} />  //useParams 사용*/}
+
+              <Route path={`/questions/:id`} element={<PostQAC />} />  {/*useParams 사용*/}
+
               {/* <Route path={`/api/questions/${questionId}`} element={<PostQAC />} /> */}
               {/* /questions/{questionId} 대신 임시로 하드코딩 -> 나중에 slice에 저장되어있는 id로 가져오기 */}
 
