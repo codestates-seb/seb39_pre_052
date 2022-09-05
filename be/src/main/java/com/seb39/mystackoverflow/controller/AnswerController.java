@@ -25,7 +25,7 @@ public class AnswerController {
 
     @PostMapping
     @Secured("ROLE_USER")
-    public ResponseEntity postAnswer(@RequestParam("question-id") Long questionId, @Valid @RequestBody AnswerDto.Post requestDto, @AuthenticationPrincipal PrincipalDetails principal) {
+    public ResponseEntity<String> postAnswer(@RequestParam("question-id") Long questionId, @Valid @RequestBody AnswerDto.Post requestDto, @AuthenticationPrincipal PrincipalDetails principal) {
         Answer answer = mapper.answerPostToAnswer(requestDto);
         Long memberId = principal.getMemberId();
         answerService.createAnswer(answer,questionId,memberId);
@@ -34,7 +34,7 @@ public class AnswerController {
 
     @PatchMapping("/{answerId}")
     @Secured("ROLE_USER")
-    public ResponseEntity patchAnswer(@PathVariable Long answerId, @Valid @RequestBody AnswerDto.Patch requestDto, @AuthenticationPrincipal PrincipalDetails principal){
+    public ResponseEntity<String> patchAnswer(@PathVariable Long answerId, @Valid @RequestBody AnswerDto.Patch requestDto, @AuthenticationPrincipal PrincipalDetails principal){
         Answer answer = mapper.answerPatchToAnswer(answerId,requestDto);
         Long memberId = principal.getMemberId();
         answerService.updateAnswer(answer,memberId);
@@ -43,7 +43,7 @@ public class AnswerController {
 
     @DeleteMapping("/{answerId}")
     @Secured("ROLE_USER")
-    public ResponseEntity deleteAnswer(@PathVariable Long answerId, @AuthenticationPrincipal PrincipalDetails principal){
+    public ResponseEntity<String> deleteAnswer(@PathVariable Long answerId, @AuthenticationPrincipal PrincipalDetails principal){
         Long memberId = principal.getMemberId();
         answerService.deleteAnswer(answerId,memberId);
         return new ResponseEntity<>(HttpStatus.OK);
