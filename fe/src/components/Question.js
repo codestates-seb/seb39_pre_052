@@ -62,10 +62,10 @@ const Question = ({ post, id }) => {
                 <div>{post.view} views</div>
             </Side>
             <Main>
-                <Link to={`questions/${id}`}>
+                <Link to={`/questions/${id}`}>
                     <div onClick={handleContentClick}>{post.title}</div>
                 </Link>
-                <Link to={`questions/${id}`}>
+                <Link to={`/questions/${id}`}>
                     <Markup content={post.content} onClick={handleContentClick} />
                 </Link>
                 <div>

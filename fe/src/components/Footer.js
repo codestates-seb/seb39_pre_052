@@ -50,6 +50,7 @@ const FooterWrapper = styled.footer`
   text-decoration: none;
   > * {
   }
+  
   // StackOverflow
   > div:nth-child(2) > ul > *:first-child{
 

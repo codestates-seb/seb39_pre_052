@@ -1,6 +1,6 @@
 import { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom'
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, useParams } from 'react-router-dom';
 import { useSelector, useDispatch } from "react-redux";
 import styled from "styled-components";
 import Question from "../components/Question";
@@ -8,7 +8,10 @@ import Pagination from "../components/Pagination";
 
 import { setPosts } from "../features/qListSlice";
 
-const Questions = () => {
+const SearchResult = () => {
+    const params = useParams();
+    console.log(`params: `, params);
+
     const [qNum, setQNum] = useState("");
 
     const [limit, setLimit] = useState(5);
@@ -30,56 +33,19 @@ const Questions = () => {
         return state.qlist.total;
     });
 
-    // // TEST DATA
-    // useEffect(() => {
-    //     fetch(`/test/question?size=${limit}&page=${page}`)
-    //         .then((res) => res.json())
-    //         .then((data) => setPosts(data.data))
-    //         .catch((err) => console.log(`!CANNOT FETCH QUESTION DATA! ${err}!`))
-    // }, [page, limit]);
-    
-    useEffect(() => {
-        fetch(`/api/questions?size=${limit}&page=${page}`)
-            .then((res) => res.json())
-            .then((data) => {
-                dispatch(setPosts({posts: data.data, total: data.pageInfo.totalElements})); 
-            })
-            .catch((err) => console.log(`!CANNOT FETCH QUESTION DATA! ${err}!`))
-    }, [page, limit, isDeleted, dispatch]);
-
-    const deleteHandler = () => {
-        fetch(`/api/questions/${posts[qNum-1].id}`, {
-            method: "DELETE",
-            headers: {
-                "Authorization": token,
-            },
-        })
-        .then(res => {console.log(res); /*window.location.reload();*/ setIsDeleted(!isDeleted)})
-    }
-
     return (
         <Container>
             <Header>
                 <div>
-                    <div>All Questions</div>
+                    <div>Search Results</div>
                     <div>{total} questions</div>
                 </div>
                 <div>
-                    <input onChange={e => setQNum(e.target.value)} placeholder="Which question would you like to delete?" style={{width: "250px"}}></input>
-                    <Button onClick={deleteHandler}>DELETE</Button>
                     <Link to={isLoggedIn? "/questions/ask" : "/login"}>
                         <Button>Ask Question</Button>
                     </Link>
-                    <Link to="/Edit"><Button>Edit</Button></Link>
                 </div>
             </Header>
-            {/* The below is for TEST DATA, slicing data from client side
-            <List>
-                {posts.slice(offset, offset + limit).map((post, idx) => {
-                    return <Question key={idx} post={post}></Question>
-                })}
-            </List> */}
-            {/* The below is for MAIN DATA, server side will send sliced data*/}
             <List>
                 {posts.map((post, idx) => {
                     return <Question key={post.id} post={post} id={post.id}></Question>
@@ -140,4 +106,4 @@ const List = styled.div`
 
 `;
 
-export default Questions;
+export default SearchResult;

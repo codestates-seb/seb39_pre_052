@@ -88,7 +88,7 @@ const SNB = () => {
         {
             name: "PUBLIC", path: "/", submenus: [
                 { name: "Questions", path: "/questions" },
-                { name: "Users", path: "/users" }
+                { name: "Search", path: "/search" }
             ]
         }
     ]
