@@ -26,7 +26,7 @@ const Footer = () => {
         <div className="site-footer-social">
           <ul>
             {linksCollection.map((el, idx) => (
-              <a href= {el.site}>
+              <a key={idx} href= {el.site}>
               <li key={idx}>{el.name}</li>
               </a>
             ))}
