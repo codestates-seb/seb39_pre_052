@@ -1,12 +1,12 @@
 import styled from "styled-components";
 
-const PostC = ({ commentsForQ }) => {
+const PostComm = ({ commentsForA }) => {
   return (
     <>
       <Comment>
         <div className="for_votecell_space"></div>
         <div className="comment_box">
-          {commentsForQ.map((comment) => (
+          {commentsForA.map((comment) => (
             <div className="each_comment">
               <span className="comment">{comment.content}</span>
               <span className="username">{comment.member.name}</span>
@@ -45,4 +45,4 @@ const Comment = styled.div`
   }
 `;
 
-export default PostC;
+export default PostComm;
