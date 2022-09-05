@@ -82,19 +82,15 @@ const Editor = ({ fetchMode }) => {
                     body: JSON.stringify({ title: title, content: htmlStr }),
                 })
                 .then((res) => {
-                    if (res.status === 201) {
-                        let json = res.json()
-                        alert(`Successfully Submitted!`)
-                        dispatch(setQuestionId(json.data.id))
+                    return res.json();
+                })
+                .then((json) => {
+                        console.log(`here ${json}`)
+                        dispatch(setQuestionId(json.data.id));
                         navigate(`/questions/${json.data.id}`);
                         dispatch(setTitle({ title: "" }));
                         dispatch(setHtmlStr({ htmlStr: "" }));
-                    }
-                    else {
-                        alert(`No Access`)
-                        dispatch(setTitle({ title: "" }));
-                        dispatch(setHtmlStr({ htmlStr: "" }));
-                    }
+                        alert(`Successfully Submitted!`);      
                 })
                 .catch(() => console.log("ERROR!"))
             }
@@ -110,21 +106,15 @@ const Editor = ({ fetchMode }) => {
                     body: JSON.stringify({ title: title, content: htmlStr }),
                 })
                 .then((res) => {           
-                    console.log(res);      
-                    if (res.status === 200) {
-                        let json = res.json();
-                        alert(`Successfully Submitted!`)
-                        console.log(json);
-                        dispatch(setQuestionId(json.data.id))
-                        navigate(`/questions/${json.data.id}`);
-                        dispatch(setTitle({ title: "" }));
-                        dispatch(setHtmlStr({ htmlStr: "" }));
-                    }
-                    else {
-                        alert(`No Access`);
-                        dispatch(setTitle({ title: "" }));
-                        dispatch(setHtmlStr({ htmlStr: "" }));
-                    }
+                    return res.json();
+                })
+                .then((json) => {
+                    console.log(json);
+                    dispatch(setQuestionId(json.data.id))
+                    navigate(`/questions/${json.data.id}`);
+                    dispatch(setTitle({ title: "" }));
+                    dispatch(setHtmlStr({ htmlStr: "" }));
+                    alert(`Successfully Submitted!`)
                 })
                 .catch((err) => console.log("ERROR!", err))
             }
