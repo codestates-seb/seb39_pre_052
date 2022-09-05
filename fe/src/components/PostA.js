@@ -1,14 +1,15 @@
 import { Markup } from "interweave";
 import { useState, useRef } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { useParams } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import styled from "styled-components";
 import { setHtmlStr } from "../features/textEditSlice";
 import Toolbox from "./Toolbox";
 
 const PostA = ({ answer, Button}) => {
   const dispatch = useDispatch();
-  // const { id } = useParams();
+  const navigate = useNavigate();
+  const { id } = useParams();
 
   //for Toobox component 
   const contentRef = useRef();
@@ -58,6 +59,8 @@ const PostA = ({ answer, Button}) => {
         console.log(res)
         alert("successfully edited your answer")
         setIsEdited(false)
+        // navigate("/questions/"+id); //question id는 useParams로 받아옴
+        window.location.reload(); //새로고침
       }
     })
     .catch((err) => {
