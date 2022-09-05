@@ -47,8 +47,8 @@ const Question = ({ post, id }) => {
 
     const questionId = useSelector((state) => {
         return state.editMode.questionId;
-    });
-    
+    });   
+
     const handleContentClick = () => {
         dispatch(setQuestionId({ questionId: id }));
     }
