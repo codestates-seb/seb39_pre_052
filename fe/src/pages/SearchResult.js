@@ -17,6 +17,7 @@ const SearchResult = () => {
     const [limit, setLimit] = useState(5);
     const [page, setPage] = useState(1);
     const [isDeleted, setIsDeleted] = useState(false);
+    const offset = (page - 1) * limit;
 
     const dispatch = useDispatch();
 
@@ -47,10 +48,16 @@ const SearchResult = () => {
                 </div>
             </Header>
             <List>
-                {posts.map((post, idx) => {
+                {posts.slice(offset, offset + limit).map((post, idx) => {
                     return <Question key={post.id} post={post} id={post.id}></Question>
                 })}
             </List>
+            {/* The below is for MAIN DATA, server side will send sliced data
+            <List>
+                {posts.map((post, idx) => {
+                    return <Question key={post.id} post={post} id={post.id}></Question>
+                })}
+            </List>*/}
             <Pagination
                 total={total}
                 limit={limit}
