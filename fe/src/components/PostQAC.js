@@ -3,8 +3,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { useNavigate, useParams } from "react-router-dom";
 import styled from "styled-components";
 import { questionDetails } from "../features/questionSlice";
-import { userToken } from "../features/userSlice";
-import { setHtmlStr, setQuestionId } from "../features/textEditSlice";
+import { setQuestionId } from "../features/textEditSlice";
 import PostA from "./PostA";
 import PostC from "./PostC";
 import PostComm from "./PostComm";
@@ -17,11 +16,21 @@ const PostQAC = () => {
   const navigate = useNavigate();
 
   const dispatch = useDispatch();
-  const { id } = useParams();
+  // const { id } = useParams();
 
-  const individualPost = useSelector((state) => {
-    return state.question.question;
-  });
+  //redux 대신 상태로 question 포스트 받아오기
+  const [dataid, setDataid] = useState();
+  const [datatitle, setDatatitle] = useState("");
+  const [datacontent, setDatacontent] = useState("");
+  const [dataaskedAt, setDataaskedAt] = useState("");
+  const [dataview, setDataview] = useState();
+  const [datavote, setDatavote] = useState();
+  const [datamember, setDatamember] = useState({});
+
+  
+  // const individualPost = useSelector((state) => {
+  //   return state.question.question;
+  // });
   // console.log(individualPost);
   //{id: 1, title: 'Test Question', content: 'Test Question Content', askedAt: '2022-09-02T07:31:25.340465', view: 1111, …}
 
@@ -53,19 +62,31 @@ const PostQAC = () => {
     return state.editMode.htmlStr;
   });
 
+  const questionId = useSelector((state) => {
+    return state.editMode.questionId;
+});
+console.log(questionId);
+
   //Fetch 질문 세부 내용 조회하기
   useEffect(() => {
-    // fetch(`/api/questions/${id}`)
-    fetch(`/api/questions/1`)
+    fetch(`/api/questions/${questionId}`)
+    // fetch(`/api/questions/1`)
       .then((res) => res.json())
       .then((data) => {
-        // setIndividualPost(data.data);
-        // console.log(data.data);
-        dispatch(questionDetails({ question: data.data }));
-        // setAnswers(data.data.answers);
+        console.log(data.data);
+        // dispatch(questionDetails({ question: data.data }));
+        //redux 대신 상태로
+        setDataid(data.data.id)
+        setDatatitle(data.data.title)
+        setDatacontent(data.data.content)
+        setDataaskedAt(data.data.askedAt)
+        setDataview(data.data.view)
+        setDatavote(data.data.vote)
+        setDatamember(data.data.member)
       })
       .catch((err) => console.log("cannot fetch individual question data"));
   }, []);
+
   //답변 생성
   const handlePostAnswer = () => {
     fetch("/api/answers?question-id=1", {
@@ -94,8 +115,56 @@ const PostQAC = () => {
 
   return (
     <Container>
-      <PostQ individualPost={individualPost}></PostQ>
-      <PostC commentsForQ={commentsForQ}></PostC>
+      {/* <PostQ individualPost={individualPost}></PostQ> */}
+      {/* 상태로 띄우기 */}
+      
+      <QHeader>
+        <div>
+          <Title>{datatitle}</Title>
+          <Button>Ask Question</Button>
+        </div>
+        <TitleInfo>
+          {/* <div>
+            Asked <Moment fromNow>{datedata}</Moment>
+          </div>
+          <div>
+            Modified <Moment fromNow>{datedata}</Moment>
+          </div> */}
+            <div>
+            Asked {dataaskedAt}
+          </div>
+          <div> Viewed {dataview} times</div>
+        </TitleInfo>
+      </QHeader>
+      <Post>
+        <Votecell>{datavote}</Votecell>
+        <Postcell>
+          <Content>{datacontent}</Content>
+          <UserContent>
+            <div className="edit">
+              <div>Share</div>
+              <div>Edit</div>
+              {/* edit 페이지 연결하기 */}
+              <div>Follow</div>
+            </div>
+            <div className="userinfo">
+              <div>
+                <div>asked </div>
+                {/* <div>
+                  <img src={dummy[0].userUrl} alt="img" />
+                </div> */}
+              </div>
+              <div>
+                <span>{dataaskedAt}</span>
+                <div>{datamember.name}</div>
+              </div>
+            </div>
+          </UserContent>
+        </Postcell>
+      </Post>
+      {/*  */}
+
+      {/* <PostC commentsForQ={commentsForQ}></PostC>
       <AHeader>
         <div>
           <Title>{answers.length} Answers</Title>
@@ -109,7 +178,7 @@ const PostQAC = () => {
             commentsForA={answer.comments}
           ></PostComm>
         </div>
-      ))}
+      ))} */}
       <PostAnswer>
         <div>Your Answer</div>
         <Toolbox
@@ -118,7 +187,6 @@ const PostQAC = () => {
         ></Toolbox>
       </PostAnswer>
       <Button onClick={handlePostAnswer}>Post Your Answer</Button>
-      {/* <Button>Post Your Answer</Button> */}
     </Container>
   );
 };
@@ -160,6 +228,87 @@ const PostAnswer = styled.div``;
 const Button = styled.button`
   width: 128px;
   height: 38px;
+`;
+
+// PostQ 컴포넌트 추가
+const QHeader = styled.div`
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  border-bottom: 1px solid darkgray;
+
+  > div {
+    display: flex;
+    flex-direction: row;
+    width: 95%;
+    margin: 10px;
+    justify-content: flex-start;
+  }
+`;
+
+
+const TitleInfo = styled.div`
+  /* display: flex; */
+  /* flex-direction: row; */
+
+  > div {
+    background-color: turquoise;
+    padding-right: 20px;
+  }
+`;
+
+const Post = styled.div`
+  display: flex;
+`;
+const Votecell = styled.div`
+  flex-basis: 10%;
+  margin: 16px 0;
+`;
+const Postcell = styled.div`
+  flex-basis: 90%;
+  display: flex;
+  flex-direction: column;
+  margin: 16px 0;
+  /* border: solid 1px; //임시 */
+`;
+const Content = styled.div`
+  /* flex-basis: 80%; */
+  /* border: solid 1px;//임시 */
+  height: max-content;
+  margin-bottom: 16px;
+`;
+const UserContent = styled.div`
+  /* flex-basis: 20%; */
+  /* border: solid 1px;//임시 */
+  margin-top: 16px;
+  height: 75px;
+
+  display: flex;
+
+  > div.edit {
+    flex-basis: 60%;
+    display: flex;
+    flex-direction: row;
+
+    > div {
+      padding-right: 15px;
+    }
+  }
+  > div.userinfo {
+    flex-basis: 40%;
+    max-width: 200px;
+    max-height: 66px;
+    background-color: #d9eaf7;
+    border-radius: 5px;
+    display: flex;
+    flex-wrap: wrap;
+    padding: 5px;
+
+    > div > div > img {
+      width: 32px;
+      height: 32px;
+    }
+  }
 `;
 
 export default PostQAC;
