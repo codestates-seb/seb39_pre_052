@@ -6,6 +6,7 @@ import {
   loginFulfilled,
   loginRejected,
   logoutFulfilled,
+  myPageData,
 } from "../features/userSlice";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {
@@ -60,6 +61,7 @@ const LogIn = () => {
           localStorage.setItem("access-token", token); //로컬 스토리지에 저장
           // setIsLoggedin(true);
           dispatch(loginFulfilled({ userEmail: email, userToken: token }));
+          fetchUserId(token);
           navigate("/");
         }
         //데이터에 맞지않는 이메일, pw 보낼때
@@ -79,6 +81,25 @@ const LogIn = () => {
     //   },
     // }).then((res) => console.log(res));
   };
+
+
+  //유저 아이디 GET 요청
+  const fetchUserId = (token) => {
+
+    fetch(`/api/members/me`, {
+      headers: {
+        'Accept': 'application/json, text/plain',
+        'Content-Type': 'application/json;charset=UTF-8',
+        "Authorization": token,
+      },
+    })
+    .then((res) => res.json())
+    .then((data) => {
+        localStorage.setItem("userId", data.data.memberId)
+        localStorage.setItem("memberName", data.data.memberName)
+        localStorage.setItem("createdAt", data.data.createdAt)
+    })
+  }
 
   return (
     <LogInWrapper className="login_wrapper">

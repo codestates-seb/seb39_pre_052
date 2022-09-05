@@ -72,6 +72,7 @@ const PostA = ({ answer, Button}) => {
         <Votecell>{answer.vote}</Votecell>
         { isEdited? 
         <Postcell>
+
         <Toolbox contentRef={contentRef} setEmptyContentMsg={setEmptyContentMsg}></Toolbox>
         <UserContent>
             <div className="edit">

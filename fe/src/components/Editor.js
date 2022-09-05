@@ -83,21 +83,24 @@ const Editor = ({ fetchMode }) => {
                 })
                 .then((res) => {
                     if (res.status === 201) {
-                        return res.json();
+                        let json = res.json()
+                        alert(`Successfully Submitted!`)
+                        dispatch(setQuestionId(json.data.id))
+                        navigate(`/questions/${json.data.id}`);
+                        dispatch(setTitle({ title: "" }));
+                        dispatch(setHtmlStr({ htmlStr: "" }));
                     }
-                })
-                .then((json) => {
-                    alert(`Successfully Submitted!`)
-                    dispatch(setQuestionId(json.data.id))
-                    navigate(`/questions/${json.data.id}`);
-                    dispatch(setTitle({ title: "" }));
-                    dispatch(setHtmlStr({ htmlStr: "" }));
+                    else {
+                        alert(`No Access`)
+                        dispatch(setTitle({ title: "" }));
+                        dispatch(setHtmlStr({ htmlStr: "" }));
+                    }
                 })
                 .catch(() => console.log("ERROR!"))
             }
             // 에디터 사용 컴포넌트가 게시글 (Q) 수정일 때
             else if (fetchMode === 'patch') {
-                fetch(`/api/questions/24`, {
+                fetch(`/api/questions/${questionId}`, {
                     method: "PATCH",
                     headers: {
                         'Accept': 'application/json, text/plain',
@@ -106,18 +109,22 @@ const Editor = ({ fetchMode }) => {
                     },
                     body: JSON.stringify({ title: title, content: htmlStr }),
                 })
-                .then((res) => {                 
+                .then((res) => {           
+                    console.log(res);      
                     if (res.status === 200) {
-                        return res.json();
+                        let json = res.json();
+                        alert(`Successfully Submitted!`)
+                        console.log(json);
+                        dispatch(setQuestionId(json.data.id))
+                        navigate(`/questions/${json.data.id}`);
+                        dispatch(setTitle({ title: "" }));
+                        dispatch(setHtmlStr({ htmlStr: "" }));
                     }
-                })
-                .then((json) => {
-                    alert(`Successfully Submitted!`)
-                    console.log(json);
-                    dispatch(setQuestionId(json.data.id))
-                    navigate(`/questions/${json.data.id}`);
-                    dispatch(setTitle({ title: "" }));
-                    dispatch(setHtmlStr({ htmlStr: "" }));
+                    else {
+                        alert(`No Access`);
+                        dispatch(setTitle({ title: "" }));
+                        dispatch(setHtmlStr({ htmlStr: "" }));
+                    }
                 })
                 .catch((err) => console.log("ERROR!", err))
             }

@@ -58,7 +58,7 @@ const Question = ({ post, id }) => {
             {/* <div>{typeof post.createdAt}</div> */}
             <Side>
                 <div>{post.vote} votes</div>
-                <div>{post.answered} answers</div>
+                <div>{post.answerNum} answers</div>
                 <div>{post.view} views</div>
             </Side>
             <Main>
