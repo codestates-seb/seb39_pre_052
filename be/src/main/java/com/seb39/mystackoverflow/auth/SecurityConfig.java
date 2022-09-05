@@ -26,7 +26,7 @@ public class SecurityConfig {
 
     private final MemberService memberService;
     private final JwtAuthenticationFailureHandler jwtAuthenticationFailureHandler;
-    private final JwtUtils jwtUtils;
+    private final JwtManager jwtManager;
 
 
     @Value("${app.auth.jwt.secret}")
@@ -60,11 +60,11 @@ public class SecurityConfig {
         @Override
         public void configure(HttpSecurity builder) throws Exception{
             AuthenticationManager authenticationManager = builder.getSharedObject(AuthenticationManager.class);
-            JwtAuthenticationFilter jwtAuthenticationFilter = new JwtAuthenticationFilter(authenticationManager, jwtUtils);
+            JwtAuthenticationFilter jwtAuthenticationFilter = new JwtAuthenticationFilter(authenticationManager, jwtManager);
             jwtAuthenticationFilter.setAuthenticationFailureHandler(jwtAuthenticationFailureHandler);
             builder
                     .addFilter(jwtAuthenticationFilter)
-                    .addFilter(new JwtAuthorizationFilter(authenticationManager,memberService, jwtUtils));
+                    .addFilter(new JwtAuthorizationFilter(authenticationManager,memberService, jwtManager));
         }
     }
 }

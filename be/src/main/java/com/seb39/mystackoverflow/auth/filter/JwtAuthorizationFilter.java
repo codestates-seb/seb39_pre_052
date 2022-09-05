@@ -1,7 +1,7 @@
 package com.seb39.mystackoverflow.auth.filter;
 
 import com.auth0.jwt.exceptions.JWTVerificationException;
-import com.seb39.mystackoverflow.auth.JwtUtils;
+import com.seb39.mystackoverflow.auth.JwtManager;
 import com.seb39.mystackoverflow.auth.PrincipalDetails;
 import com.seb39.mystackoverflow.entity.Member;
 import com.seb39.mystackoverflow.service.MemberService;
@@ -24,18 +24,16 @@ import java.io.IOException;
 public class JwtAuthorizationFilter extends BasicAuthenticationFilter {
 
     private final MemberService memberService;
-    private final JwtUtils jwtUtils;
+    private final JwtManager jwtManager;
 
-    public JwtAuthorizationFilter(AuthenticationManager authenticationManager, MemberService memberService, JwtUtils jwtUtils) {
+    public JwtAuthorizationFilter(AuthenticationManager authenticationManager, MemberService memberService, JwtManager jwtManager) {
         super(authenticationManager);
         this.memberService = memberService;
-        this.jwtUtils = jwtUtils;
+        this.jwtManager = jwtManager;
     }
 
     @Override
     protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain chain) throws IOException, ServletException {
-
-        log.info("AuthorizationFilter - doFilterInternal");
 
         String header = request.getHeader(HttpHeaders.AUTHORIZATION);
         if (!isJwtTokenHeader(header)) {
@@ -46,7 +44,7 @@ public class JwtAuthorizationFilter extends BasicAuthenticationFilter {
         String email = null;
         try{
             String jwtToken = getJwtToken(header);
-            email = jwtUtils.decodeJwtTokenAndGetEmail(jwtToken);
+            email = jwtManager.decodeJwtTokenAndGetEmail(jwtToken);
         }catch(JWTVerificationException e){
             log.error("Invalid Jwt Token",e);
             request.setAttribute("exception","Invalid JWT Token");

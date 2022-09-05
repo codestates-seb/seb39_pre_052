@@ -1,9 +1,7 @@
 package com.seb39.mystackoverflow.auth.filter;
 
-import com.auth0.jwt.JWT;
-import com.auth0.jwt.algorithms.Algorithm;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.seb39.mystackoverflow.auth.JwtUtils;
+import com.seb39.mystackoverflow.auth.JwtManager;
 import com.seb39.mystackoverflow.auth.PrincipalDetails;
 import com.seb39.mystackoverflow.dto.auth.LoginRequest;
 import lombok.RequiredArgsConstructor;
@@ -20,7 +18,6 @@ import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
-import java.util.Date;
 
 
 @Slf4j
@@ -28,20 +25,14 @@ import java.util.Date;
 public class JwtAuthenticationFilter extends UsernamePasswordAuthenticationFilter {
 
     private final AuthenticationManager authenticationManager;
-    private final JwtUtils jwtUtils;
+    private final JwtManager jwtManager;
 
     private final ObjectMapper objectMapper = new ObjectMapper();
 
     @Override
     public Authentication attemptAuthentication(HttpServletRequest request, HttpServletResponse response) throws AuthenticationException {
 
-        LoginRequest loginRequest = null;
-        try {
-            loginRequest = objectMapper.readValue(request.getInputStream(), LoginRequest.class);
-        } catch (IOException e) {
-            log.error("Failed to login request body deserialization", e);
-            throw new RuntimeException(e);
-        }
+        LoginRequest loginRequest = getLoginRequest(request);
 
         String email = loginRequest.getEmail();
         String password = loginRequest.getPassword();
@@ -50,11 +41,21 @@ public class JwtAuthenticationFilter extends UsernamePasswordAuthenticationFilte
         return authenticationManager.authenticate(token);
     }
 
+    private LoginRequest getLoginRequest(HttpServletRequest request) {
+        LoginRequest loginRequest = null;
+        try {
+            loginRequest = objectMapper.readValue(request.getInputStream(), LoginRequest.class);
+        } catch (IOException e) {
+            log.error("Failed to login request body deserialization", e);
+            throw new RuntimeException(e);
+        }
+        return loginRequest;
+    }
+
     @Override
     protected void successfulAuthentication(HttpServletRequest request, HttpServletResponse response, FilterChain chain, Authentication authResult) throws IOException, ServletException {
-
         PrincipalDetails principal = (PrincipalDetails) authResult.getPrincipal();
-        String jwtToken = jwtUtils.createJwtToken(principal.getUsername());
+        String jwtToken = jwtManager.createJwtToken(principal.getUsername());
         response.addHeader(HttpHeaders.AUTHORIZATION, getAuthorizationHeader(jwtToken));
     }
     private String getAuthorizationHeader(String token) {

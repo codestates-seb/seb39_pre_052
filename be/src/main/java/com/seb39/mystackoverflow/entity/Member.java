@@ -14,7 +14,6 @@ import java.util.stream.Collectors;
 @Entity
 @Getter
 @Setter
-//@NoArgsConstructor(access = AccessLevel.PROTECTED)
 @NoArgsConstructor
 public class Member extends BaseEntity{
 

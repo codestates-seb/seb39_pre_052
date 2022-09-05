@@ -9,22 +9,12 @@ import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
-import org.junit.jupiter.api.extension.ExtendWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.restdocs.AutoConfigureRestDocs;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
-import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.http.MediaType;
-import org.springframework.restdocs.RestDocumentationExtension;
-import org.springframework.restdocs.headers.HeaderDocumentation;
-import org.springframework.restdocs.mockmvc.MockMvcRestDocumentation;
-import org.springframework.restdocs.mockmvc.RestDocumentationResultHandler;
 import org.springframework.restdocs.payload.JsonFieldType;
-import org.springframework.restdocs.payload.PayloadDocumentation;
-import org.springframework.restdocs.payload.RequestFieldsSnippet;
-import org.springframework.security.test.web.servlet.response.SecurityMockMvcResultHandlers;
-import org.springframework.test.context.junit.jupiter.SpringExtension;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.MvcResult;
 import org.springframework.transaction.annotation.Transactional;
@@ -54,7 +44,7 @@ class AuthenticationTest {
     MemberService memberService;
 
     @Autowired
-    JwtUtils jwtUtils;
+    JwtManager jwtManager;
 
     ObjectMapper om = new ObjectMapper();
 
@@ -99,7 +89,7 @@ class AuthenticationTest {
                 .andReturn();
 
         String token = result.getResponse().getHeader("Authorization").replace("Bearer ", "");
-        String email = jwtUtils.decodeJwtTokenAndGetEmail(token);
+        String email = jwtManager.decodeJwtTokenAndGetEmail(token);
         Assertions.assertThat(email).isEqualTo("abcd@gmail.com");
     }
 
