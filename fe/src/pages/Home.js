@@ -8,69 +8,52 @@ import Pagination from "../components/Pagination";
 
 import { setPosts } from "../features/qListSlice";
 
-const Questions = () => {
+const Home = () => {
     const [qNum, setQNum] = useState("");
 
     const [limit, setLimit] = useState(5);
     const [page, setPage] = useState(1);
     const [isDeleted, setIsDeleted] = useState(false);
+    const offset = (page - 1) * limit;
 
+    const navigate = useNavigate();
     const dispatch = useDispatch();
 
     const isLoggedIn = useSelector((state) => {
         return state.user.isLoggedIn;
     });
+
     const token = useSelector((state) => {
         return state.user.userToken;
     });
+
     const posts = useSelector((state) => {
         return state.qlist.posts;
     });
+
     const total = useSelector((state) => {
         return state.qlist.total;
     });
-
-    // // TEST DATA
-    // useEffect(() => {
-    //     fetch(`/test/question?size=${limit}&page=${page}`)
-    //         .then((res) => res.json())
-    //         .then((data) => setPosts(data.data))
-    //         .catch((err) => console.log(`!CANNOT FETCH QUESTION DATA! ${err}!`))
-    // }, [page, limit]);
     
     useEffect(() => {
-        fetch(`/api/questions?size=${limit}&page=${page}`)
+        fetch(`/api/questions?size=10&page=1`)
             .then((res) => res.json())
             .then((data) => {
                 dispatch(setPosts({posts: data.data, total: data.pageInfo.totalElements})); 
             })
             .catch((err) => console.log(`!CANNOT FETCH QUESTION DATA! ${err}!`))
-    }, [page, limit, isDeleted, dispatch]);
-
-    const deleteHandler = () => {
-        fetch(`/api/questions/${posts[qNum-1].id}`, {
-            method: "DELETE",
-            headers: {
-                "Authorization": token,
-            },
-        })
-        .then(res => {console.log(res); /*window.location.reload();*/ setIsDeleted(!isDeleted)})
-    }
+    }, [page, limit, dispatch]);
 
     return (
         <Container>
             <Header>
                 <div>
-                    <div>All Questions</div>
-                    <div>{total} questions</div>
+                    <div>Top Questions</div>
                 </div>
                 <div>
-                    <input onChange={e => setQNum(e.target.value)} placeholder="Which question would you like to delete?" style={{width: "250px"}}></input>
-                    <Button onClick={deleteHandler}>DELETE</Button>
                     <Link to={isLoggedIn? "/questions/ask" : "/login"}>
                         <Button>Ask Question</Button>
                     </Link>
-                    <Link to="/Edit"><Button>Edit</Button></Link>
                 </div>
             </Header>
             {/* The below is for TEST DATA, slicing data from client side
@@ -85,13 +68,15 @@ const Questions = () => {
                     return <Question key={post.id} post={post} id={post.id}></Question>
                 })}
             </List>
-            <Pagination
-                total={posts.length}
-                limit={limit}
-                page={page}
-                setPage={setPage}
-                setLimit={setLimit}
-            />
+            <Message>
+                Looking for more? Browse the&nbsp;
+                <Link to="/questions">complete list of questions
+                </Link>
+                , or popular tags. Help us answer&nbsp;
+                <Link to="/questions">unanswered questions
+                </Link>
+                .
+            </Message>
         </Container>
     )
 };
@@ -108,16 +93,14 @@ const Header = styled.div`
   flex-direction: row;
   justify-content: space-between;
   align-items: center;
-  //All Questions
+
+  //Top Questions
   > div:first-of-type > div:first-of-type {
     font-size: 24px;
     font-weight: bold;
-    margin: 10px 0 10px 30px;
+    margin: 30px 0 30px 30px;
   }
-  // n questions
-  > div:first-of-type > div:nth-of-type(2) {
-    margin: 0 0 10px 30px;
-  }
+
 `;
 //Ask Question Button
 const Button = styled.button`
@@ -136,8 +119,16 @@ const Button = styled.button`
 `;
 
 const List = styled.div`
-    max-height: fit-content;
-
+  max-height: fit-content;
+  margin: 0 0 0px 0;
 `;
 
-export default Questions;
+const Message = styled.div`
+    height: 100px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 18px;
+`
+
+export default Home;
