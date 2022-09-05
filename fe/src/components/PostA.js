@@ -1,6 +1,19 @@
+import { Markup } from "interweave";
+import { useState, useRef } from "react";
+import { useDispatch, useSelector } from "react-redux";
+import { useParams } from "react-router-dom";
 import styled from "styled-components";
+import { setHtmlStr } from "../features/textEditSlice";
+import Toolbox from "./Toolbox";
 
-const PostA = ({ answer }) => {
+const PostA = ({ answer, Button}) => {
+  const dispatch = useDispatch();
+  // const { id } = useParams();
+
+  //for Toobox component 
+  const contentRef = useRef();
+  const [emptyContentMsg, setEmptyContentMsg] = useState("");
+
   const datedata = new Date(answer.answeredAt);
   const month = new Intl.DateTimeFormat("en", { month: "short" }).format(
     datedata
@@ -14,16 +27,76 @@ const PostA = ({ answer }) => {
   const fullDateFormat = `${month} ${day}, ${year} at ${(
     "0" + datedata.getHours()
   ).slice(-2)}:${("0" + datedata.getMinutes()).slice(-2)}`;
+
+  const [isEdited, setIsEdited] = useState(false);
+  
+  //저장소에 저장해둔 answer.content 불러오기
+  const htmlStr = useSelector((state) => {
+    return state.editMode.htmlStr;
+  });
+
+  const clickEditAnswer = () => {
+    setIsEdited(true);
+    dispatch(setHtmlStr({htmlStr: answer.content}))
+  }
+
+  console.log("answerToken:",localStorage.getItem("access-token"))
+  const token = localStorage.getItem("access-token")
+
+  const handleEditAnswerBtn = () => {
+    fetch(`/api/answers/`+answer.id, {
+      method: "PATCH",
+      headers: {
+        "Accept": "application/json, text/plain",
+        "Content-Type": "application/json;charset=UTF-8",
+        "Authorization": token,
+      },
+      body: JSON.stringify({content: htmlStr})
+    }) 
+    .then((res) => {
+      if (res.ok) {
+        console.log(res)
+        alert("successfully edited your answer")
+        setIsEdited(false)
+      }
+    })
+    .catch((err) => {
+      alert(err)
+      console.log(err) 
+    })
+  }
+
   return (
     <>
       <Post>
         <Votecell>{answer.vote}</Votecell>
+        { isEdited? 
         <Postcell>
-          <Content>{answer.content}</Content>
+        <Toolbox contentRef={contentRef} setEmptyContentMsg={setEmptyContentMsg}></Toolbox>
+        <UserContent>
+            <div className="edit">
+              <Button onClick={handleEditAnswerBtn}>Edit your Answer</Button>
+            </div>
+            <div className="userinfo">
+              <div>
+                <div>answered </div>
+                <div>img</div>
+              </div>
+              <div>
+                <span>{fullDateFormat}</span>
+                <div>{answer.member.name}</div>
+              </div>
+            </div>
+          </UserContent>
+        
+        </Postcell>
+        :
+        <Postcell>
+          <Markup content={answer.content}><Content>{answer.content}</Content></Markup>
           <UserContent>
             <div className="edit">
               <div>Share</div>
-              <div>Edit</div>
+              <div className="click_edit" onClick={clickEditAnswer}>Edit</div>
               <div>Follow</div>
             </div>
             <div className="userinfo">
@@ -38,6 +111,8 @@ const PostA = ({ answer }) => {
             </div>
           </UserContent>
         </Postcell>
+        }
+        
       </Post>
     </>
   );
@@ -104,7 +179,13 @@ const UserContent = styled.div`
 
     > div {
       padding-right: 15px;
+      cursor: not-allowed;
     }
+
+    > div.click_edit {
+      cursor: pointer;
+    }
+    
   }
   > div.userinfo {
     flex-basis: 40%;
