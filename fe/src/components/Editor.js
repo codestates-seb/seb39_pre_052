@@ -173,9 +173,11 @@ const Container = styled.div`
     padding: 0px 20px 0 20px;
     background-color: white;
     border-radius: 5px;
+    overflow-y: hidden;
 
     > * {
         margin-top: 30px;
+        overflow-y: hidden;
     }
     // Title & Body
     > * > h1 {

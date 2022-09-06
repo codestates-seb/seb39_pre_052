@@ -41,7 +41,6 @@ const Search = () => {
             .then((data) => {
                 dispatch(setPosts({posts: data.data, total: data.pageInfo.totalElements}));
                 // setQuery("");
-                dispatch(setQuery({query: ""}));
                 navigate(`/search`);
             })
             .catch((err) => console.log(`!CANNOT FETCH QUESTION DATA! ${err}!`))
