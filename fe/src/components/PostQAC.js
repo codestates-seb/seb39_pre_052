@@ -10,6 +10,8 @@ import PostComm from "./PostComm";
 import PostQ from "./PostQ";
 import Toolbox from "./Toolbox";
 import { Markup } from 'interweave'; 
+import Moment from "react-moment";
+
 
 const PostQAC = () => {
   const contentRef = useRef();
@@ -28,6 +30,11 @@ const PostQAC = () => {
   const [datavote, setDatavote] = useState();
   const [datamember, setDatamember] = useState({});
 
+  /* answered Jul 28, 2011 at 22:22 으로 나타내기*/
+  console.log(dataaskedAt) //2022-09-06T00:50:53.933886
+  const datedata = new Date(dataaskedAt);
+  console.log(datedata) //Tue Sep 06 2022 00:50:53 GMT+0900 (한국 표준시)
+
   const individualPost = useSelector((state) => {
     return state.question.question;
   });
@@ -45,26 +52,27 @@ const PostQAC = () => {
   //         "name": "BBB"
   //     }
   // },..]
+  // let idx =0;
+  // for (let i=0; i<commentsForQ.length; i++) {
+  //   idx = i;
+  // }
 
   const answers = useSelector((state) => {
     return state.question.question.answers;
   });
   // console.log(answers); // [{…}, {…}]
 
-  //답변 관련
-  // const token = useSelector((state) => {
-  //   return state.user.userToken;
-  // });
 
   const htmlStr = useSelector((state) => {
     return state.editMode.htmlStr;
   });
 
-  const questionId = useSelector((state) => {
-    return state.editMode.questionId;
-});
-console.log(questionId);
-    //Fetch 질문 세부 내용 조회하기
+//   const questionId = useSelector((state) => {
+//     return state.editMode.questionId;
+// });
+// console.log(questionId);
+
+  //Fetch 질문 세부 내용 조회하기
   useEffect(() => {
     // fetch(`/api/questions/${questionId}`)
     fetch(`/api/questions/`+id) //useParams
@@ -98,10 +106,12 @@ console.log(questionId);
       // .then((res) => console.log(res)); //Response {type: 'basic', url: 'http://localhost:3000/api/answers?question-id=1', redirected: false, status: 201, ok: true, …}
       .then((res) => {
         if (res.status === 201) {
+          window.location.reload();
           console.log(res);
           alert("successfully posted your answer");
           navigate("/questions/"+id);
           // window.location.reload();
+          dispatch(setHtmlStr({htmlStr: ""}));
         }
       })
       .catch((err) => {
@@ -109,13 +119,32 @@ console.log(questionId);
       console.log(err)});
   };
   // console.log("htmlStr", htmlStr);
-  console.log(localStorage.getItem("access-token"))
+  // console.log(localStorage.getItem("access-token"))
 
   //edit 버튼 누르면 Editor 컴포넌트로 넘어가고 현재 질문 제목과 컨텐츠를 textEditSlice 상태 저장소로 저장
   //Editor컴포넌트는 Toolbox 컴포넌트를 포함. Editor에서 저장된 title, htmlStr 상태 불러온다
   const editHandler = () => {
     dispatch(setTitle({title: datatitle}))
     dispatch(setHtmlStr({htmlStr: datacontent}))
+  }
+
+  //질문 삭제 
+  const deleteQuestion = () => {
+    fetch(`/api/questions/`+id, {
+      method: "DELETE",
+      headers: {
+        "Authorization": localStorage.getItem("access-token")
+      }
+    })
+    .then((res) => {
+      if(res.ok) {
+        alert('deleted your question')
+        navigate("/")
+      }
+    })
+    .catch(err => {
+    console.log(err) 
+    })
   }
 
   return (
@@ -129,15 +158,15 @@ console.log(questionId);
           <Button>Ask Question</Button>
         </div>
         <TitleInfo>
-          {/* <div>
+          <div>
             Asked <Moment fromNow>{datedata}</Moment>
           </div>
           <div>
             Modified <Moment fromNow>{datedata}</Moment>
-          </div> */}
-            <div>
-            Asked {dataaskedAt}
           </div>
+            {/* <div>
+            Asked {dataaskedAt}
+          </div> */}
           <div> Viewed {dataview} times</div>
         </TitleInfo>
       </QHeader>
@@ -149,20 +178,21 @@ console.log(questionId);
             <div className="edit">
               <div>Share</div>
               <Link to="/questions/edit">
-              <div onClick={editHandler}>Edit</div> {/* edit 페이지 연결하기 */}
+              <div className="edit_q" onClick={editHandler}>Edit</div> {/* edit 페이지 연결하기 */}
               </Link>
+
+              &nbsp;&nbsp;&nbsp;&nbsp;
+              <div className="delete" onClick={deleteQuestion}>Delete</div>
               
               <div>Follow</div>
             </div>
             <div className="userinfo">
               <div>
                 <div>asked </div>
-                {/* <div>
-                  <img src={dummy[0].userUrl} alt="img" />
-                </div> */}
+                <div></div>
               </div>
               <div>
-                <span>{dataaskedAt}</span>
+                <span><Moment fromNow>{datedata}</Moment></span>
                 <div>{datamember.name}</div>
               </div>
             </div>
@@ -172,7 +202,8 @@ console.log(questionId);
       {/*  */}
 
       {/* <PostC commentsForQ={commentsForQ}></PostC> */}
-      {commentsForQ? <PostC commentsForQ={commentsForQ}></PostC> : 'comment 안받아오기'}
+      {commentsForQ? 
+      <PostC commentsForQ={commentsForQ} Button={Button}></PostC> : 'comment 안받아오기'}
       {answers?  
       <>  
       <AHeader>
@@ -185,13 +216,15 @@ console.log(questionId);
           <PostA key={answer.id} answer={answer} Button={Button}></PostA>
           <PostComm
             key={answer.comments.id}
+            answerId= {answer.id}
             commentsForA={answer.comments}
+            Button={Button}
           ></PostComm>
         </div>
       ))} 
       </>  : <>answers 없음</>}
       <PostAnswer>
-        <div>Your Answer</div>
+        <Title>Your Answer</Title>
         <Toolbox
           contentRef={contentRef}
           setEmptyContentMsg={setEmptyContentMsg}
@@ -234,11 +267,26 @@ const Title = styled.div`
   font-weight: 500;
 `;
 
-const PostAnswer = styled.div``;
+const PostAnswer = styled.div`
+  >div {
+    margin: 20px 0;
+  }
+`;
 
 const Button = styled.button`
+  margin-top: 10px;
   width: 128px;
   height: 38px;
+  border: none;
+  border-radius: 5px;
+  font-size: 14px;
+  font-weight: bold;
+  color: white;
+  cursor: pointer;
+  background-color: #0a95ff;
+  :hover {
+    background-color: #0074cc;
+  }
 `;
 
 // PostQ 컴포넌트 추가
@@ -253,7 +301,7 @@ const QHeader = styled.div`
     flex-direction: row;
     width: 95%;
     margin: 10px;
-    justify-content: flex-start;
+    justify-content: space-between;
   }
 `;
 
@@ -263,8 +311,9 @@ const TitleInfo = styled.div`
   /* flex-direction: row; */
 
   > div {
-    background-color: turquoise;
+    /* background-color: turquoise; */
     padding-right: 20px;
+    justify-content: flex-start;
   }
 `;
 
@@ -274,6 +323,8 @@ const Post = styled.div`
 const Votecell = styled.div`
   flex-basis: 10%;
   margin: 16px 0;
+  display: flex;
+  justify-content: center;
 `;
 const Postcell = styled.div`
   flex-basis: 90%;
@@ -293,16 +344,27 @@ const UserContent = styled.div`
   /* border: solid 1px;//임시 */
   margin-top: 16px;
   height: 75px;
-
   display: flex;
+  justify-content: space-between;
 
   > div.edit {
     flex-basis: 60%;
     display: flex;
     flex-direction: row;
-
+    align-items: flex-end;
+   
     > div {
-      padding-right: 15px;
+      padding-right: 15px; 
+      text-decoration: none;
+      cursor: not-allowed
+    }
+
+    > div.edit_q {
+      cursor: pointer;
+    }
+
+    > div.delete {
+      cursor: pointer;
     }
   }
   > div.userinfo {
@@ -314,6 +376,11 @@ const UserContent = styled.div`
     display: flex;
     flex-wrap: wrap;
     padding: 5px;
+    font-size: 14px;
+
+    > div {
+      padding: 4px;
+    }
 
     > div > div > img {
       width: 32px;

@@ -49,5 +49,5 @@
       "last 1 safari version"
     ]
   },
-  "proxy": "http://ec2-3-39-187-18.ap-northeast-2.compute.amazonaws.com:8080"
+  "proxy": "http://ec2-3-35-218-206.ap-northeast-2.compute.amazonaws.com:8080"
 }
