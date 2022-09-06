@@ -14,7 +14,7 @@ const Footer = () => {
     <>
       {/* <footer> */}
       <FooterWrapper>
-        <div className="site-footer-logo"> <img src="https://cdn.sstatic.net/Sites/stackoverflow/Img/apple-touch-icon@2.png?v=73d79a89bded" /></div>
+        <div className="site-footer-logo"> <img src="https://cdn.sstatic.net/Sites/stackoverflow/Img/apple-touch-icon@2.png?v=73d79a89bded" alt="logo"/></div>
         <div className="site-footer-nav">
           <ul>
             <li>STACK OVERFLOW</li>
@@ -31,6 +31,7 @@ const Footer = () => {
               </a>
             ))}
           </ul>
+          <Author>Team 52 Pre-project</Author>
         </div>
       {/* </footer> */}
       </FooterWrapper>
@@ -99,6 +100,12 @@ const FooterWrapper = styled.footer`
       justify-content: flex-end;
     }
   }
+`
+
+const Author = styled.div`
+  display: flex;
+  justify-content: flex-end;
+  margin-top: 5px;
 `
 
 export default Footer;

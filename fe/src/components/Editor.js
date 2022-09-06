@@ -92,7 +92,11 @@ const Editor = ({ fetchMode }) => {
                         dispatch(setHtmlStr({ htmlStr: "" }));
                         alert(`Successfully Submitted!`);      
                 })
-                .catch(() => console.log("ERROR!"))
+                .catch(() => {
+                    console.log("ERROR!");
+                    dispatch(setTitle({ title: "" }));
+                    dispatch(setHtmlStr({ htmlStr: "" }));
+                });
             }
             // 에디터 사용 컴포넌트가 게시글 (Q) 수정일 때
             else if (fetchMode === 'patch') {
@@ -110,13 +114,17 @@ const Editor = ({ fetchMode }) => {
                 })
                 .then((json) => {
                     console.log(json);
-                    dispatch(setQuestionId(json.data.id))
+                    dispatch(setQuestionId(json.data.id));
                     navigate(`/questions/${json.data.id}`);
                     dispatch(setTitle({ title: "" }));
                     dispatch(setHtmlStr({ htmlStr: "" }));
                     alert(`Successfully Submitted!`)
                 })
-                .catch((err) => console.log("ERROR!", err))
+                .catch((err) => {
+                    console.log("ERROR!", err);
+                    dispatch(setTitle({ title: "" }));
+                    dispatch(setHtmlStr({ htmlStr: "" }));
+                })
             }
         }
     }
@@ -161,7 +169,11 @@ const Container = styled.div`
     flex-shrink: 6;
     display: flex;
     flex-direction: column;
-    padding: 10px 50px 0 50px;
+    margin: 50px 50px 0 50px;
+    padding: 0px 20px 0 20px;
+    background-color: white;
+    border-radius: 5px;
+
     > * {
         margin-top: 30px;
     }

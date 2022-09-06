@@ -75,7 +75,8 @@ const PostA = ({ answer, Button}) => {
       body: JSON.stringify({content: htmlStr})
     }) 
     .then((res) => {
-      if (res.ok) {        
+
+      if (res.ok) {
         window.location.reload(); //새로고침
         console.log(res)
         alert("successfully edited your answer")

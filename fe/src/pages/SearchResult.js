@@ -33,39 +33,50 @@ const SearchResult = () => {
     const total = useSelector((state) => {
         return state.qlist.total;
     });
+    const query = useSelector((state) => {
+        return state.queryData.query;
+    });
 
     return (
-        <Container>
-            <Header>
-                <div>
-                    <div>Search Results</div>
-                    <div>{total} questions</div>
-                </div>
-                <div>
-                    <Link to={isLoggedIn? "/questions/ask" : "/login"}>
-                        <Button>Ask Question</Button>
-                    </Link>
-                </div>
-            </Header>
-            <List>
-                {posts.slice(offset, offset + limit).map((post, idx) => {
-                    return <Question key={post.id} post={post} id={post.id}></Question>
-                })}
-            </List>
-            {/* The below is for MAIN DATA, server side will send sliced data
-            <List>
-                {posts.map((post, idx) => {
-                    return <Question key={post.id} post={post} id={post.id}></Question>
-                })}
-            </List>*/}
-            <Pagination
-                total={total}
-                limit={limit}
-                page={page}
-                setPage={setPage}
-                setLimit={setLimit}
-            />
-        </Container>
+        <>
+            {query
+                ? <Container>
+                    <Header>
+                        <div>
+                            <div>Search Results</div>
+                            <div>{total} questions</div>
+                        </div>
+                        <div>
+                            <Link to={isLoggedIn ? "/questions/ask" : "/login"}>
+                                <Button>Ask Question</Button>
+                            </Link>
+                        </div>
+                    </Header>
+                    <List>
+                        {posts.slice(offset, offset + limit).map((post, idx) => {
+                            return <Question key={post.id} post={post} id={post.id}></Question>
+                        })}
+                    </List>
+                    {/* The below is for MAIN DATA, server side will send sliced data
+                <List>
+                    {posts.map((post, idx) => {
+                        return <Question key={post.id} post={post} id={post.id}></Question>
+                    })}
+                </List>*/}
+                    <Pagination
+                        total={total}
+                        limit={limit}
+                        page={page}
+                        setPage={setPage}
+                        setLimit={setLimit}
+                    />
+                </Container>
+                : 
+                <NoResultWrap> {/* 검색 키워드 없을 때*/}
+                    Enter the keyword in the search engine to find your result
+                </NoResultWrap>
+            }
+        </>
     )
 };
 
@@ -76,6 +87,15 @@ const Container = styled.div`
   flex-shrink: 6;
 `;
 
+const NoResultWrap = styled.div`
+    flex-basis: 100vw;
+    flex-shrink: 6;
+    display: flex;
+    padding-top: 20vh;
+    justify-content: center;
+    color: #303030;
+    font-weight: bold;
+`
 const Header = styled.div`
   display: flex;
   flex-direction: row;
