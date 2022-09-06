@@ -52,6 +52,8 @@ const GNB = () => {
             z-index: 2000;
             background-color: white;
             width: 100vw;
+            box-shadow: 0px 2px 10px -5px #A0A0A0;
+            
             }
             .scrollNav {
             transition: all 0.5s ease-in;
@@ -122,11 +124,13 @@ const GNB = () => {
 const Nav = styled.nav`
     overflow: hidden;
     display: flex;
-    border-bottom: 1px solid darkgrey;
+    border-top: 5px solid #F48225;
+    /* border-bottom: 2px solid #EDEDED; */
+    /* box-shadow: 0px 10px 13px -7px #000000; */
     padding: 10px 10px 10px 20px;
     align-items: center;
     justify-content: center;
-    background-color: white;
+    background-color: #F8F9F9;
 
     > * {
         display: flex;
@@ -161,7 +165,7 @@ const Nav = styled.nav`
         padding-left: 5px;
         padding-right: 5px;
         > * {
-            padding: 5px;
+            padding: 10px;
             border-radius: 20px;
             margin-right: 15px;
             list-style: none;
@@ -178,6 +182,7 @@ const Nav = styled.nav`
 const Button = styled.button`
     overflow: hidden;
     margin-right: 10px;
+    margin-left: 10px;
     padding: 5px 10px 5px 10px;
     height: 38px;
     background-color: ${props => props.color || 'black'};
@@ -204,9 +209,18 @@ const Profile = styled.div`
     justify-content: center;
     align-items: center;
     margin-right: 10px;
+    margin-left: 10px;
     > img {
         width: 2.5em;
         border-radius: 5px;
+    }
+    & :hover {
+        -webkit-filter: brightness(95%);
+        -webkit-transition: all 0.2s ease;
+        -moz-transition: all 0.2s ease;
+        -o-transition: all 0.2s ease;
+        -ms-transition: all 0.2s ease;
+        transition: all 0.2s ease;
     }
 
 `

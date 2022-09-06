@@ -2,6 +2,8 @@ import styled from 'styled-components';
 import { useSelector, useDispatch } from 'react-redux';
 import { useState } from 'react';
 import { useNavigate, useSearchParams, useParams } from 'react-router-dom';
+import { faMagnifyingGlass } from "@fortawesome/free-solid-svg-icons";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 
 import { setPosts } from '../features/qListSlice';
 import { setQuery } from '../features/searchSlice';
@@ -51,6 +53,7 @@ const Search = () => {
             {isLoggedIn
                 ?
                 <SearchBar width="61vw">
+                    <FontAwesomeIcon icon={faMagnifyingGlass} />
                     <input placeholder="Search by Title..."
                         onChange={handleChange}
                         onKeyPress={handleKeyPress}
@@ -59,6 +62,7 @@ const Search = () => {
                 </SearchBar>
                 :
                 <SearchBar>
+                    <FontAwesomeIcon icon={faMagnifyingGlass} />
                     <input placeholder="Search by Title..."
                         onChange={handleChange}
                         onKeyPress={handleKeyPress}
@@ -71,11 +75,18 @@ const Search = () => {
 };
 
 const SearchBar = styled.div`
+    > *:first-child {
+        padding: 10px;
+        background-color: white;
+        color: #838C95;
+        font-size: 20px;
+    }
     > input {
         border: none;
         width: ${props => props.width || "50vw"};
         height: 36px;
         padding: 5px;
+        font-size: 16px;
     }
     border: 1px solid #9d9fa0;
     border-radius: 5px;

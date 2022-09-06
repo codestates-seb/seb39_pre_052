@@ -169,7 +169,11 @@ const Container = styled.div`
     flex-shrink: 6;
     display: flex;
     flex-direction: column;
-    padding: 10px 50px 0 50px;
+    margin: 50px 50px 0 50px;
+    padding: 0px 20px 0 20px;
+    background-color: white;
+    border-radius: 5px;
+
     > * {
         margin-top: 30px;
     }
