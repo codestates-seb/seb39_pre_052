@@ -1,0 +1,12 @@
+{
+  "rewrites": [
+    {
+      "source": "/api/:path*",
+      "destination": "http://ec2-3-35-218-206.ap-northeast-2.compute.amazonaws.com:8080/api/:path*"
+    },
+    {
+      "source": "/api/:path*/",
+      "destination": "http://ec2-3-35-218-206.ap-northeast-2.compute.amazonaws.com:8080/api/:path*/"
+    }
+  ]
+}
