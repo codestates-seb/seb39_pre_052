@@ -219,7 +219,7 @@ const PostQAC = () => {
         </div>
       </AHeader>
       {answers.map((answer) => (
-        <div className="br">
+        <div key={answer.id} className="br">
           <PostA key={answer.id} answer={answer} Button={Button}></PostA>
           <PostComm
             key={answer.comments.id}
