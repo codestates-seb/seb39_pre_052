@@ -6,8 +6,8 @@ import { setHtmlStr } from "../features/textEditSlice";
 import Toolbox from "./Toolbox";
 import { Markup } from "interweave";
 
-const PostComm = ({ commentsForA, Button }) => {
-  //for Toobox component 
+const PostComm = ({ answerId, commentsForA, Button }) => {
+  //for Toobox component
 const contentRef = useRef();
 const [emptyContentMsg, setEmptyContentMsg] = useState("");
  
@@ -26,8 +26,8 @@ const htmlStr = useSelector((state) => {
 });
 
 console.log(localStorage.getItem("access-token"))
-const handleAddCommentABtn = () => {//useParams id
-  fetch(`/api/comments?post-type=ANSWER&id=${id}`, { 
+const handleAddCommentABtn = () => {
+  fetch(`/api/comments?post-type=ANSWER&id=${answerId}`, { 
     method: "POST",
     headers: {
       "Accept": "application/json, text/plain",
@@ -49,6 +49,9 @@ const handleAddCommentABtn = () => {//useParams id
   .catch(err => console.log(err))
 }
 
+// const clickDeleteCommentA = () => 
+// console.log('commentId', commentId)
+
   return (
     <>
       <Comment>
@@ -57,11 +60,31 @@ const handleAddCommentABtn = () => {//useParams id
           {commentsForA.map((comment) => (
             <div key={comment.id} className="each_comment">
               {/* <Markup content={comment.content}><span className="comment">{comment.content}</span></Markup> */}
-              <span className="comment">{comment.content}</span>
+              <Markup content={comment.content}><span className="comment">{comment.content}</span></Markup>
               <span className="username">{comment.member.name}</span>
               <span className="commented_at">
                 {comment.createdAt.slice(0, 10)}
               </span>
+              <span onClick={()=> {
+                console.log(comment.id)
+                  fetch(`/api/comments/${comment.id}`, {
+                    method: "DELETE",
+                    headers: {
+                      "Authorization": localStorage.getItem("access-token")
+                    }
+                  })
+                  .then((res) => {
+                    if(res.ok) {
+                      window.location.reload();
+                      alert('deleted a comment')
+                      navigate("/questions/"+id);
+                    }
+                  })
+                  .catch(err => {
+                  console.log(err) 
+                  })
+                }
+              } className="delete_comment">Delete</span>
             </div>
           ))}
           {isAddingComment? 
@@ -71,6 +94,7 @@ const handleAddCommentABtn = () => {//useParams id
           </>
           :
           <div onClick={clickAddCommentA} className="add_comment">Add a comment</div>
+         
           }
 
           {/* <div className="show_more_comment">Show {} more comments </div> */}

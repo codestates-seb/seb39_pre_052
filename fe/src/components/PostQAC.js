@@ -10,6 +10,8 @@ import PostComm from "./PostComm";
 import PostQ from "./PostQ";
 import Toolbox from "./Toolbox";
 import { Markup } from 'interweave'; 
+import Moment from "react-moment";
+
 
 const PostQAC = () => {
   const contentRef = useRef();
@@ -27,6 +29,11 @@ const PostQAC = () => {
   const [dataview, setDataview] = useState();
   const [datavote, setDatavote] = useState();
   const [datamember, setDatamember] = useState({});
+
+  /* answered Jul 28, 2011 at 22:22 으로 나타내기*/
+  console.log(dataaskedAt) //2022-09-06T00:50:53.933886
+  const datedata = new Date(dataaskedAt);
+  console.log(datedata) //Tue Sep 06 2022 00:50:53 GMT+0900 (한국 표준시)
 
   const individualPost = useSelector((state) => {
     return state.question.question;
@@ -151,15 +158,15 @@ const PostQAC = () => {
           <Button>Ask Question</Button>
         </div>
         <TitleInfo>
-          {/* <div>
+          <div>
             Asked <Moment fromNow>{datedata}</Moment>
           </div>
           <div>
             Modified <Moment fromNow>{datedata}</Moment>
-          </div> */}
-            <div>
-            Asked {dataaskedAt}
           </div>
+            {/* <div>
+            Asked {dataaskedAt}
+          </div> */}
           <div> Viewed {dataview} times</div>
         </TitleInfo>
       </QHeader>
@@ -182,12 +189,10 @@ const PostQAC = () => {
             <div className="userinfo">
               <div>
                 <div>asked </div>
-                {/* <div>
-                  <img src={dummy[0].userUrl} alt="img" />
-                </div> */}
+                <div></div>
               </div>
               <div>
-                <span>{dataaskedAt}</span>
+                <span><Moment fromNow>{datedata}</Moment></span>
                 <div>{datamember.name}</div>
               </div>
             </div>
@@ -211,6 +216,7 @@ const PostQAC = () => {
           <PostA key={answer.id} answer={answer} Button={Button}></PostA>
           <PostComm
             key={answer.comments.id}
+            answerId= {answer.id}
             commentsForA={answer.comments}
             Button={Button}
           ></PostComm>

@@ -59,6 +59,26 @@ const PostC = ({ commentsForQ, Button }) => {
               <span className="commented_at">
                 {comment.createdAt.slice(0, 10)}
               </span>
+              <span onClick={()=> {
+                console.log("question comment", comment.id)
+                  fetch(`/api/comments/${comment.id}`, {
+                    method: "DELETE",
+                    headers: {
+                      "Authorization": localStorage.getItem("access-token")
+                    }
+                  })
+                  .then((res) => {
+                    if(res.ok) {
+                      window.location.reload();
+                      alert('deleted a comment')
+                      navigate("/questions/"+id);
+                    }
+                  })
+                  .catch(err => {
+                  console.log(err) 
+                  })
+                }
+              } className="delete_comment">Delete</span>
               </div>
             ))}
             {/* <div className="show_more_comment">Show {} more comments </div> */}
