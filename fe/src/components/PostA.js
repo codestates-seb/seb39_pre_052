@@ -19,13 +19,13 @@ const PostA = ({ answer, Button}) => {
   const month = new Intl.DateTimeFormat("en", { month: "short" }).format(
     datedata
   );
-  const year = new Intl.DateTimeFormat("en", { year: "numeric" }).format(
-    datedata
-  );
+  // const year = new Intl.DateTimeFormat("en", { year: "numeric" }).format(
+  //   datedata
+  // );
   const day = new Intl.DateTimeFormat("en", { day: "2-digit" }).format(
     datedata
   );
-  const fullDateFormat = `${month} ${day}, ${year} at ${(
+  const fullDateFormat = `${month} ${day} at ${(
     "0" + datedata.getHours()
   ).slice(-2)}:${("0" + datedata.getMinutes()).slice(-2)}`;
 
@@ -41,8 +41,28 @@ const PostA = ({ answer, Button}) => {
     dispatch(setHtmlStr({htmlStr: answer.content}))
   }
 
-  console.log("answerToken:",localStorage.getItem("access-token"))
-  const token = localStorage.getItem("access-token")
+  const clickCancelEditAnswer = () => {
+    setIsEdited(false);
+    dispatch(setHtmlStr({htmlStr: ""}))
+  }
+
+  const clickDeleteAnswer = () => {
+    fetch(`/api/answers/`+answer.id, {
+      method: "DELETE",
+      headers: {
+        "Authorization": localStorage.getItem("access-token")
+      }
+    })
+    .then((res) => {
+      if (res.ok) {
+        window.location.reload(); 
+        alert("deleted your answer ")
+      }
+    })
+    .catch(err => console.log(err))
+  }
+
+  // console.log("Token:",localStorage.getItem("access-token"))
 
   const handleEditAnswerBtn = () => {
     fetch(`/api/answers/`+answer.id, {
@@ -50,21 +70,23 @@ const PostA = ({ answer, Button}) => {
       headers: {
         "Accept": "application/json, text/plain",
         "Content-Type": "application/json;charset=UTF-8",
-        "Authorization": token,
+        "Authorization": localStorage.getItem("access-token"),
       },
       body: JSON.stringify({content: htmlStr})
     }) 
     .then((res) => {
+
       if (res.ok) {
         window.location.reload(); //새로고침
         console.log(res)
         alert("successfully edited your answer")
         setIsEdited(false)
         // navigate("/questions/"+id); //question id는 useParams로 받아옴
+        dispatch(setHtmlStr({htmlStr: ""}));
       }
     })
     .catch((err) => {
-      alert(err)
+      // alert(`${err}`)
       console.log(err) 
     })
   }
@@ -79,12 +101,14 @@ const PostA = ({ answer, Button}) => {
         <Toolbox contentRef={contentRef} setEmptyContentMsg={setEmptyContentMsg}></Toolbox>
         <UserContent>
             <div className="edit">
-              <Button onClick={handleEditAnswerBtn}>Edit your Answer</Button>
+              <Button onClick={handleEditAnswerBtn}>Edit your Answer</Button>            
+              <div className="cancel_edit" onClick={clickCancelEditAnswer}>Cancel</div>
             </div>
+
             <div className="userinfo">
               <div>
                 <div>answered </div>
-                <div>img</div>
+                <div></div>
               </div>
               <div>
                 <span>{fullDateFormat}</span>
@@ -101,12 +125,12 @@ const PostA = ({ answer, Button}) => {
             <div className="edit">
               <div>Share</div>
               <div className="click_edit" onClick={clickEditAnswer}>Edit</div>
+              <div className="click_delete" onClick={clickDeleteAnswer}>Delete</div>
               <div>Follow</div>
             </div>
             <div className="userinfo">
               <div>
                 <div>answered </div>
-                <div>img</div>
               </div>
               <div>
                 <span>{fullDateFormat}</span>
@@ -154,6 +178,8 @@ const Post = styled.div`
 const Votecell = styled.div`
   flex-basis: 10%;
   margin: 16px 0;
+  display: flex;
+  justify-content: center;
 `;
 const Postcell = styled.div`
   flex-basis: 90%;
@@ -173,33 +199,54 @@ const UserContent = styled.div`
   /* border: solid 1px;//임시 */
   margin-top: 16px;
   height: 75px;
-
   display: flex;
+  justify-content: space-between;
 
   > div.edit {
     flex-basis: 60%;
     display: flex;
     flex-direction: row;
+    align-items: flex-end;
 
     > div {
-      padding-right: 15px;
-      cursor: not-allowed;
+      padding-right: 15px; 
+      text-decoration: none;
+      cursor: not-allowed
+    }
+
+    > div.cancel_edit {
+      padding: 0 20px;
+      cursor: pointer;
     }
 
     > div.click_edit {
       cursor: pointer;
     }
-    
+    > div.click_delete{
+      cursor: pointer;
+    }
   }
+
+  /* > div.cancel_edit  {
+    cursor: pointer;
+  } */
   > div.userinfo {
     flex-basis: 40%;
     /* background-color: #d9eaf7; */ //answered엔 없음
     border: solid 1px; //임시
+    border-color: whitesmoke;
     border-radius: 5px;
     display: flex;
-    flex-wrap: wrap;
+    /* flex-wrap: wrap; */
     max-width: 200px;
     max-height: 66px;
+    font-size: 14px;
+    padding: 5px;
+
+    > div {
+      padding: 4px;
+      overflow-y: hidden;
+    }
   }
 `;
 

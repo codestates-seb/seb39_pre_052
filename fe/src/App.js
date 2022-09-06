@@ -66,7 +66,7 @@ console.log(questionId)
               {/* <Route path={`/questions/${questionId}`} element={<PostQAC />} />  */}
               {/* <Route path={`/questions/`+id} element={<PostQAC />} />  //useParams 사용*/}
 
-              <Route path={`/questions/:id`} element={<PostQAC />} />  {/*useParams 사용*/}
+              <Route path={`/questions/:id`} element={<PostQAC />} /> 
 
               {/* <Route path={`/api/questions/${questionId}`} element={<PostQAC />} /> */}
               {/* /questions/{questionId} 대신 임시로 하드코딩 -> 나중에 slice에 저장되어있는 id로 가져오기 */}
