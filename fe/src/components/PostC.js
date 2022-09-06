@@ -108,8 +108,34 @@ const Comment = styled.div`
   > div.comment_box {
     flex-basis: 90%;
     border-top: 1px solid darkgray;
+
     > div.each_comment {
       border-bottom: 1px solid darkgray;
+      padding: 4px 0;
+      display: flex;
+
+      > span {
+        padding-right: 4px;
+        flex-basis: 50%;
+      }
+
+      /* > span > p {
+        flex-basis: 50%;
+      } */
+
+      > span.username {
+        flex-basis: 10%;
+        color: #1893f7;
+      }
+      > span.commented_at {
+        flex-basis: 30%;
+      }
+      > span.delete_comment {
+        text-align: right;
+        flex-basis: 10%;
+        cursor: pointer;
+      }
+
     }
 
     > div.show_more_comment {
@@ -118,9 +144,12 @@ const Comment = styled.div`
     
     > div.add_comment {
     cursor: pointer;
+    padding: 4px 0;
+    color: grey;
+    :hover {
+      color: #5aaaf4;}
+    }
   }
-  }
-
 
 `;
 

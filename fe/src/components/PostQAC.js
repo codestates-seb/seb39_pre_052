@@ -224,7 +224,7 @@ const PostQAC = () => {
       ))} 
       </>  : <>answers 없음</>}
       <PostAnswer>
-        <div>Your Answer</div>
+        <Title>Your Answer</Title>
         <Toolbox
           contentRef={contentRef}
           setEmptyContentMsg={setEmptyContentMsg}
@@ -267,11 +267,26 @@ const Title = styled.div`
   font-weight: 500;
 `;
 
-const PostAnswer = styled.div``;
+const PostAnswer = styled.div`
+  >div {
+    margin: 20px 0;
+  }
+`;
 
 const Button = styled.button`
+  margin-top: 10px;
   width: 128px;
   height: 38px;
+  border: none;
+  border-radius: 5px;
+  font-size: 14px;
+  font-weight: bold;
+  color: white;
+  cursor: pointer;
+  background-color: #0a95ff;
+  :hover {
+    background-color: #0074cc;
+  }
 `;
 
 // PostQ 컴포넌트 추가
@@ -286,7 +301,7 @@ const QHeader = styled.div`
     flex-direction: row;
     width: 95%;
     margin: 10px;
-    justify-content: flex-start;
+    justify-content: space-between;
   }
 `;
 
@@ -296,8 +311,9 @@ const TitleInfo = styled.div`
   /* flex-direction: row; */
 
   > div {
-    background-color: turquoise;
+    /* background-color: turquoise; */
     padding-right: 20px;
+    justify-content: flex-start;
   }
 `;
 
@@ -307,6 +323,8 @@ const Post = styled.div`
 const Votecell = styled.div`
   flex-basis: 10%;
   margin: 16px 0;
+  display: flex;
+  justify-content: center;
 `;
 const Postcell = styled.div`
   flex-basis: 90%;
@@ -326,13 +344,14 @@ const UserContent = styled.div`
   /* border: solid 1px;//임시 */
   margin-top: 16px;
   height: 75px;
-
   display: flex;
+  justify-content: space-between;
 
   > div.edit {
     flex-basis: 60%;
     display: flex;
     flex-direction: row;
+    align-items: flex-end;
    
     > div {
       padding-right: 15px; 
@@ -357,6 +376,11 @@ const UserContent = styled.div`
     display: flex;
     flex-wrap: wrap;
     padding: 5px;
+    font-size: 14px;
+
+    > div {
+      padding: 4px;
+    }
 
     > div > div > img {
       width: 32px;
