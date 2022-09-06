@@ -1,0 +1,309 @@
+= My Stackoverflow API Docs
+:sectnums:
+:toc: left
+:toclevels: 4
+:toc-title: 목차
+:source-highlighter: prettify
+
+***
+== 사용자 관련 API
+=== 로그인
+***
+
+ 로그인을 위한 API 입니다.
+
+.http-request
+include::{snippets}/login-success/http-request.adoc[]
+
+.request-fields
+include::{snippets}/login-success/request-fields.adoc[]
+
+.http-response (성공)
+include::{snippets}/login-success/http-response.adoc[]
+
+.response-headers (성공)
+include::{snippets}/login-success/response-headers.adoc[]
+
+.http-response (실패)
+include::{snippets}/login-fail/http-response.adoc[]
+
+.response-fields (실패)
+include::{snippets}/login-fail/response-fields.adoc[]
+
+=== 회원가입
+***
+
+ 회원가입을 위한 API 입니다.
+
+.http-request
+include::{snippets}/signup-success/http-request.adoc[]
+
+.request-fields
+include::{snippets}/signup-success/request-fields.adoc[]
+
+.http-response
+include::{snippets}/signup-success/http-response.adoc[]
+
+.response-fields
+include::{snippets}/signup-success/response-fields.adoc[]
+
+***
+=== 사용자 질문 리스트 조회
+
+ 특정 사용자의 질문 리스트를 조회하기 위한 API 입니다.
+
+.http-request
+include::{snippets}/member-questions/http-request.adoc[]
+
+.path-parameters
+include::{snippets}/member-questions/path-parameters.adoc[]
+
+.request-parameters
+include::{snippets}/member-questions/request-parameters.adoc[]
+
+.http-response
+include::{snippets}/member-questions/http-response.adoc[]
+
+.response-fields
+include::{snippets}/member-questions/response-fields.adoc[]
+
+***
+=== 사용자 답변 리스트 조회
+
+ 특정 사용자의 답변 리스트를 조회하기 위한 API 입니다.
+
+.http-request
+include::{snippets}/member-answers/http-request.adoc[]
+
+.path-parameters
+include::{snippets}/member-answers/path-parameters.adoc[]
+
+.request-parameters
+include::{snippets}/member-answers/request-parameters.adoc[]
+
+.http-response
+include::{snippets}/member-answers/http-response.adoc[]
+
+.response-fields
+include::{snippets}/member-answers/response-fields.adoc[]
+
+
+***
+== 질문 관련 API
+=== 질문 생성
+ 질문 생성을 위한 API 입니다.
+
+.http-request
+include::{snippets}/question-create/http-request.adoc[]
+
+.request-parameters
+include::{snippets}/question-create/request-fields.adoc[]
+
+.http-response
+include::{snippets}/question-create/http-response.adoc[]
+
+.response-fields
+include::{snippets}/question-create/response-fields.adoc[]
+
+=== 질문 수정
+***
+ 질문 수정을 위한 API 입니다.
+
+.http-request
+include::{snippets}/question-update/http-request.adoc[]
+
+.path-parameters
+include::{snippets}/question-update/path-parameters.adoc[]
+
+.request-fields
+include::{snippets}/question-update/request-fields.adoc[]
+
+.http-response
+include::{snippets}/question-update/http-response.adoc[]
+
+.response-fields
+include::{snippets}/question-update/response-fields.adoc[]
+
+=== 질문 목록 조회
+***
+ 질문 목록 조회를 위한 API 입니다.
+
+.http-request
+include::{snippets}/questions-list/http-request.adoc[]
+
+.request-parameters
+include::{snippets}/questions-list/request-parameters.adoc[]
+
+.http-response
+include::{snippets}/questions-list/http-response.adoc[]
+
+.response-fields
+include::{snippets}/questions-list/response-fields.adoc[]
+
+=== 질문 세부내용 조회
+***
+  질문과 질문의 댓글, 질문에 달린 답변과 답변에 달린 댓글을 한번에 조회할 수 있는 API 입니다.
+
+.http-request
+include::{snippets}/question-detail/http-request.adoc[]
+
+.path-parameters
+include::{snippets}/question-detail/path-parameters.adoc[]
+
+.http-response
+include::{snippets}/question-detail/http-response.adoc[]
+
+.response-fields
+include::{snippets}/question-detail/response-fields.adoc[]
+
+
+
+=== 질문 삭제
+***
+ 질문 삭제를 위한 API 입니다.
+
+.http-request
+include::{snippets}/question-delete/http-request.adoc[]
+
+.path-parameters
+include::{snippets}/question-delete/path-parameters.adoc[]
+
+.http-response
+include::{snippets}/question-delete/http-response.adoc[]
+
+***
+== 답변 관련 API
+=== 답변 생성
+ 답변 생성을 위한 API 입니다.
+
+.http-request
+include::{snippets}/answer-create/http-request.adoc[]
+
+.request-parameters
+include::{snippets}/answer-create/request-parameters.adoc[]
+
+.request-fields
+include::{snippets}/answer-create/request-fields.adoc[]
+
+.http-response
+include::{snippets}/answer-create/http-response.adoc[]
+
+=== 답변 수정
+***
+
+ 답변 수정을 위한 API 입니다.
+
+.http-request
+include::{snippets}/answer-update/http-request.adoc[]
+
+.path-parameters
+include::{snippets}/answer-update/path-parameters.adoc[]
+
+.request-fields
+include::{snippets}/answer-update/request-fields.adoc[]
+
+.http-response
+include::{snippets}/answer-update/http-response.adoc[]
+
+=== 답변 삭제
+***
+
+ 답변 삭제를 위한 API 입니다.
+
+.http-request
+include::{snippets}/answer-delete/http-request.adoc[]
+
+.path-parameters
+include::{snippets}/answer-delete/path-parameters.adoc[]
+
+.http-response
+include::{snippets}/answer-delete/http-response.adoc[]
+
+***
+== 댓글 관련 API
+=== 댓글 생성
+ 댓글 생성을 위한 API 입니다.
+
+.http-request
+include::{snippets}/comment-create/http-request.adoc[]
+
+.request-parameters
+include::{snippets}/comment-create/request-parameters.adoc[]
+
+.request-fields
+include::{snippets}/comment-create/request-fields.adoc[]
+
+.http-response
+include::{snippets}/comment-create/http-response.adoc[]
+
+.response-fields
+include::{snippets}/comment-create/response-fields.adoc[]
+
+=== 댓글 수정
+***
+
+ 댓글 수정을 위한 API 입니다.
+
+.http-request
+include::{snippets}/comment-update/http-request.adoc[]
+
+.path-parameters
+include::{snippets}/comment-update/path-parameters.adoc[]
+
+.request-fields
+include::{snippets}/comment-update/request-fields.adoc[]
+
+.http-response
+include::{snippets}/comment-update/http-response.adoc[]
+
+.response-fields
+include::{snippets}/comment-update/response-fields.adoc[]
+
+
+=== 댓글 삭제
+***
+
+ 댓글 삭제를 위한 API 입니다.
+
+.http-request
+include::{snippets}/comment-delete/http-request.adoc[]
+
+.path-parameters
+include::{snippets}/comment-delete/path-parameters.adoc[]
+
+.http-response
+include::{snippets}/comment-delete/http-response.adoc[]
+
+***
+== 검색 관련 API
+ 검색 기능을 휘한 API 입니다.
+
+=== 질문 제목 검색
+
+.http-request
+include::{snippets}/questions-searchByTitle/http-request.adoc[]
+ 위와 같이 검색을 하게 되면(keyword=spring), 질문 제목에 spring이 포함된 모든 질문을 가져옵니다.
+
+.request-parameters
+include::{snippets}/questions-searchByTitle/request-parameters.adoc[]
+
+.response-body
+include::{snippets}/questions-searchByTitle/response-body.adoc[]
+
+=== 질문 내용 검색
+
+.http-request
+include::{snippets}/questions-searchByContent/http-request.adoc[]
+ 위와 같이 검색을 하게 되면(keyword="spring boot"), 질문 내용에 spring boot가 포함된 모든 질문을 가져옵니다.
+
+.response-body
+include::{snippets}/questions-searchByContent/response-body.adoc[]
+
+=== 질문 작성자 검색
+
+.http-request
+include::{snippets}/questions-searchByMemberId/http-request.adoc[]
+ 위와 같이 검색을 하게 되면(keyword=user:{작성자 식별자}), 해당 작성자의 모든 질문을 가져옵니다.
+
+.response-body
+include::{snippets}/questions-searchByMemberId/response-body.adoc[]
