@@ -1,12 +1,8 @@
 package com.seb39.mystackoverflow.auth;
 
 import com.seb39.mystackoverflow.entity.Member;
-import lombok.AllArgsConstructor;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
-import org.springframework.stereotype.Component;
 
 import java.util.ArrayList;
 import java.util.Collection;
@@ -16,11 +12,11 @@ public class PrincipalDetails implements UserDetails {
 
     private final Member member;
 
-    public PrincipalDetails(Member member){
+    public PrincipalDetails(Member member) {
         this.member = member;
     }
 
-    public Long getMemberId(){
+    public Long getMemberId() {
         return member.getId();
     }
 
@@ -28,7 +24,7 @@ public class PrincipalDetails implements UserDetails {
     public Collection<? extends GrantedAuthority> getAuthorities() {
         Collection<GrantedAuthority> authorities = new ArrayList<>();
         member.getRoleList()
-                .forEach(role-> authorities.add(()-> role));
+                .forEach(role -> authorities.add(() -> role));
         return authorities;
     }
 

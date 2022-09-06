@@ -20,7 +20,6 @@ import org.springframework.web.bind.annotation.*;
 
 import javax.validation.constraints.Positive;
 import java.util.List;
-import java.util.stream.Collectors;
 
 @RestController
 @RequestMapping("/api/members")
@@ -36,7 +35,7 @@ public class MemberController {
 
     @GetMapping("/{memberId}/questions")
     private ResponseEntity<MultiResponseDto<QuestionDto.Response>> getQuestions(@PathVariable Long memberId,
-                                        @Positive @RequestParam(required = false, defaultValue = "1") int page) {
+                                                                                @Positive @RequestParam(required = false, defaultValue = "1") int page) {
         Page<Question> questionPage = questionService.findQuestions(memberId, page - 1);
         List<Question> questions = questionPage.getContent();
         List<QuestionDto.Response> data = questionMapper.questionsToQuestionResponses(questions);
@@ -45,13 +44,13 @@ public class MemberController {
 
     @GetMapping("/{memberId}/answers")
     private ResponseEntity<MultiResponseDto<AnswerDto.Response>> getAnswers(@PathVariable Long memberId,
-                                      @Positive @RequestParam(required = false, defaultValue = "1") int page) {
+                                                                            @Positive @RequestParam(required = false, defaultValue = "1") int page) {
         Page<Answer> answerPage = answerService.findAnswers(memberId, page - 1);
         List<Answer> answers = answerPage.getContent();
         List<AnswerDto.Response> data = answerMapper.answersToAnswerResponses(answers);
         return new ResponseEntity<>(new MultiResponseDto<>(data, answerPage), HttpStatus.OK);
     }
-    
+
     @GetMapping("/me")
     public ResponseEntity<SingleResponseDto<MemberDto.Response>> myPage(@AuthenticationPrincipal PrincipalDetails principalDetails) {
         Member member = memberService.findById(principalDetails.getMemberId());

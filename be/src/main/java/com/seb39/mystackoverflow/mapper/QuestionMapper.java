@@ -1,6 +1,5 @@
 package com.seb39.mystackoverflow.mapper;
 
-import com.seb39.mystackoverflow.dto.QuestionDetailDto;
 import com.seb39.mystackoverflow.dto.QuestionDto;
 import com.seb39.mystackoverflow.entity.Question;
 import org.mapstruct.Mapper;
@@ -28,7 +27,8 @@ public interface QuestionMapper {
                 .answerNum(question.getAnswers().size())
                 .build();
     }
-    default List<QuestionDto.Response> questionsToQuestionResponses(List<Question> questions){
+
+    default List<QuestionDto.Response> questionsToQuestionResponses(List<Question> questions) {
         return questions.stream()
                 .map(this::questionToQuestionResponse)
                 .collect(Collectors.toList());

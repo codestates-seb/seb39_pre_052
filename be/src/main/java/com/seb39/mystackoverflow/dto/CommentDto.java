@@ -1,8 +1,6 @@
 package com.seb39.mystackoverflow.dto;
 
-import com.seb39.mystackoverflow.entity.Member;
 import com.seb39.mystackoverflow.entity.PostType;
-import com.seb39.mystackoverflow.entity.Question;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
@@ -24,7 +22,7 @@ public class CommentDto {
 
     @Getter
     @AllArgsConstructor
-    public static class Response{
+    public static class Response {
         private Long id;
         private String content;
         private LocalDateTime createdAt;
@@ -39,13 +37,14 @@ public class CommentDto {
             this.createdAt = createdAt;
             this.lastModifiedAt = lastModifiedAt;
             this.memberId = memberId;
-            this.postInfo = new PostInfo(postType,postId);
+            this.postInfo = new PostInfo(postType, postId);
         }
 
         @Getter
-        static class PostInfo{
+        static class PostInfo {
             private PostType postType;
             private Long postId;
+
             public PostInfo(PostType postType, Long postId) {
                 this.postType = postType;
                 this.postId = postId;

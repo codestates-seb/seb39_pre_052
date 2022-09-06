@@ -1,6 +1,5 @@
 package com.seb39.mystackoverflow.dto;
 
-import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
 
@@ -9,7 +8,7 @@ import java.time.LocalDateTime;
 public class MemberDto {
 
     @Getter
-    public static class Response{
+    public static class Response {
         private Long memberId;
         private String memberName;
         private LocalDateTime createdAt;
@@ -21,7 +20,6 @@ public class MemberDto {
             this.createdAt = createdAt;
         }
     }
-
 
 
 }

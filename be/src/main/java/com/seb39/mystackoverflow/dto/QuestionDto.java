@@ -1,8 +1,6 @@
 package com.seb39.mystackoverflow.dto;
 
-import com.seb39.mystackoverflow.entity.Answer;
 import com.seb39.mystackoverflow.entity.Member;
-import com.seb39.mystackoverflow.entity.Question;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
@@ -10,7 +8,6 @@ import lombok.Setter;
 
 import javax.validation.constraints.NotBlank;
 import java.time.LocalDateTime;
-import java.util.List;
 
 public class QuestionDto {
 
@@ -63,12 +60,11 @@ public class QuestionDto {
         private int vote;
         private LocalDateTime createdAt;
         private LocalDateTime lastModifiedAt;
-        //        private Member member;
         private MemberSimple member;
         private int answerNum;
 
         @Builder
-        public Response(Long id, String title, String content, int view, int vote, LocalDateTime createdAt, LocalDateTime lastModifiedAt, Member member,int answerNum) {
+        public Response(Long id, String title, String content, int view, int vote, LocalDateTime createdAt, LocalDateTime lastModifiedAt, Member member, int answerNum) {
             this.id = id;
             this.title = title;
             this.content = content;
@@ -84,6 +80,7 @@ public class QuestionDto {
         public static class MemberSimple {
             private Long memberId;
             private String memberName;
+
             public MemberSimple(Long memberId, String memberName) {
                 this.memberId = memberId;
                 this.memberName = memberName;

@@ -3,7 +3,6 @@ package com.seb39.mystackoverflow.dto;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.Setter;
-import net.bytebuddy.implementation.bind.annotation.BindingPriority;
 
 import java.time.LocalDateTime;
 import java.util.List;

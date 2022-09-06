@@ -21,7 +21,6 @@ import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
 import javax.validation.constraints.Positive;
-import java.util.Arrays;
 import java.util.List;
 
 @RestController
@@ -38,7 +37,7 @@ public class QuestionController {
 
 
     @GetMapping("/{id}")
-    public ResponseEntity<SingleResponseDto<QuestionDetailDto>> getQuestionDetail(@PathVariable Long id){
+    public ResponseEntity<SingleResponseDto<QuestionDetailDto>> getQuestionDetail(@PathVariable Long id) {
         Question question = questionDetailService.findQuestionDetail(id);
         QuestionDetailDto questionDetail = questionDetailMapper.questionToQuestionDetail(question);
         return new ResponseEntity<>(new SingleResponseDto<>(questionDetail), HttpStatus.OK);
@@ -47,7 +46,7 @@ public class QuestionController {
     @PostMapping
     @Secured("ROLE_USER")
     public ResponseEntity<SingleResponseDto<QuestionDto.Response>> postQuestion(@Valid @RequestBody QuestionDto.Post requestBody,
-                                       @AuthenticationPrincipal PrincipalDetails principalDetails) {
+                                                                                @AuthenticationPrincipal PrincipalDetails principalDetails) {
         Question question = questionMapper.questionPostToQuestion(requestBody);
         Long memberId = principalDetails.getMemberId();
         Question createdQuestion = questionService.createQuestion(question, memberId);
@@ -78,7 +77,7 @@ public class QuestionController {
     @DeleteMapping("/{id}")
     @Secured("ROLE_USER")
     public ResponseEntity<String> deleteQuestion(@PathVariable("id") @Positive long id,
-                                         @AuthenticationPrincipal PrincipalDetails principalDetails) {
+                                                 @AuthenticationPrincipal PrincipalDetails principalDetails) {
         Long memberId = principalDetails.getMemberId();
         questionService.delete(id, memberId);
         return new ResponseEntity<>(HttpStatus.NO_CONTENT);
@@ -86,7 +85,7 @@ public class QuestionController {
 
     @GetMapping
     public ResponseEntity<MultiResponseDto<QuestionDto.Response>> getQuestions(@Positive @RequestParam int page,
-                                       @Positive @RequestParam int size
+                                                                               @Positive @RequestParam int size
     ) {
         Page<Question> questionPage = questionService.findQuestions(page - 1, size);
         List<QuestionDto.Response> responses = questionMapper.questionsToQuestionResponses(questionPage.getContent());

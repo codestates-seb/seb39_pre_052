@@ -1,8 +1,6 @@
 package com.seb39.mystackoverflow.repository;
 
 import com.seb39.mystackoverflow.entity.Question;
-import jdk.jfr.BooleanFlag;
-import org.hibernate.annotations.Parameter;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
