@@ -65,12 +65,9 @@ const Questions = () => {
                     <div>{total} questions</div>
                 </div>
                 <div>
-                    <input onChange={e => setQNum(e.target.value)} placeholder="Which question would you like to delete?" style={{width: "250px"}}></input>
-                    <Button onClick={deleteHandler}>DELETE</Button>
                     <Link to={isLoggedIn? "/questions/ask" : "/login"}>
                         <Button>Ask Question</Button>
                     </Link>
-                    <Link to="/Edit"><Button>Edit</Button></Link>
                 </div>
             </Header>
             {/* The below is for TEST DATA, slicing data from client side
@@ -101,6 +98,7 @@ const Questions = () => {
 const Container = styled.div`
   flex-basis: 100vw;
   flex-shrink: 6;
+  min-height: 85vh;
 `;
 
 const Header = styled.div`

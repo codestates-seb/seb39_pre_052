@@ -7,14 +7,18 @@ import styled from "styled-components";
 import { setHtmlStr } from "../features/textEditSlice";
 import Toolbox from "./Toolbox";
 
-const PostC = ({ commentsForQ, Button }) => {
-    //for Toobox component 
-    const contentRef = useRef();
-    const [emptyContentMsg, setEmptyContentMsg] = useState("");
-   
+const PostC = ({ Button }) => {
+  // for Toobox component 
+  const contentRef = useRef();
+  const [emptyContentMsg, setEmptyContentMsg] = useState("");
+
+  const commentsForQ = useSelector((state) => {
+    return state.question.question.comments;
+  });
+
   const dispatch = useDispatch();
   const navigate = useNavigate();
-  const {id} = useParams();
+  const { id } = useParams();
 
   const [isAddingComment, setIsAddingComment] = useState(false);
   const clickAddCommentQ = () => {
@@ -33,19 +37,19 @@ const PostC = ({ commentsForQ, Button }) => {
         "Authorization": localStorage.getItem("access-token"),
       },
       body: JSON.stringify({ content: htmlStr }),
-  })
-  .then((res) => {
-    if (res.status === 201) {
-      window.location.reload();
-      console.log(res);
-      alert("successfully added your comment");
-      navigate("/questions/"+id); //useParams로 question id
-      dispatch(setHtmlStr({htmlStr: ""}));
-      setIsAddingComment(false);
-    }
-  })
-  .catch(err => console.log(err))
-}
+    })
+      .then((res) => {
+        if (res.status === 201) {
+          window.location.reload();
+          console.log(res);
+          alert("successfully added your comment");
+          navigate("/questions/" + id); //useParams로 question id
+          dispatch(setHtmlStr({ htmlStr: "" }));
+          setIsAddingComment(false);
+        }
+      })
+      .catch(err => console.log(err))
+  }
 
   return (
     <>
@@ -59,38 +63,38 @@ const PostC = ({ commentsForQ, Button }) => {
               <span className="commented_at">
                 {comment.createdAt.slice(0, 10)}
               </span>
-              <span onClick={()=> {
+              <span onClick={() => {
                 console.log("question comment", comment.id)
-                  fetch(`/api/comments/${comment.id}`, {
-                    method: "DELETE",
-                    headers: {
-                      "Authorization": localStorage.getItem("access-token")
-                    }
-                  })
+                fetch(`/api/comments/${comment.id}`, {
+                  method: "DELETE",
+                  headers: {
+                    "Authorization": localStorage.getItem("access-token")
+                  }
+                })
                   .then((res) => {
-                    if(res.ok) {
+                    if (res.ok) {
                       window.location.reload();
                       alert('deleted a comment')
-                      navigate("/questions/"+id);
+                      navigate("/questions/" + id);
                     }
                   })
                   .catch(err => {
-                  console.log(err) 
+                    console.log(err)
                   })
-                }
+              }
               } className="delete_comment">Delete</span>
-              </div>
-            ))}
-            {/* <div className="show_more_comment">Show {} more comments </div> */}
-          {isAddingComment? 
-          <>
-            <Toolbox contentRef={contentRef} setEmptyContentMsg={setEmptyContentMsg}></Toolbox>
-            <Button onClick={handleAddCommentQBtn}>Add Comment</Button>
-          </>
-          :
-          <div onClick={clickAddCommentQ} className="add_comment">Add a comment</div>
+            </div>
+          ))}
+          {/* <div className="show_more_comment">Show {} more comments </div> */}
+          {isAddingComment ?
+            <>
+              <Toolbox contentRef={contentRef} setEmptyContentMsg={setEmptyContentMsg}></Toolbox>
+              <Button onClick={handleAddCommentQBtn}>Add Comment</Button>
+            </>
+            :
+            <div onClick={clickAddCommentQ} className="add_comment">Add a comment</div>
           }
-        
+
         </div>
       </Comment>
     </>

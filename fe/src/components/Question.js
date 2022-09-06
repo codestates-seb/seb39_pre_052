@@ -58,7 +58,11 @@ const Question = ({ post, id }) => {
             {/* <div>{typeof post.createdAt}</div> */}
             <Side>
                 <div>{post.vote} votes</div>
-                <div>{post.answerNum} answers</div>
+                <div style={post.answerNum > 0 
+                    ? {color: "green", border: "1.5px solid green"}
+                    : {}}>
+                    {post.answerNum} answers
+                </div>
                 <div>{post.view} views</div>
             </Side>
             <Main>
@@ -99,7 +103,9 @@ const Side = styled.div`
     align-items: flex-end;
     margin-right: 20px;
     > * {
-        margin-bottom: 8px;
+        margin-bottom: 3px;
+        padding: 3px 5px 3px 5px;
+        border-radius: 3px;
     }
     // n votes
     > div:first-of-type {

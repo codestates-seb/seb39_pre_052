@@ -44,7 +44,10 @@ const SignUp = () => {
     }
     fetch("/signup", {
       method: "POST",
-      headers: { "Content-Type": "application/json" },
+      headers: {
+        'Accept': 'application/json, text/plain',
+        'Content-Type': 'application/json;charset=UTF-8',
+      },
       body: JSON.stringify(newUser),
     })
       // .then((res) => res.json())
