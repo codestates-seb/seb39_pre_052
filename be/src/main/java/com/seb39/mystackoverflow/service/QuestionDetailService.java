@@ -11,6 +11,9 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import javax.servlet.http.Cookie;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 import java.util.List;
 
 @Service
@@ -26,11 +29,11 @@ public class QuestionDetailService {
         Question question = questionRepository.findQuestionWithCommentsById(id)
                 .orElseThrow(()-> new BusinessLogicException(ExceptionCode.QUESTION_NOT_FOUND));
 
-        question.addView();
         List<Answer> answers = answerRepository.findAnswerWithCommentsByQuestionId(id);
         question.setAnswers(answers);
 
         return question;
     }
+
 }
 

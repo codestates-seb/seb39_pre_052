@@ -52,11 +52,8 @@ public class Question extends BaseEntity{
                 ", member=" + member +
                 '}';
     }
-    public void addView() {
-        this.view ++;
-    }
-
-
-
+//    public void addView() {
+//        this.view ++;
+//    }
 }
 

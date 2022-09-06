@@ -75,6 +75,12 @@ public class QuestionService {
         return questionRepository.findByContentContainingIgnoreCase(keyword, PageRequest.of(page, 30, Sort.by("createdAt").descending()));
     }
 
+    @Transactional
+    public int addView(Long id) {
+        return questionRepository.addView(id);
+    }
+
+
     public void verifyWriter(Long memberId, Question question) {
         Long writerId = question.getMember().getId();
         if (writerId != memberId) {
