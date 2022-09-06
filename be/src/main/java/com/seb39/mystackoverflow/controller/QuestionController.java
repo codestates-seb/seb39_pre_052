@@ -19,6 +19,9 @@ import org.springframework.security.access.annotation.Secured;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.*;
 
+import javax.servlet.http.Cookie;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 import javax.validation.Valid;
 import javax.validation.constraints.Positive;
 import java.util.List;
@@ -37,11 +40,18 @@ public class QuestionController {
 
 
     @GetMapping("/{id}")
-    public ResponseEntity<SingleResponseDto<QuestionDetailDto>> getQuestionDetail(@PathVariable Long id) {
+    public ResponseEntity<SingleResponseDto<QuestionDetailDto>> getQuestionDetail(@PathVariable Long id,
+                                                                                  HttpServletRequest request,
+                                                                                  HttpServletResponse response) {
         Question question = questionDetailService.findQuestionDetail(id);
+
+        addView(id, request, response);
+
         QuestionDetailDto questionDetail = questionDetailMapper.questionToQuestionDetail(question);
+
         return new ResponseEntity<>(new SingleResponseDto<>(questionDetail), HttpStatus.OK);
     }
+
 
     @PostMapping
     @Secured("ROLE_USER")
@@ -91,4 +101,32 @@ public class QuestionController {
         List<QuestionDto.Response> responses = questionMapper.questionsToQuestionResponses(questionPage.getContent());
         return new ResponseEntity<>(new MultiResponseDto<>(responses, questionPage), HttpStatus.OK);
     }
+
+    private void addView(Long id, HttpServletRequest request, HttpServletResponse response) {
+        Cookie oldCookie = null;
+        Cookie[] cookies = request.getCookies();
+        if (cookies != null) {
+            for (Cookie cookie : cookies) {
+                if (cookie.getName().equals("postView")) {
+                    oldCookie = cookie;
+                }
+            }
+        }
+        if (oldCookie != null) {
+            if (!oldCookie.getValue().contains("[" + id.toString() + "]")) {
+                questionService.addView(id);
+                oldCookie.setValue(oldCookie.getValue() + "_[" + id + "]");
+                oldCookie.setPath("/");
+                oldCookie.setMaxAge(60 * 60 * 24);
+                response.addCookie(oldCookie);
+            }
+        } else {
+            questionService.addView(id);
+            Cookie newCookie = new Cookie("postView", "[" + id + "]");
+            newCookie.setPath("/");
+            newCookie.setMaxAge(60 * 60 * 24);
+            response.addCookie(newCookie);
+        }
+    }
+
 }

@@ -3,6 +3,7 @@ package com.seb39.mystackoverflow.service;
 import com.seb39.mystackoverflow.entity.Answer;
 import com.seb39.mystackoverflow.entity.Member;
 import com.seb39.mystackoverflow.entity.Question;
+import com.seb39.mystackoverflow.exception.BusinessLogicException;
 import com.seb39.mystackoverflow.repository.MemberRepository;
 import com.seb39.mystackoverflow.repository.QuestionRepository;
 import org.junit.jupiter.api.BeforeEach;
@@ -107,7 +108,7 @@ class AnswerServiceTest {
         findAnswer.setContent("감사합니다");
 
         assertThatThrownBy(()->answerService.updateAnswer(answer,otherMember.getId()))
-                .isInstanceOf(IllegalArgumentException.class);
+                .isInstanceOf(BusinessLogicException.class);
     }
 
     @Test
@@ -127,7 +128,7 @@ class AnswerServiceTest {
 
         // then
         assertThatThrownBy(()->answerService.findAnswer(answerId))
-                .isInstanceOf(IllegalArgumentException.class);
+                .isInstanceOf(BusinessLogicException.class);
     }
 
     @Test
@@ -143,7 +144,7 @@ class AnswerServiceTest {
 
         // expected
         assertThatThrownBy(()->answerService.deleteAnswer(answerId,otherMember.getId()))
-                .isInstanceOf(IllegalArgumentException.class);
+                .isInstanceOf(BusinessLogicException.class);
     }
 
     @Test

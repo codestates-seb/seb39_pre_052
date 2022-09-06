@@ -1,6 +1,7 @@
 package com.seb39.mystackoverflow.service;
 
 import com.seb39.mystackoverflow.entity.Member;
+import com.seb39.mystackoverflow.exception.BusinessLogicException;
 import com.seb39.mystackoverflow.repository.MemberRepository;
 import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.AfterEach;
@@ -52,6 +53,6 @@ class MemberServiceTest {
                 .roles("ROLE_USER")
                 .build();
         assertThatThrownBy(() -> memberService.signUp(newMember))
-                .isInstanceOf(IllegalArgumentException.class);
+                .isInstanceOf(BusinessLogicException.class);
     }
 }
