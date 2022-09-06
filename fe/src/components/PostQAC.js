@@ -3,11 +3,11 @@ import { useDispatch, useSelector } from "react-redux";
 import { Link, useNavigate, useParams } from "react-router-dom";
 import styled from "styled-components";
 import { questionDetails } from "../features/questionSlice";
-import { setTitle, setHtmlStr } from "../features/textEditSlice";
+import { setTitle, setHtmlStr, setQuestionId } from "../features/textEditSlice";
 import PostA from "./PostA";
 import PostC from "./PostC";
 import PostComm from "./PostComm";
-import PostQ from "./PostQ";
+// import PostQ from "./PostQ";
 import Toolbox from "./Toolbox";
 import { Markup } from 'interweave'; 
 
@@ -67,7 +67,12 @@ console.log(questionId);
     //Fetch 질문 세부 내용 조회하기
   useEffect(() => {
     // fetch(`/api/questions/${questionId}`)
-    fetch(`/api/questions/`+id) //useParams
+    fetch(`/api/questions/`+id, {
+      headers: {
+        'Accept': 'application/json, text/plain',
+        'Content-Type': 'application/json;charset=UTF-8',
+      }
+    }) //useParams
       .then((res) => res.json())
       .then((data) => {
         console.log(data.data);
@@ -115,8 +120,9 @@ console.log(questionId);
   //edit 버튼 누르면 Editor 컴포넌트로 넘어가고 현재 질문 제목과 컨텐츠를 textEditSlice 상태 저장소로 저장
   //Editor컴포넌트는 Toolbox 컴포넌트를 포함. Editor에서 저장된 title, htmlStr 상태 불러온다
   const editHandler = () => {
-    dispatch(setTitle({title: datatitle}))
-    dispatch(setHtmlStr({htmlStr: datacontent}))
+    dispatch(setTitle({title: datatitle}));
+    dispatch(setHtmlStr({htmlStr: datacontent}));
+    dispatch(setQuestionId({questionId: id}));
   }
 
   return (
@@ -173,7 +179,7 @@ console.log(questionId);
       {/*  */}
 
       {/* <PostC commentsForQ={commentsForQ}></PostC> */}
-      {commentsForQ? <PostC commentsForQ={commentsForQ}></PostC> : 'comment 안받아오기'}
+      {commentsForQ? <PostC></PostC> : 'comment 안받아오기'}
       {answers?  
       <>  
       <AHeader>

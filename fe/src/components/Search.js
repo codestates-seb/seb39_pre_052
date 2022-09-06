@@ -4,6 +4,7 @@ import { useState } from 'react';
 import { useNavigate, useSearchParams, useParams } from 'react-router-dom';
 
 import { setPosts } from '../features/qListSlice';
+import { setQuery } from '../features/searchSlice';
 
 const Search = () => {
     const [searchParams, setSearchParams] = useSearchParams();
@@ -11,7 +12,11 @@ const Search = () => {
     const searchTerm = searchParams.get('keyword');
 
     // Search Value
-    const [ query, setQuery ] = useState("");
+    // const [ query, setQuery ] = useState("");
+
+    const query = useSelector((state) => {
+        return state.queryData.query;
+    });
     
     const dispatch = useDispatch();
     const navigate = useNavigate();
@@ -22,8 +27,9 @@ const Search = () => {
     })
     
     const handleChange = (e) => {
-        setQuery(e.target.value);
+        // setQuery(e.target.value);
         setSearchParams({keyword: e.target.value});
+        dispatch(setQuery({query: e.target.value}))
     }
 
     const handleKeyPress = (e) => {
@@ -32,7 +38,8 @@ const Search = () => {
             .then((res) => res.json())
             .then((data) => {
                 dispatch(setPosts({posts: data.data, total: data.pageInfo.totalElements}));
-                setQuery("");
+                // setQuery("");
+                dispatch(setQuery({query: ""}));
                 navigate(`/search`);
             })
             .catch((err) => console.log(`!CANNOT FETCH QUESTION DATA! ${err}!`))
@@ -44,7 +51,7 @@ const Search = () => {
             {isLoggedIn
                 ?
                 <SearchBar width="61vw">
-                    <input placeholder="Search..."
+                    <input placeholder="Search by Title..."
                         onChange={handleChange}
                         onKeyPress={handleKeyPress}
                         value={query}
@@ -52,7 +59,7 @@ const Search = () => {
                 </SearchBar>
                 :
                 <SearchBar>
-                    <input placeholder="Search..."
+                    <input placeholder="Search by Title..."
                         onChange={handleChange}
                         onKeyPress={handleKeyPress}
                         value={query}

@@ -98,6 +98,7 @@ const Questions = () => {
 const Container = styled.div`
   flex-basis: 100vw;
   flex-shrink: 6;
+  min-height: 85vh;
 `;
 
 const Header = styled.div`

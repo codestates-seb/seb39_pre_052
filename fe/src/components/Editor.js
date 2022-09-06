@@ -92,7 +92,11 @@ const Editor = ({ fetchMode }) => {
                         dispatch(setHtmlStr({ htmlStr: "" }));
                         alert(`Successfully Submitted!`);      
                 })
-                .catch(() => console.log("ERROR!"))
+                .catch(() => {
+                    console.log("ERROR!");
+                    dispatch(setTitle({ title: "" }));
+                    dispatch(setHtmlStr({ htmlStr: "" }));
+                });
             }
             // 에디터 사용 컴포넌트가 게시글 (Q) 수정일 때
             else if (fetchMode === 'patch') {
@@ -116,7 +120,11 @@ const Editor = ({ fetchMode }) => {
                     dispatch(setHtmlStr({ htmlStr: "" }));
                     alert(`Successfully Submitted!`)
                 })
-                .catch((err) => console.log("ERROR!", err))
+                .catch((err) => {
+                    console.log("ERROR!", err);
+                    dispatch(setTitle({ title: "" }));
+                    dispatch(setHtmlStr({ htmlStr: "" }));
+                })
             }
         }
     }

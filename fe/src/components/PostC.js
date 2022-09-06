@@ -1,6 +1,12 @@
 import styled from "styled-components";
+import { useSelector } from "react-redux";
 
-const PostC = ({ commentsForQ }) => {
+const PostC = () => {
+  
+  const commentsForQ = useSelector((state) => {
+    return state.question.question.comments;
+  });
+
   return (
     <>
       <Comment>

@@ -10,6 +10,7 @@ import userSlice from './features/userSlice';
 import qListSlice from './features/qListSlice';
 import questionSlice from './features/questionSlice';
 import textEditSlice from './features/textEditSlice';
+import searchSlice from './features/searchSlice';
 
 const store = configureStore({
   reducer: {
@@ -19,6 +20,7 @@ const store = configureStore({
     qlist: qListSlice.reducer,
     question: questionSlice.reducer,
     editMode: textEditSlice.reducer,
+    queryData: searchSlice.reducer,
   }
 });
 

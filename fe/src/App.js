@@ -17,8 +17,6 @@ import MyPage from "./pages/MyPage";
 import SearchResult from "./pages/SearchResult";
 import EditQuestion from "./pages/EditQuestion";
 
-
-
 const Main = styled.div`
   display: flex;
   flex-direction: column;

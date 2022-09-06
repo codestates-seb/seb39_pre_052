@@ -9,6 +9,8 @@ import Search from "./Search";
 import { useSelector, useDispatch } from 'react-redux';
 import { changeShow } from '../features/showSlice';
 import { loginFulfilled, loginRejected, logoutFulfilled } from "../features/userSlice";
+import { setTitle, setHtmlStr } from "../features/textEditSlice";
+import { setQuery } from "../features/searchSlice";
 
 // sticky GNB
 import { StickyNav } from 'react-js-stickynav'
@@ -74,7 +76,17 @@ const GNB = () => {
                     <div onClick={() => dispatch(changeShow())}>
                         {show ? <FontAwesomeIcon icon={faXmark} /> : <FontAwesomeIcon icon={faBars} />}
                     </div>
-                    <Link to="/"><img src="https://upload.wikimedia.org/wikipedia/commons/thumb/0/02/Stack_Overflow_logo.svg/2560px-Stack_Overflow_logo.svg.png" alt="logo" /></Link>
+                    <Link to="/">
+                        <img 
+                            src="https://upload.wikimedia.org/wikipedia/commons/thumb/0/02/Stack_Overflow_logo.svg/2560px-Stack_Overflow_logo.svg.png" 
+                            alt="logo"
+                            onClick={() => {
+                                dispatch(setTitle({ title: "" })); 
+                                dispatch(setHtmlStr({ htmlStr: "" }));
+                                dispatch(setQuery({ query: "" }))
+                            }}
+                        />
+                    </Link>
                     <ul>
                         {isLoggedIn
                             ? <>
