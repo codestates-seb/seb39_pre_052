@@ -50,6 +50,10 @@ const LogIn = () => {
     fetch("/login", {
       method: "POST",
       body: JSON.stringify(user),
+      headers: {
+        'Accept': 'application/json, text/plain',
+        'Content-Type': 'application/json;charset=UTF-8',
+    },
     })
       // .then((res) => console.log(res))
       // .then((res) => res.json()) //SyntaxError: Unexpected end of JSON input
