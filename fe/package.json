@@ -49,5 +49,5 @@
       "last 1 safari version"
     ]
   },
-  "proxy": "http://ec2-43-201-26-200.ap-northeast-2.compute.amazonaws.com:8080"
+  "proxy": "https://seb39preproj.ml:8080"
 }
