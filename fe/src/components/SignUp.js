@@ -42,7 +42,7 @@ const SignUp = () => {
     if (password.length === 0) {
       setEmptyPasswordMsg("Password cannot be empty.");
     }
-    fetch("/signup", {
+    fetch("api/signup", {
       method: "POST",
       headers: {
         'Accept': 'application/json, text/plain',

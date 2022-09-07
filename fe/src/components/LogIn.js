@@ -47,13 +47,13 @@ const LogIn = () => {
       setEmptyPasswordMsg("Password cannot be empty.");
     }
 
-    fetch("/login", {
+    fetch("api/login", {
       method: "POST",
-      body: JSON.stringify(user),
       headers: {
         'Accept': 'application/json, text/plain',
         'Content-Type': 'application/json;charset=UTF-8',
-    },
+      },
+      body: JSON.stringify(user),
     })
       // .then((res) => console.log(res))
       // .then((res) => res.json()) //SyntaxError: Unexpected end of JSON input
