@@ -6,7 +6,7 @@
 
 프로젝트 클론 사이트 : [StackOverFlow](https://stackoverflow.com/)
 
-프로젝트 URL : (배포 URL)
+프로젝트 URL : https://pre052deploy.vercel.app/
 
 **Contributors : [강성진](https://github.com/SJ0000), [김용주](https://github.com/yongjuvv), [박수진](https://github.com/imsujinpark), [조하나](https://github.com/hana1203)**
 
