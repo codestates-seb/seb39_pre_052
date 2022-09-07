@@ -2,11 +2,11 @@
   "rewrites": [
     {
       "source": "/api/:path*",
-      "destination": "https://seb39preproj.ml:8080/api/:path*"
+      "destination": "https://seb39preproj.ml/api/:path*"
     },
     {
       "source": "/api/:path*/",
-      "destination": "https://seb39preproj.ml:8080/api/:path*/"
+      "destination": "https://seb39preproj.ml/api/:path*/"
     }
   ]
 }
